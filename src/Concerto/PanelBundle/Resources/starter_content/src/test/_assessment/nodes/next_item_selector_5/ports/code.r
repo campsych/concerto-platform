@@ -48,6 +48,16 @@ getSafeItems = function(items, extraFields) {
         } else {
           orderedOptions = item$responseOptions$options
         }
+        #fixed indices
+        for(i in 1:length(orderedOptions)) {
+          option = orderedOptions[[i]]
+          fixedIndex = as.numeric(option$fixedIndex)
+          if(length(fixedIndex) > 0 && !is.na(fixedIndex)) {
+            replacedOption = orderedOptions[[fixedIndex]]
+            orderedOptions[[i]] = replacedOption
+            orderedOptions[[fixedIndex]] = option
+          }
+        }
       }
       item$responseOptions$options = orderedOptions
       item$responseOptions$defaultScore = NULL
@@ -75,7 +85,7 @@ getSafePastResponses = function(nextItems, nextItemsIndices) {
     pastResponses = NULL
     for(nextItemIndex in nextItemsIndices) {
       responseIndex = which(nextItemIndex == itemsAdministered)
-	  if(length(responseIndex) > 0) {
+      if(length(responseIndex) > 0) {
         pastResponses = rbind(pastResponses, data.frame(
           item_id = items[nextItemIndex, "id"],
           response = responses[responseIndex],

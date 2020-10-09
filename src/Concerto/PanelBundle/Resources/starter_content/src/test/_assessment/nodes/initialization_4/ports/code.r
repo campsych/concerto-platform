@@ -32,6 +32,10 @@ getExtraFieldsSql = function(table, extraFields) {
 }
 
 getIndicedColumnsSql = function(firstColumnName, num, aliasPrefix) {
+  if(is.na(firstColumnName) || is.null(firstColumnName) || firstColumnName == "") {
+    return("NULL")
+  }
+  
   columnNamePrefix = substring(firstColumnName, 1, nchar(firstColumnName) - 1)
   columns = c()
   for(i in 1:num) {
@@ -51,6 +55,7 @@ convertFromFlat = function(items, responseColumnsNum) {
   defaultPainMannequinAreaMultiMarks = 1
   defaultGracelyScaleShow = "both"
   defaultOptionsRandomOrder = 0
+  defaultOptionsColumnsNum = 0
 
   for(i in 1:itemsNum) {
     item = items[i,]
@@ -59,11 +64,13 @@ convertFromFlat = function(items, responseColumnsNum) {
     for(j in 1:responseColumnsNum) {
       label = item[[paste0("responseLabel",j)]]
       value = item[[paste0("responseValue",j)]]
+      fixedIndex = item[[paste0("responseFixedIndex",j)]]
 
       if(is.na(label) || is.na(value)) { next }
       options[[j]] = list(
         label=label,
-        value=value
+        value=value,
+        fixedIndex=fixedIndex
       )
     }
 
@@ -84,6 +91,7 @@ convertFromFlat = function(items, responseColumnsNum) {
     responseOptions = list(
       type=item$type,
       optionsRandomOrder=item$optionsRandomOrder,
+      optionsColumnsNum=item$optionsColumnsNum,
       painMannequinGender=item$painMannequinGender,
       painMannequinAreaMultiMarks=item$painMannequinAreaMultiMarks,
       gracelyScaleShow=item$gracelyScaleShow,
@@ -103,6 +111,9 @@ convertFromFlat = function(items, responseColumnsNum) {
     }
     if(is.null(responseOptions$optionsRandomOrder) || is.na(responseOptions$optionsRandomOrder)) { 
       responseOptions$optionsRandomOrder = defaultOptionsRandomOrder
+    }
+    if(is.null(responseOptions$optionsColumnsNum) || is.na(responseOptions$optionsColumnsNum)) { 
+      responseOptions$optionsColumnsNum = defaultOptionsColumnsNum
     }
 
     items[i, "responseOptions"] = toJSON(responseOptions)
@@ -186,6 +197,8 @@ FROM {{table}}
     responseLabel1Column = tableMap$columns$responseLabel1
     responseValue1Column = tableMap$columns$responseValue1
     responseScore1Column = tableMap$columns$responseScore1
+    responseTrait1Column = tableMap$columns$responseTrait1
+    responseFixedIndex1Column = tableMap$columns$responseFixedIndex1
     typeColumn = tableMap$columns$type
 
     gracelyScaleShowColumn = tableMap$columns$gracelyScaleShow
@@ -207,6 +220,11 @@ FROM {{table}}
     if(is.null(optionsRandomOrderColumn) || is.na(optionsRandomOrderColumn) || optionsRandomOrderColumn == "") {
       optionsRandomOrderColumn = "NULL"
     }
+    
+    optionsColumnsNumColumn = tableMap$columns$optionsColumnsNum
+    if(is.null(optionsColumnsNumColumn) || is.na(optionsColumnsNumColumn) || optionsColumnsNumColumn == "") {
+      optionsColumnsNumColumn = "NULL"
+    }
 
     extraFieldsSql = getExtraFieldsSql(table, extraFields)
     parametersSql = getIndicedColumnsSql(p1Column, paramsNum, "p")
@@ -214,6 +232,8 @@ FROM {{table}}
     responseLabelSql = getIndicedColumnsSql(responseLabel1Column, responseColumnsNum, "responseLabel")
     responseValueSql = getIndicedColumnsSql(responseValue1Column, responseColumnsNum, "responseValue")
     responseScoreSql = getIndicedColumnsSql(responseScore1Column, responseColumnsNum, "responseScore")
+    responseTraitSql = getIndicedColumnsSql(responseTrait1Column, responseColumnsNum, "responseTrait")
+    responseFixedIndexSql = getIndicedColumnsSql(responseFixedIndex1Column, responseColumnsNum, "responseFixedIndex")
 
     items = concerto.table.query(
       "
@@ -228,10 +248,13 @@ id,
 {{responseLabelSql}},
 {{responseValueSql}},
 {{responseScoreSql}},
+{{responseFixedIndexSql}},
+{{responseTraitSql}},
 {{gracelyScaleShowColumn}} AS gracelyScaleShow,
 {{painMannequinGenderColumn}} AS painMannequinGender,
 {{painMannequinAreaMultiMarksColumn}} AS painMannequinAreaMultiMarks,
 {{optionsRandomOrderColumn}} AS optionsRandomOrder,
+{{optionsColumnsNumColumn}} AS optionsColumnsNum,
 {{typeColumn}} AS type
 {{extraFieldsSql}}
 FROM {{table}}
@@ -247,11 +270,14 @@ FROM {{table}}
         responseLabelSql=responseLabelSql,
         responseValueSql=responseValueSql,
         responseScoreSql=responseScoreSql,
+        responseTraitSql=responseTraitSql,
+        responseFixedIndexSql=responseFixedIndexSql,
         typeColumn=typeColumn,
         gracelyScaleShowColumn=gracelyScaleShowColumn,
         painMannequinGenderColumn=painMannequinGenderColumn,
         painMannequinAreaMultiMarksColumn=painMannequinAreaMultiMarksColumn,
         optionsRandomOrderColumn=optionsRandomOrderColumn,
+        optionsColumnsNumColumn=optionsColumnsNumColumn,
         table=table
       ))
     items = convertFromFlat(items, responseColumnsNum)

@@ -6,12 +6,15 @@
 * content modifications blocked when content modifying scheduled task is ongoing
 * added **CONCERTO_COOKIES_SECURE** and **CONCERTO_COOKIES_SAME_SITE** config options exposed through env variables
 * added **CONCERTO_KEEP_ALIVE_INTERVAL_TIME**, **CONCERTO_KEEP_ALIVE_TOLERANCE_TIME** and **CONCERTO_SESSION_COOKIE_EXPIRY_TIME** config options exposed through env variables
+* can now set column number for **assessment** node 'options' item type
+* can now set fixed index for **assessment** node response options ('options' item type)
 
 #### Fixes
 
 * **http** node now handles network errors
 * fixed outdated object check
 * **assessment** db based resuming fixes
+* fixed response option trait scoring in **assessment** node
 
 ## 5.0.16 (2020-08-28)
 

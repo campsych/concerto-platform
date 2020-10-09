@@ -91,7 +91,10 @@ calculateTraitScores = function(itemsAdministered, responses, scores) {
     item = items[itemIndex,]
     score = scores[i]
     if(is.na(score)) { score = 0 }
-    traitList = getTraits(item, value)
+    traitListString = getTraits(item, value)
+    if(is.null(traitListString)) { next }
+
+    traitList = unlist(strsplit(traitListString, ","))
 
     #sum scores
     if(length(traitList) > 0) {

@@ -7329,7 +7329,7 @@ collection:
                 -
                   name: responseTrait1
                   label: 'Response Trait #1'
-                  tooltip: ''
+                  tooltip: Optional.
                 -
                   name: type
                   label: 'Item type'
@@ -7357,6 +7357,14 @@ collection:
                 -
                   name: instructions
                   label: Instructions
+                  tooltip: Optional.
+                -
+                  name: optionsColumnsNum
+                  label: 'Options Columns Number'
+                  tooltip: Optional.
+                -
+                  name: responseFixedIndex1
+                  label: 'Response Fixed Index #1'
                   tooltip: Optional.
               placeholder: 0
           -
@@ -7488,6 +7496,14 @@ collection:
                                       order: 0
                                       definition:
                                         placeholder: 0
+                                    -
+                                      name: fixedIndex
+                                      type: 0
+                                      label: 'Fixed Index'
+                                      order: 3
+                                      definition:
+                                        defvalue: ''
+                                        placeholder: 0
                                   placeholder: 0
                               placeholder: 0
                             hideCondition: 'parent.type != "options"'
@@ -7589,6 +7605,15 @@ collection:
                               defvalue: '1'
                               placeholder: 0
                             hideCondition: 'parent.type != "painMannequin"'
+                          -
+                            name: optionsColumnsNum
+                            type: 0
+                            label: 'Options Columns Number'
+                            order: 15
+                            definition:
+                              defvalue: '0'
+                              placeholder: 0
+                            hideCondition: 'parent.type != "options"'
                         element:
                           type: 9
                           definition:
@@ -8515,6 +8540,7 @@ collection:
             order: 40
             wizard: 2
             definition:
+              defvalue: ''
               placeholder: 0
           -
             class_name: TestWizardParam
@@ -8990,7 +9016,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '[{"id":1,"question":"10 + 10","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"1","score":"1","trait":null}],"gracelyScaleShow":"","painMannequinAreaMultiMarks":"1"},"fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0","trait":"math","skippable":"0","instructions":""},{"id":2,"question":"100 + 100","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"2","score":"1","trait":null}],"gracelyScaleShow":"","painMannequinAreaMultiMarks":"1"},"fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0","trait":"math","skippable":"0","instructions":""},{"id":3,"question":"1000 + 1000","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1"},{"label":"200","value":"2"},{"label":"2000","value":"3"}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"3","score":"1","trait":null}],"gracelyScaleShow":"","painMannequinAreaMultiMarks":"1"},"fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0","trait":"math","skippable":"0","instructions":""}]'
+        value: '[{"id":1,"question":"10 + 10","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1","fixedIndex":null},{"label":"200","value":"2","fixedIndex":null},{"label":"2000","value":"3","fixedIndex":null}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"1","score":"1","trait":null}],"gracelyScaleShow":"","painMannequinAreaMultiMarks":"1","optionsColumnsNum":null},"fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0","trait":"math","skippable":"0","instructions":""},{"id":2,"question":"100 + 100","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1","fixedIndex":null},{"label":"200","value":"2","fixedIndex":null},{"label":"2000","value":"3","fixedIndex":null}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"2","score":"1","trait":null}],"gracelyScaleShow":"","painMannequinAreaMultiMarks":"1","optionsColumnsNum":null},"fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0","trait":"math","skippable":"0","instructions":""},{"id":3,"question":"1000 + 1000","responseOptions":{"type":"options","optionsRandomOrder":"1","options":[{"label":"20","value":"1","fixedIndex":null},{"label":"200","value":"2","fixedIndex":null},{"label":"2000","value":"3","fixedIndex":null}],"painMannequinGender":"female","painMannequinGenderValue":"male","defaultScore":"0","scoreMap":[{"value":"3","score":"1","trait":null}],"gracelyScaleShow":"","painMannequinAreaMultiMarks":"1","optionsColumnsNum":null},"fixedIndex":"","p1":"0","p2":"0","p3":"0","p4":"0","p5":"0","p6":"0","p7":"0","p8":"0","p9":"0","trait":"math","skippable":"0","instructions":""}]'
         test: 15
         parentVariable: 32
       -
