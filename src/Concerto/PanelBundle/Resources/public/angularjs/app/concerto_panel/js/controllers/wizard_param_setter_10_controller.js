@@ -19,6 +19,7 @@ function WizardParamSetter10Controller($scope, AdministrationSettingsService, ui
         data: "output",
         exporterCsvFilename: 'export.csv',
         exporterHeaderFilterUseName: true,
+        enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
         gridMenuCustomItems: [
             {
                 title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,

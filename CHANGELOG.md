@@ -17,6 +17,11 @@
 * fixed response option trait scoring in **assessment** node
 * flowchart UI fixes
 
+#### Other
+
+* AngularJS update to 1.8
+* ui-grid update to 4.9
+
 ## 5.0.16 (2020-08-28)
 
 #### Features

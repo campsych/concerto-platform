@@ -52,6 +52,7 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
         data: 'steps',
+        enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
         gridMenuCustomItems: [
             {
                 title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
@@ -109,6 +110,7 @@ function TestWizardController($scope, $uibModal, $http, $filter, $state, $sce, $
         exporterMenuPdf: false,
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
+        enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
         gridMenuCustomItems: [
             {
                 title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,

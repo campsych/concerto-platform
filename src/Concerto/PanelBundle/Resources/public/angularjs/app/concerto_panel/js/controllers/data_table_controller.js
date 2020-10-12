@@ -181,6 +181,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         data: "columns",
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
+        enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
         gridMenuCustomItems: [
             {
                 title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
@@ -277,6 +278,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         data: 'data',
         exporterCsvFilename: "export.csv",
         showGridFooter: true,
+        enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
         columnDefs: [],
         gridMenuCustomItems: [
             {

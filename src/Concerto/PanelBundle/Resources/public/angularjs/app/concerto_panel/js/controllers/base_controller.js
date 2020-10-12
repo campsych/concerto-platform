@@ -233,6 +233,7 @@ function BaseController($scope, $uibModal, $http, $filter, $state, $timeout, uiG
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
         columnDefs: $scope.columnDefs,
+        enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
         gridMenuCustomItems: [
             {
                 title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,

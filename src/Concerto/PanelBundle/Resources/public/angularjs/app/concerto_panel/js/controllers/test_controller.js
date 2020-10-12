@@ -153,6 +153,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         data: "logs",
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
+        enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
         gridMenuCustomItems: [
             {
                 title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
@@ -208,6 +209,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         data: "params",
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
+        enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
         gridMenuCustomItems: [
             {
                 title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
@@ -267,6 +269,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         data: "returns",
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
+        enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
         gridMenuCustomItems: [
             {
                 title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
@@ -322,6 +325,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
         data: "branches",
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
+        enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
         gridMenuCustomItems: [
             {
                 title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,

@@ -16,6 +16,7 @@ function WizardParamDefiner9Controller($scope, $filter, uiGridConstants, GridSer
     data: "fields",
     exporterCsvFilename: 'export.csv',
     showGridFooter: true,
+    enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
     gridMenuCustomItems: [
       {
         title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,

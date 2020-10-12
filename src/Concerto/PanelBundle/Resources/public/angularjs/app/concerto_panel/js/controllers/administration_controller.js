@@ -141,6 +141,7 @@ function AdministrationController($scope, $http, $uibModal, $filter, Administrat
         data: "messageCollection",
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
+        enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
         gridMenuCustomItems: [
             {
                 title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
@@ -251,6 +252,7 @@ function AdministrationController($scope, $http, $uibModal, $filter, Administrat
         data: "packagesTasksCollection",
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
+        enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
         gridMenuCustomItems: [
             {
                 title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
@@ -300,6 +302,7 @@ function AdministrationController($scope, $http, $uibModal, $filter, Administrat
         data: "apiClientsCollection",
         exporterCsvFilename: 'export.csv',
         showGridFooter: true,
+        enableHorizontalScrollbar: uiGridConstants.scrollbars.WHEN_NEEDED,
         gridMenuCustomItems: [
             {
                 title: Trans.LIST_BUTTONS_TOGGLE_FILTERS,
