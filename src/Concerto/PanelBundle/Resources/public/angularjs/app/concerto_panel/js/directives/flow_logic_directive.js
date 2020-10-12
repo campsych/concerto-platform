@@ -446,7 +446,11 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 //in port
                 if (node.type != 1) {
                     var tooltip = Trans.TEST_FLOW_PORT_DESCRIPTION_IN;
-                    var overlayElem = $("<div class='portLabel portLabelIn' uib-tooltip-html='\"" + tooltip + "\"' tooltip-append-to-body='true'>" + Trans.TEST_FLOW_PORT_NAME_IN + "</div>");
+                    var overlayElem = $(
+                        "<div class='portLabel portLabelIn'>" +
+                        "<span class='clickable' uib-tooltip-html='\"" + tooltip + "\"' tooltip-append-to-body='true'>" + Trans.TEST_FLOW_PORT_NAME_IN + "</span>" +
+                        "</div>"
+                    );
                     $compile(overlayElem)(scope);
                     overlayElem.appendTo(elemContentLeft);
 
@@ -468,8 +472,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 //add branch
                 if (node.type == 0) {
                     var overlayElem = $(
-                        "<div class='portLabel portLabelBranch' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_ADD_BRANCH + "\"' tooltip-append-to-body='true'  ng-click='addPort(" + node.id + ", 2)'>" +
-                        "<i class='clickable glyphicon glyphicon-plus portBranchIcon'></i>" +
+                        "<div class='portLabel portLabelBranch'>" +
+                        "<i class='clickable glyphicon glyphicon-plus portBranchIcon' ng-click='addPort(" + node.id + ", 2)' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_ADD_BRANCH + "\"' tooltip-append-to-body='true'></i>" +
                         "</div>"
                     );
                     overlayElem.appendTo(elemContentRight);
@@ -486,7 +490,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                             var overlayElem = $(
                                 "<div class='portLabel portLabelBranch'>" +
-                                "<span uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true' ng-click='editPortCode(collectionService.getPort(" + port.id + "))'>" + port.name + "</span>" +
+                                "<span class='clickable' uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true' ng-click='editPortCode(collectionService.getPort(" + port.id + "))'>" + port.name + "</span>" +
                                 "</div>"
                             );
                             overlayElem.appendTo(elemContentRight);
@@ -511,8 +515,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 //add return
                 if (node.type == 0) {
                     var overlayElem = $(
-                        "<div class='portLabel portLabelReturn' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_ADD_RETURN + "\"' tooltip-append-to-body='true'  ng-click='addPort(" + node.id + ", 1)'>" +
-                        "<i class='clickable glyphicon glyphicon-plus portReturnIcon'></i>" +
+                        "<div class='portLabel portLabelReturn'>" +
+                        "<i class='clickable glyphicon glyphicon-plus portReturnIcon' ng-click='addPort(" + node.id + ", 1)' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_ADD_RETURN + "\"' tooltip-append-to-body='true'></i>" +
                         "</div>"
                     );
                     overlayElem.appendTo(elemContentRight);
@@ -544,8 +548,8 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 //add input
                 if (node.type == 0) {
                     var overlayElem = $(
-                        "<div class='portLabel' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_ADD_INPUT + "\"' tooltip-append-to-body='true'  ng-click='addPort(" + node.id + ", 0)'>" +
-                        "<i class='clickable glyphicon glyphicon-plus portInputIcon'></i>" +
+                        "<div class='portLabel'>" +
+                        "<i class='clickable glyphicon glyphicon-plus portInputIcon' ng-click='addPort(" + node.id + ", 0)' uib-tooltip-html='\"" + Trans.TEST_FLOW_PORT_ADD_INPUT + "\"' tooltip-append-to-body='true'></i>" +
                         "</div>"
                     );
                     overlayElem.appendTo(elemContentLeft);
@@ -562,7 +566,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                         if (port.pointer == 1 && port.name != port.pointerVariable) label = port.pointerVariable + " -> " + port.name;
                         var overlayElem = $("<div class='portLabel portLabelInput' " +
                             "ng-class='{\"port-non-default-value\": !usesDefaultValue(collectionService.getPort(" + port.id + "))}'>" +
-                            "<span uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true' ng-click='editPortCode(collectionService.getPort(" + port.id + "))'>" + label + "</span>" +
+                            "<span class='clickable' uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true' ng-click='editPortCode(collectionService.getPort(" + port.id + "))'>" + label + "</span>" +
                             "</div>");
                         overlayElem.appendTo(elemContentLeft);
 
@@ -600,7 +604,7 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
 
                         var overlayElem = $(
                             "<div class='portLabel portLabelReturn'>" +
-                            "<span uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true' ng-click='editPortCode(collectionService.getPort(" + port.id + "))'>" + label + "</span>" +
+                            "<span class='clickable' uib-tooltip-html='getPortTooltip(" + port.id + ")' tooltip-append-to-body='true' ng-click='editPortCode(collectionService.getPort(" + port.id + "))'>" + label + "</span>" +
                             "</div>"
                         );
                         overlayElem.appendTo(elemContentRight);
