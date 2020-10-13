@@ -273,7 +273,7 @@ function AdministrationController($scope, $http, $uibModal, $filter, Administrat
             }, {
                 displayName: Trans.TASKS_LIST_FIELD_STATUS,
                 field: "status",
-                cellTemplate: "<div class='ui-grid-cell-contents'>{{row.entity.status|tasksStatusLabel}}</div>"
+                cellTemplate: "<div class='ui-grid-cell-contents'>{{row.entity.status|taskStatusLabel}}</div>"
             }, {
                 displayName: Trans.TASKS_LIST_FIELD_DESCRIPTION,
                 field: "description"
@@ -283,14 +283,14 @@ function AdministrationController($scope, $http, $uibModal, $filter, Administrat
                 enableSorting: false,
                 exporterSuppressExport: true,
                 cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-                    '<i class="glyphicon glyphicon-align-justify clickable" ng-click="grid.appScope.dialogsService.textareaDialog(row.entity.updated, COL_FIELD, grid.appScope.getTasksStatusLabel(row.entity.status), true)"></i>' +
+                    '<i class="glyphicon glyphicon-align-justify clickable" ng-click="grid.appScope.dialogsService.textareaDialog(row.entity.updated, COL_FIELD, grid.appScope.getTaskStatusLabel(row.entity.status), true)"></i>' +
                     "</div>"
             }
         ]
     };
 
-    $scope.getTasksStatusLabel = function (status) {
-        return $filter("tasksStatusLabel")(status);
+    $scope.getTaskStatusLabel = function (status) {
+        return $filter("taskStatusLabel")(status);
     };
 
     $scope.apiClientsCollection = [];

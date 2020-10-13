@@ -86,9 +86,8 @@ abstract class ConcertoScheduledTaskCommand extends Command
 
             $task = new ScheduledTask();
             $task->setType($this->getTaskType());
-            $this->scheduledTaskRepository->save($task);
-            $task->setDescription($this->getTaskDescription($task));
             $task->setInfo(json_encode($info));
+            $task->setDescription($this->getTaskDescription($task));
             $this->scheduledTaskRepository->save($task);
 
             if ($contentBlock) $this->administrationService->setContentBlock(true);

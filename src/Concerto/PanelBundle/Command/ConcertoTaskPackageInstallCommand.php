@@ -67,10 +67,9 @@ class ConcertoTaskPackageInstallCommand extends ConcertoScheduledTaskCommand
         $name = $info["name"];
         $url = $info["url"];
 
-        $desc = $this->templating->render("ConcertoPanelBundle:Administration:task_package_install.html.twig", array(
+        return $this->templating->render("ConcertoPanelBundle:Administration:task_package_install.html.twig", array(
             "name" => $method == 0 ? $name : $url
         ));
-        return $desc;
     }
 
     public function getTaskInfo(InputInterface $input)
