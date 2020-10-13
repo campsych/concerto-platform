@@ -27,14 +27,16 @@ class ContentImportCommand extends Command
     private $gitService;
     private $input;
     private $output;
+    private $projectDir;
 
-    public function __construct(ImportService $importService, ManagerRegistry $doctrine, AdministrationService $adminService, TranslatorInterface $translator, GitService $gitService)
+    public function __construct(ImportService $importService, ManagerRegistry $doctrine, AdministrationService $adminService, TranslatorInterface $translator, GitService $gitService, $projectDir)
     {
         $this->importService = $importService;
         $this->adminService = $adminService;
         $this->doctrine = $doctrine;
         $this->translator = $translator;
         $this->gitService = $gitService;
+        $this->projectDir = $projectDir;
 
         parent::__construct();
     }
@@ -133,7 +135,7 @@ class ContentImportCommand extends Command
     {
         $this->output->writeln("downloading source from $url");
         $fs = new Filesystem();
-        $importPath = realpath(__DIR__ . "/../Resources/import");
+        $importPath = "{$this->projectDir}/src/Concerto/PanelBundle/Resources/import";
         $uniquePath = $importPath . "/import_" . uniqid();
         try {
             $fs->mkdir($uniquePath);
@@ -194,7 +196,7 @@ class ContentImportCommand extends Command
     private function importFiles($sourcePath)
     {
         $this->output->writeln("copying files...");
-        $dstDir = realpath(__DIR__ . "/../Resources/public/files") . "/";
+        $dstDir = "{$this->projectDir}/src/Concerto/PanelBundle/Resources/public/files/";
         $srcDir = $sourcePath . "/files/";
 
         if (file_exists($srcDir)) {
@@ -243,7 +245,7 @@ class ContentImportCommand extends Command
             $input->setOption("files", true);
             $input->setOption("src", true);
         }
-        chdir(realpath(__DIR__ . "/../Resources/starter_content"));
+        chdir("{$this->projectDir}/src/Concerto/PanelBundle/Resources/starter_content");
 
         ASectionService::$securityOn = false;
 

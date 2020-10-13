@@ -24,14 +24,16 @@ class ContentExportCommand extends Command
     private $input;
     private $output;
     private $adminService;
+    private $projectDir;
 
-    public function __construct(ManagerRegistry $doctrine, ImportService $importService, ExportService $exportService, $version, AdministrationService $adminService)
+    public function __construct(ManagerRegistry $doctrine, ImportService $importService, ExportService $exportService, $version, AdministrationService $adminService, $projectDir)
     {
         $this->doctrine = $doctrine;
         $this->importService = $importService;
         $this->exportService = $exportService;
         $this->version = $version;
         $this->adminService = $adminService;
+        $this->projectDir = $projectDir;
 
         parent::__construct();
     }
@@ -81,7 +83,7 @@ class ContentExportCommand extends Command
     private function exportFiles()
     {
         $this->output->writeln("copying files...");
-        $srcDir = realpath(__DIR__ . "/../Resources/public/files") . "/";
+        $srcDir = "{$this->projectDir}/src/Concerto/PanelBundle/Resources/public/files/";
         $dstDir = realpath($this->input->getArgument("output")) . "/files/";
         $filesystem = new Filesystem();
         $filesystem->mirror($srcDir, $dstDir);

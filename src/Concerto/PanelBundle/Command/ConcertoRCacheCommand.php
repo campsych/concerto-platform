@@ -6,20 +6,19 @@ use Concerto\PanelBundle\Service\RDataCacheService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Process\Process;
 use Symfony\Component\DomCrawler\Crawler;
 
 class ConcertoRCacheCommand extends Command
 {
     private $cacheService;
-    private $kernel;
+    private $projectDir;
     private $testRunnerSettings;
 
-    public function __construct(RDataCacheService $cacheService, KernelInterface $kernel, $testRunnerSettings)
+    public function __construct(RDataCacheService $cacheService, $projectDir, $testRunnerSettings)
     {
         $this->cacheService = $cacheService;
-        $this->kernel = $kernel;
+        $this->projectDir = $projectDir;
         $this->testRunnerSettings = $testRunnerSettings;
 
         parent::__construct();
@@ -36,7 +35,7 @@ class ConcertoRCacheCommand extends Command
         $output->writeln("Generating R documentation cache. This might take several minutes...");
         $lastLibrary = null;
 
-        $script_path = $this->kernel->getRootDir() . "/../src/Concerto/PanelBundle/Resources/R/function_documentation.R";
+        $script_path = "{$this->projectDir}/src/Concerto/PanelBundle/Resources/R/function_documentation.R";
         $p = "\"" . $this->testRunnerSettings['rscript_exec'] . "\" --no-save --no-restore --quiet \"" . $script_path . "\"";
         $process = new Process($p);
 

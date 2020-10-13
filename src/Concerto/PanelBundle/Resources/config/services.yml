@@ -69,11 +69,17 @@ services:
 
     Concerto\PanelBundle\Command\ConcertoRCacheCommand:
         arguments:
+            $projectDir: "%kernel.project_dir%"
             $testRunnerSettings: "%test_runner_settings%"
 
     Concerto\PanelBundle\Command\ContentExportCommand:
         arguments:
             $version: "%version%"
+            $projectDir: "%kernel.project_dir%"
+
+    Concerto\PanelBundle\Command\ContentImportCommand:
+        arguments:
+            $projectDir: "%kernel.project_dir%"
 
     Concerto\PanelBundle\Command\ConcertoSetupCommand:
         arguments:
