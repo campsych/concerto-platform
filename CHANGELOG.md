@@ -1,4 +1,4 @@
-## 5.0.17 (in progress)
+## 5.0.17 (2020-10-13)
 
 #### Features
 
@@ -16,6 +16,7 @@
 * **assessment** db based resuming fixes
 * fixed response option trait scoring in **assessment** node
 * flowchart UI fixes
+* git permissions fix
 
 #### Other
 
