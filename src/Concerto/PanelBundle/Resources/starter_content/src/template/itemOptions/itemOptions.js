@@ -6,9 +6,8 @@ testRunner.compileProvider.component('itemOptions', {
     responseRequired: '<'
   },
   controller: function controller($scope) {
-    $scope.choiceStyle = {
-      "flex-grow": 1
-    };
+    $scope.choiceContainerStyle = {
+    }
 
     this.$onInit = function() {
       $scope.item = this.item;
@@ -22,8 +21,12 @@ testRunner.compileProvider.component('itemOptions', {
       let responseOptions = $scope.item.responseOptions;
       let columnsNum = parseInt(responseOptions.optionsColumnsNum);
       if(!isNaN(columnsNum) && columnsNum > 0) {
-        $scope.choiceStyle = {
-          width: "calc(100% * (1/" + columnsNum + ") - 8px)"
+        $scope.choiceContainerStyle = {
+          "grid-template-columns": "repeat(" + columnsNum + ", 1fr)"
+        }
+      } else {
+        $scope.choiceContainerStyle = {
+          "grid-template-columns": "repeat(" + responseOptions.options.length + ", 1fr)"
         }
       }
     }

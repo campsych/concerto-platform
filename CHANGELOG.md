@@ -1,3 +1,9 @@
+## 5.0.18 (in progress)
+
+#### Fixes
+
+* fixed layout of response options for item type "options"
+
 ## 5.0.17 (2020-10-13)
 
 #### Features
