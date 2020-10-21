@@ -1,6 +1,7 @@
 parameters:
-    env(CONCERTO_API_ENABLED): 1
+    env(CONCERTO_API_ENABLED): true
     env(CONCERTO_API_ENABLED_OVERRIDABLE): true
+    env(CONCERTO_DATA_API_ENABLED): true
     env(CONCERTO_SESSION_LIMIT): 0
     env(CONCERTO_SESSION_LIMIT_OVERRIDABLE): true
     env(CONCERTO_CONTENT_URL): .
@@ -58,3 +59,4 @@ parameters:
             session_count_idle_limit: 1800 #secs
             failed_auth_lock_time: "%env(CONCERTO_FAILED_AUTH_LOCK_TIME)%"
             failed_auth_lock_streak: "%env(CONCERTO_FAILED_AUTH_LOCK_STREAK)%"
+            data_api_enabled: "%env(CONCERTO_DATA_API_ENABLED)%"

@@ -247,7 +247,13 @@ class AdministrationService
     public function isApiEnabled()
     {
         $enabled = $this->getSettingValue("api_enabled");
-        return $enabled == "1";
+        return $enabled === "true";
+    }
+
+    public function isDataApiEnabled()
+    {
+        $enabled = $this->getSettingValue("data_api_enabled");
+        return $enabled === "true";
     }
 
     public function isFailedAuthLockEnabled()

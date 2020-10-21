@@ -1,3 +1,7 @@
+## 5.0.18
+
+* **CONCERTO_API_ENABLED** setting values changed to [true|false]
+
 ## 5.0.13
 
 * js **testRunner.platformUrl** no longer ends with slash character

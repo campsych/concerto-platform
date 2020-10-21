@@ -31,7 +31,7 @@ class DataRecordController
      */
     public function dataCollectionAction(Request $request, $table_id)
     {
-        if (!$this->administrationService->isApiEnabled())
+        if (!$this->administrationService->isApiEnabled() || !$this->administrationService->isDataApiEnabled())
             return new Response("API disabled", Response::HTTP_FORBIDDEN);
 
         switch ($request->getMethod()) {
@@ -52,7 +52,7 @@ class DataRecordController
      */
     public function dataObjectAction(Request $request, $table_id, $id)
     {
-        if (!$this->administrationService->isApiEnabled())
+        if (!$this->administrationService->isApiEnabled() || !$this->administrationService->isDataApiEnabled())
             return new Response("API disabled", Response::HTTP_FORBIDDEN);
 
         switch ($request->getMethod()) {

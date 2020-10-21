@@ -65,15 +65,15 @@ class TestSessionService
         return sha1(time() . "_" . $this->secret . "_" . $session_id);
     }
 
-    public function startNewSession($test_slug, $test_name, $params, $cookies, $client_ip, $client_browser, $debug, $max_exec_time = null)
+    public function startNewSession($test_slug, $test_name, $params, $cookies, $client_ip, $client_browser, $debug, $mustBeRunnable = true, $max_exec_time = null)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params, $client_ip, $client_browser, $debug");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params, $client_ip, $client_browser, $debug, $mustBeRunnable, $max_exec_time");
 
         $test = null;
         if ($test_name !== null) {
-            $test = $this->testRepository->findRunnableByName($test_name);
+            $test = $mustBeRunnable ? $this->testRepository->findRunnableByName($test_name) : $this->testRepository->findOneByName($test_name);
         } else {
-            $test = $this->testRepository->findRunnableBySlug($test_slug);
+            $test = $mustBeRunnable ? $this->testRepository->findRunnableBySlug($test_slug) : $this->testRepository->findOneBySlug($test_slug);
         }
         if (!$test) {
             return $this->prepareResponse(null, array(
@@ -103,7 +103,7 @@ class TestSessionService
 
         /** @var TestSession $session */
         $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
-        if($session === null) {
+        if ($session === null) {
             return $this->prepareResponse(null, array(
                 "source" => self::SOURCE_PANEL_NODE,
                 "code" => self::RESPONSE_SESSION_LOST

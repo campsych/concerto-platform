@@ -26,6 +26,7 @@ class TestRunnerController
     /**
      * @Route("/test/{test_slug}/session/start/{params}", defaults={"test_name":null,"params":"{}","debug":false}, methods={"POST"})
      * @Route("/test_n/{test_name}/session/start/{params}", defaults={"test_slug":null,"params":"{}","debug":false}, methods={"POST"})
+     * @Route("/test/{test_slug}/run/{params}", defaults={"test_name":null,"params":"{}","debug":false}, methods={"POST"})
      * @param Request $request
      * @param $test_slug
      * @param $test_name
@@ -52,7 +53,8 @@ class TestRunnerController
             $request->cookies->all(),
             $request->getClientIp(),
             $request->server->get('HTTP_USER_AGENT'),
-            $debug
+            $debug,
+            false
         );
         $response = new Response($result, $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');

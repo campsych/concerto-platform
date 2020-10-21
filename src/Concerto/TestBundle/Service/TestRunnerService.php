@@ -22,11 +22,11 @@ class TestRunnerService
         $this->testService = $testService;
     }
 
-    public function startNewSession($test_slug, $test_name, $params, $cookies, $client_ip, $client_browser, $debug)
+    public function startNewSession($test_slug, $test_name, $params, $cookies, $client_ip, $client_browser, $debug, $mustBeRunnable = true)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params, $client_ip, $client_browser, $debug");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params, $client_ip, $client_browser, $debug, $mustBeRunnable");
 
-        $response = $this->sessionService->startNewSession($test_slug, $test_name, $params, $cookies, $client_ip, $client_browser, $debug);
+        $response = $this->sessionService->startNewSession($test_slug, $test_name, $params, $cookies, $client_ip, $client_browser, $debug, $mustBeRunnable);
         $response = json_encode($response);
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - response: $response");
         return $response;

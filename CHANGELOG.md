@@ -1,5 +1,9 @@
 ## 5.0.18 (in progress)
 
+#### Features
+
+* data API can be enabled/disabled by **CONCERTO_DATA_API_ENABLED** setting
+
 #### Fixes
 
 * fixed layout of response options for item type "options"
