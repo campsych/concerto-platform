@@ -6,6 +6,9 @@ concerto.run = function(workingDir, client, sessionHash, maxIdleTime = NULL, max
     concerto$initialPort <<- initialPort
     concerto$runnerType <<- runnerType
     concerto$lastResponse <<- response
+    if(!is.null(response) && !is.null(response$headers)) {
+        concerto$headers <<- response$headers
+    }
 
     if(!is.null(maxIdleTime)) {
         concerto$maxIdleTime <<- maxIdleTime

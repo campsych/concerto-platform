@@ -33,6 +33,7 @@ concerto.session.unserialize <- function(response = NULL, hash = NULL){
     concerto$lastSubmitTime <<- prevConcerto$lastSubmitTime
     concerto$lastKeepAliveTime <<- prevConcerto$lastKeepAliveTime
     concerto$bgWorkers <<- prevConcerto$bgWorkers
+    concerto$headers <<- prevConcerto$headers
     if(!is.null(response)) {
         concerto$lastResponse <<- response
     } else {

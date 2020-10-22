@@ -36,7 +36,7 @@ abstract class ASessionRunnerService
         $this->environment = $environment;
     }
 
-    abstract public function startNew(TestSession $session, $params, $cookies, $client_ip, $client_browser, $debug = false, $max_exec_time = null);
+    abstract public function startNew(TestSession $session, $params, $cookies, $headers, $client_ip, $client_browser, $debug = false, $max_exec_time = null);
 
     abstract public function resume(TestSession $session, $cookies, $client_ip, $client_browser, $debug = false, $max_exec_time = null);
 

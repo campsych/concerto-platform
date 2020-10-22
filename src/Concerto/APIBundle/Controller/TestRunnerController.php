@@ -51,6 +51,7 @@ class TestRunnerController
             $test_name,
             $params,
             $request->cookies->all(),
+            $request->headers->all(),
             $request->getClientIp(),
             $request->server->get('HTTP_USER_AGENT'),
             $debug,

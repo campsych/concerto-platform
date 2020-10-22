@@ -54,7 +54,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
         return $response["code"] === 1;
     }
 
-    public function startNew(TestSession $session, $params, $cookies, $client_ip, $client_browser, $debug = false, $max_exec_time = null)
+    public function startNew(TestSession $session, $params, $cookies, $headers, $client_ip, $client_browser, $debug = false, $max_exec_time = null)
     {
         $session_hash = $session->getHash();
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $params, $client_ip, $client_ip, $client_browser, $debug");
@@ -72,7 +72,8 @@ class PersistantSessionRunnerService extends ASessionRunnerService
             "source" => TestSessionService::SOURCE_PANEL_NODE,
             "code" => TestSessionService::RESPONSE_STARTING,
             "client" => $client,
-            "cookies" => $cookies
+            "cookies" => $cookies,
+            "headers" => $headers
         );
 
         $success = false;
