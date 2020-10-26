@@ -7,6 +7,7 @@
 #### Fixes
 
 * fixed layout of response options for item type "options"
+* js log error action permission fix
 
 ## 5.0.17 (2020-10-13)
 

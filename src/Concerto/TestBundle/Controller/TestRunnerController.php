@@ -386,7 +386,7 @@ class TestRunnerController
      */
     public function logErrorAction(Request $request, $session_hash)
     {
-        if (!$this->checkAuthorizationCookie($request, null, true, false)) return new Response("", 403);
+        if (!$this->checkAuthorizationCookie($request, $session_hash, false, false)) return new Response("", 403);
 
         $result = $this->testRunnerService->logError(
             $session_hash,
