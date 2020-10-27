@@ -2,11 +2,13 @@ breadcrumb: Administracja
 form:
     title: Ustawienia
     settings:
+        home_test: Domowy test
+        home_test.tooltip: Test, który należy uruchomić używając głównego URL aplikacji.
         session_limit: Limit sesji
         session_limit.tooltip: Maksymalna dostępna liczba równoczesnych sesji testów.
         api_enabled: API włączone
         api_enabled.tooltip: Włącz API
-        session_runner_service: Serwis obsługi sesji
+        session_runner_service: Serwis sesji
         session_runner_service.tooltip: |
             Może być jednym z dwojga:
             <ul>

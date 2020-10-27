@@ -1,4 +1,4 @@
-function AdministrationController($scope, $http, $uibModal, $filter, AdministrationSettingsService, SessionCountCollectionService, uiGridConstants, MessagesCollectionService, ScheduledTasksCollectionService, ApiClientsCollectionService, DialogsService) {
+function AdministrationController($scope, $http, $uibModal, $filter, AdministrationSettingsService, SessionCountCollectionService, uiGridConstants, MessagesCollectionService, ScheduledTasksCollectionService, ApiClientsCollectionService, DialogsService, TestCollectionService) {
     $scope.tabStateName = "administration";
     $scope.updateSettingsMapPath = Paths.ADMINISTRATION_SETTINGS_MAP_UPDATE;
     $scope.deleteMessagePath = Paths.ADMINISTRATION_MESSAGES_DELETE;
@@ -10,6 +10,7 @@ function AdministrationController($scope, $http, $uibModal, $filter, Administrat
     $scope.exposedSettingsMap = {};
     $scope.internalSettingsMap = {};
     $scope.dialogsService = DialogsService;
+    $scope.testCollectionService = TestCollectionService;
 
     $scope.persistSettings = function () {
         $http.post($scope.updateSettingsMapPath, {
@@ -452,4 +453,4 @@ function AdministrationController($scope, $http, $uibModal, $filter, Administrat
     $scope.refreshApiClients();
 }
 
-concertoPanel.controller('AdministrationController', ["$scope", "$http", "$uibModal", "$filter", "AdministrationSettingsService", "SessionCountCollectionService", "uiGridConstants", "MessagesCollectionService", "ScheduledTasksCollectionService", "ApiClientsCollectionService", "DialogsService", AdministrationController]);
+concertoPanel.controller('AdministrationController', ["$scope", "$http", "$uibModal", "$filter", "AdministrationSettingsService", "SessionCountCollectionService", "uiGridConstants", "MessagesCollectionService", "ScheduledTasksCollectionService", "ApiClientsCollectionService", "DialogsService", "TestCollectionService", AdministrationController]);

@@ -26,7 +26,7 @@ class TestVariableControllerTest extends AFunctionalTest
             "name" => "test",
             "description" => "description",
             "code" => "print('start')",
-            "visibility" => Test::VISIBILITY_FEATURED,
+            "visibility" => Test::VISIBILITY_REGULAR,
             "type" => Test::TYPE_CODE,
             "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));

@@ -48,6 +48,7 @@ parameters:
             git_login_overridable: "%env(CONCERTO_GIT_LOGIN_OVERRIDABLE)%"
             git_password: "%env(CONCERTO_GIT_PASSWORD)%"
             git_password_overridable: "%env(CONCERTO_GIT_PASSWORD_OVERRIDABLE)%"
+            home_test_id: 0
         internal:
             r_exec_path: R
             git_exec_path: git

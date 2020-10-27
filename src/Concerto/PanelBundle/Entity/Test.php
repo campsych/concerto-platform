@@ -17,7 +17,6 @@ class Test extends ATopEntity implements \JsonSerializable
 {
 
     const VISIBILITY_REGULAR = 0;
-    const VISIBILITY_FEATURED = 1;
     const VISIBILITY_SUBTEST = 2;
     const TYPE_CODE = 0;
     const TYPE_WIZARD = 1;

@@ -2,42 +2,42 @@
 
 namespace Concerto\PanelBundle\Controller;
 
+use Concerto\PanelBundle\Service\AdministrationService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Concerto\PanelBundle\Service\HomeService;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController
+class HomeController extends AbstractController
 {
-
     private $templating;
-    private $homeService;
+    private $administrationService;
 
-    public function __construct(EngineInterface $templating, HomeService $homeService)
+    public function __construct(EngineInterface $templating, AdministrationService $administrationService)
     {
         $this->templating = $templating;
-        $this->homeService = $homeService;
+        $this->administrationService = $administrationService;
     }
 
     /**
      * @Route("/", name="home")
+     * @param Request $request
      * @return Response
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        return $this->templating->renderResponse('ConcertoPanelBundle::home.html.twig');
-    }
+        $test = $this->administrationService->getHomeTest();
+        if ($test === null) return new Response("", Response::HTTP_NOT_FOUND);
 
-    /**
-     * @Route("/featured/collection/{format}", name="home_featured_collection", defaults={"format":"json"})
-     * @param string $format
-     * @return Response
-     */
-    public function featuredCollectionAction($format = "json")
-    {
-        return $this->templating->renderResponse("ConcertoPanelBundle::collection.$format.twig", array(
-            'collection' => $this->homeService->getFeaturedTests()
-        ));
+        $params = [];
+        $keys = $request->query->keys();
+        foreach ($keys as $k) {
+            $params[$k] = $request->query->get($k);
+        }
+
+        return $this->forward("Concerto\TestBundle\Controller\TestRunnerController::startNewTestAction", [
+            "test_slug" => $test->getSlug()
+        ], $params);
     }
 
 }

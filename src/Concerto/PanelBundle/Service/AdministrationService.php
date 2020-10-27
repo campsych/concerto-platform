@@ -563,4 +563,10 @@ class AdministrationService
         if (count($this->viewTemplateRepository->findDirectlyLocked()) > 0) return false;
         return true;
     }
+
+    public function getHomeTest()
+    {
+        $test_id = $this->getSettingValue("home_test_id");
+        return $this->testRepository->find($test_id);
+    }
 }

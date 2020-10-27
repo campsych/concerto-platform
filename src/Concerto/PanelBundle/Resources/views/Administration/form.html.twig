@@ -11,6 +11,18 @@
 {% block elements %}
     {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
         {% trans_default_domain "Administration" %}
+        {% block label %}{{ 'form.settings.home_test'|trans }}{% endblock %}
+        {% block tooltip %}{{'form.settings.home_test.tooltip'|trans}}{% endblock %}
+        {% block control %}
+            <select ng-model="exposedSettingsMap.home_test_id" style="width:100%;" class='form-control'>
+                <option value="0">{{ 'none.choosen'|trans({}, "panel") }}</option>
+                <option value="{% verbatim %}{{ test.id }}{% endverbatim %}" ng-repeat="test in testCollectionService.collection">{% verbatim %}{{ test.name }}{% endverbatim %}</option>
+            </select>
+        {% endblock %}
+    {% endembed %}
+
+    {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
+        {% trans_default_domain "Administration" %}
         {% block label %}{{ 'form.settings.api_enabled'|trans }}{% endblock %}
         {% block tooltip %}{{ 'form.settings.api_enabled.tooltip'|trans }}{% endblock %}
         {% block control %}

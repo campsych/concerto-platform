@@ -2,11 +2,13 @@ breadcrumb: Administration
 form:
     title: Settings
     settings:
+        home_test: Home test
+        home_test.tooltip: Test to run when using root application URL.
         session_limit: Session limit
         session_limit.tooltip: Maximum allowed number of simultaneous test sessions.
         api_enabled: API enabled
         api_enabled.tooltip: Enable API requests
-        session_runner_service: Session runner service
+        session_runner_service: Session service
         session_runner_service.tooltip: |
             Can be one of two:
             <ul>

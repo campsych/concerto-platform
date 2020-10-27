@@ -1,3 +1,9 @@
+## 5.0.19 (in progress)
+
+#### Features
+
+* home test can now be set from administration tab settings (replaces home page)
+
 ## 5.0.18 (2020-10-27)
 
 #### Features

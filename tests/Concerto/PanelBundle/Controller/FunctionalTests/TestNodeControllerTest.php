@@ -28,7 +28,7 @@ class TestNodeControllerTest extends AFunctionalTest
             "name" => "testFlow",
             "description" => "description",
             "code" => "print('start')",
-            "visibility" => Test::VISIBILITY_FEATURED,
+            "visibility" => Test::VISIBILITY_REGULAR,
             "type" => Test::TYPE_FLOW,
             "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
@@ -40,7 +40,7 @@ class TestNodeControllerTest extends AFunctionalTest
             "name" => "test_s1",
             "description" => "description",
             "code" => "print('start')",
-            "visibility" => Test::VISIBILITY_FEATURED,
+            "visibility" => Test::VISIBILITY_REGULAR,
             "type" => Test::TYPE_CODE,
             "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));

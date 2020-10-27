@@ -29,7 +29,7 @@ class TestControllerTest extends AFunctionalTest
             "name" => "test",
             "description" => "description",
             "code" => "print('start')",
-            "visibility" => Test::VISIBILITY_FEATURED,
+            "visibility" => Test::VISIBILITY_REGULAR,
             "type" => Test::TYPE_CODE,
             "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
@@ -60,7 +60,7 @@ class TestControllerTest extends AFunctionalTest
                 "name" => "test",
                 "description" => "description",
                 "code" => "print('start')",
-                "visibility" => Test::VISIBILITY_FEATURED,
+                "visibility" => Test::VISIBILITY_REGULAR,
                 'variables' => array(
                     array(
                         "class_name" => "TestVariable",
@@ -264,7 +264,7 @@ class TestControllerTest extends AFunctionalTest
 
         $client->request("POST", "/admin/Test/-1/save", array(
             "name" => "new_test",
-            "visibility" => Test::VISIBILITY_FEATURED,
+            "visibility" => Test::VISIBILITY_REGULAR,
             "type" => Test::TYPE_CODE,
             "accessibility" => ATopEntity::ACCESS_PUBLIC,
             "code" => ""
@@ -284,7 +284,7 @@ class TestControllerTest extends AFunctionalTest
                 "name" => "new_test",
                 "description" => "",
                 "code" => "",
-                "visibility" => Test::VISIBILITY_FEATURED,
+                "visibility" => Test::VISIBILITY_REGULAR,
                 'variables' => array(),
                 'sourceWizard' => null,
                 'sourceWizardName' => null,
@@ -329,7 +329,7 @@ class TestControllerTest extends AFunctionalTest
         $client->request("POST", "/admin/Test/1/save", array(
             "name" => "edited_test",
             "description" => "edited test description",
-            "visibility" => Test::VISIBILITY_FEATURED,
+            "visibility" => Test::VISIBILITY_REGULAR,
             "code" => "code",
             "type" => Test::TYPE_CODE,
             "accessibility" => ATopEntity::ACCESS_PUBLIC
@@ -348,7 +348,7 @@ class TestControllerTest extends AFunctionalTest
                 "name" => "edited_test",
                 "description" => "edited test description",
                 "code" => "code",
-                "visibility" => Test::VISIBILITY_FEATURED,
+                "visibility" => Test::VISIBILITY_REGULAR,
                 'variables' => array(),
                 'sourceWizard' => null,
                 'sourceWizardName' => null,
@@ -395,7 +395,7 @@ class TestControllerTest extends AFunctionalTest
             "name" => "test",
             "description" => "edited test description",
             "type" => 0,
-            "visibility" => Test::VISIBILITY_FEATURED,
+            "visibility" => Test::VISIBILITY_REGULAR,
             "code" => "code",
             "accessibility" => ATopEntity::ACCESS_PUBLIC));
         $fail_msg = "";
@@ -417,7 +417,7 @@ class TestControllerTest extends AFunctionalTest
                 "name" => "test",
                 "description" => "edited test description",
                 "code" => "code",
-                "visibility" => Test::VISIBILITY_FEATURED,
+                "visibility" => Test::VISIBILITY_REGULAR,
                 'variables' => array(),
                 'sourceWizard' => null,
                 'sourceWizardName' => null,
@@ -462,7 +462,7 @@ class TestControllerTest extends AFunctionalTest
 
         $client->request("POST", "/admin/Test/-1/save", array(
             "name" => "new_test",
-            "visibility" => Test::VISIBILITY_FEATURED,
+            "visibility" => Test::VISIBILITY_REGULAR,
             "type" => Test::TYPE_CODE,
             "accessibility" => ATopEntity::ACCESS_PUBLIC
         ));
@@ -480,7 +480,7 @@ class TestControllerTest extends AFunctionalTest
                 "name" => "new_test",
                 "description" => "",
                 "code" => "",
-                "visibility" => Test::VISIBILITY_FEATURED,
+                "visibility" => Test::VISIBILITY_REGULAR,
                 'variables' => array(),
                 'sourceWizard' => null,
                 'sourceWizardName' => null,
@@ -522,7 +522,7 @@ class TestControllerTest extends AFunctionalTest
         $client->request("POST", "/admin/Test/1/save", array(
             "name" => "new_test",
             "description" => "edited test description",
-            "visibility" => Test::VISIBILITY_FEATURED,
+            "visibility" => Test::VISIBILITY_REGULAR,
             "code" => "code"));
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertTrue($client->getResponse()->headers->contains("Content-Type", 'application/json'));
