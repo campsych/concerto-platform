@@ -174,7 +174,7 @@ class TestControllerTest extends AFunctionalTest
             "starterContent" => false,
             'name' => 'test',
             'description' => 'description',
-            'visibility' => 1,
+            'visibility' => Test::VISIBILITY_REGULAR,
             'code' => 'print(\'start\')',
             'accessibility' => ATopEntity::ACCESS_PUBLIC,
             "archived" => "0",
