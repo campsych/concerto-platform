@@ -321,11 +321,9 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
             function handleHttpError(httpResponse) {
                 stopped = true;
-                if (httpResponse.status >= 500) {
-                    scope.html = testRunner.settings.serverErrorHtml;
-                } else {
-                    scope.html = testRunner.settings.clientErrorHtml;
-                }
+                if (httpResponse.status === 403) scope.html = testRunner.settings.sessionLostHtml;
+                else if (httpResponse.status >= 500) scope.html = testRunner.settings.serverErrorHtml;
+                else scope.html = testRunner.settings.clientErrorHtml;
             }
 
             function submitViewPostValueGetter(btnName, isTimeout, passedVals, values) {
