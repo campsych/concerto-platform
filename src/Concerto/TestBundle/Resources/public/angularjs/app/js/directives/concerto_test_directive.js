@@ -139,10 +139,13 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 if (internalSettings.keepAliveInterval > 0) {
                     if (lastSuccessfulKeepAliveTime === null) lastSuccessfulKeepAliveTime = new Date();
                     keepAliveTimerPromise = $interval(function () {
-                        $http.post(internalSettings.appUrl + "/test/session/" + testRunner.sessionHash + "/keepalive", {}).then(
+                        $http.post(internalSettings.appUrl + "/test/session/" + testRunner.sessionHash + "/keepalive", {
+                            token: getToken()
+                        }).then(
                             function success(httpResponse) {
                                 if (httpResponse.data.code === RESPONSE_KEEPALIVE_CHECKIN) {
                                     lastSuccessfulKeepAliveTime = new Date();
+                                    setToken(httpResponse.data.token);
                                 } else {
                                     removeSubmitEvents();
                                     clearTimer();
@@ -182,15 +185,18 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             function startNewTest() {
                 showLoader();
                 let path = "";
+                let params = {};
                 if (internalSettings.debug) {
                     if (internalSettings.existingSessionHash !== null) {
                         path = internalSettings.appUrl + "/admin/test/session/" + internalSettings.existingSessionHash + "/resume/debug";
+                        params.token = getToken();
                     } else {
                         path = internalSettings.appUrl + "/admin/test/" + internalSettings.testSlug + "/start_session/debug/" + encodeURIComponent(internalSettings.params);
                     }
                 } else {
                     if (internalSettings.existingSessionHash !== null) {
                         path = internalSettings.appUrl + "/test/session/" + internalSettings.existingSessionHash + "/resume";
+                        params.token = getToken();
                     } else {
                         if (internalSettings.testName !== null) {
                             path = internalSettings.appUrl + "/test_n/" + internalSettings.testName + "/start_session/" + encodeURIComponent(internalSettings.params);
@@ -200,7 +206,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                     }
                 }
 
-                $http.post(path, {}).then(
+                $http.post(path, params).then(
                     function success(httpResponse) {
                         if (internalSettings.debug && httpResponse.data.debug)
                             console.log(httpResponse.data.debug);
@@ -212,6 +218,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                             case RESPONSE_VIEW_TEMPLATE:
                             case RESPONSE_VIEW_FINAL_TEMPLATE: {
                                 testRunner.sessionHash = httpResponse.data.hash;
+                                setToken(httpResponse.data.token);
                                 timeLimit = httpResponse.data.timeLimit;
                                 updateLoader(httpResponse.data.data);
                                 break;
@@ -248,6 +255,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 values["bgWorker"] = name;
 
                 $http.post(internalSettings.appUrl + "/test/session/" + testRunner.sessionHash + "/worker", {
+                    token: getToken(),
                     values: values
                 }).then(
                     function success(httpResponse) {
@@ -258,7 +266,9 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                             successCallback.call(this, httpResponse.data.data);
                         }
 
-                        if (httpResponse.data.code !== RESPONSE_WORKER) {
+                        if (httpResponse.data.code === RESPONSE_WORKER) {
+                            setToken(httpResponse.data.token);
+                        } else {
                             removeSubmitEvents();
                             clearTimer();
                             hideView();
@@ -310,6 +320,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                     };
                     scope.fileUploader.onSuccessItem = function (item, response, status, headers) {
                         if (response.result == 0) {
+                            setToken(response.token);
                             addPairToValues(values, response.name, response.file_path);
                         }
                     };
@@ -334,6 +345,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                     angular.merge(values, passedVals);
                 }
                 $http.post(internalSettings.appUrl + "/test/session/" + testRunner.sessionHash + "/submit", {
+                    token: getToken(),
                     values: values
                 }).then(
                     function success(httpResponse) {
@@ -354,6 +366,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                             case RESPONSE_VIEW_TEMPLATE:
                             case RESPONSE_VIEW_FINAL_TEMPLATE: {
                                 testRunner.sessionHash = httpResponse.data.hash;
+                                setToken(httpResponse.data.token);
                                 timeLimit = httpResponse.data.timeLimit;
                                 updateLoader(httpResponse.data.data);
                                 break;
@@ -600,7 +613,8 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             scope.queueUpload = function (name, file) {
                 scope.fileUploader.url = internalSettings.appUrl + "/test/session/" + testRunner.sessionHash + "/upload";
                 scope.fileUploader.formData = [{
-                    name: name
+                    name: name,
+                    token: getToken()
                 }];
                 if (typeof (file) !== 'File') {
                     file = new File([file], name);
@@ -620,6 +634,14 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             if (options.testSlug != null || options.testName != null) {
                 startNewTest();
                 return;
+            }
+
+            function getToken() {
+                return sessionStorage.getItem("concertoToken");
+            }
+
+            function setToken(token) {
+                sessionStorage.setItem("concertoToken", token);
             }
         }
 

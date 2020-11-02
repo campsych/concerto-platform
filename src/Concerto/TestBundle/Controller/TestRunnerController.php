@@ -155,9 +155,9 @@ class TestRunnerController
             $request->server->get('HTTP_USER_AGENT'),
             $debug
         );
-        $response = new Response($result);
+        $result["token"] = $this->makeAuthorizationToken($result);
+        $response = new Response(json_encode($result));
         $response->headers->set('Content-Type', 'application/json');
-        $this->setAuthorizationCookie($response, $result);
         $this->setCookies($response, $result);
 
         return $response;
@@ -186,7 +186,7 @@ class TestRunnerController
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $debug");
 
-        if (!$this->checkAuthorizationCookie($request, $session_hash)) return new Response("", 403);
+        if (!$this->checkAuthorizationToken($request, $session_hash)) return new Response("", 403);
 
         $result = $this->testRunnerService->resumeSession(
             $session_hash,
@@ -195,9 +195,9 @@ class TestRunnerController
             $request->server->get('HTTP_USER_AGENT'),
             $debug
         );
-        $response = new Response($result);
+        $result["token"] = $this->makeAuthorizationToken($result);
+        $response = new Response(json_encode($result));
         $response->headers->set('Content-Type', 'application/json');
-        $this->setAuthorizationCookie($response, $result);
         $this->setCookies($response, $result);
 
         return $response;
@@ -206,7 +206,7 @@ class TestRunnerController
     /**
      * @Route("/admin/test/session/{session_hash}/resume/debug", name="test_runner_session_resume_debug", methods={"POST"})
      * @param Request $request
-     * @param string $session_hash
+     * @param $session_hash
      * @return RedirectResponse|Response
      */
     public function resumeDebugSessionAction(Request $request, $session_hash)
@@ -224,7 +224,7 @@ class TestRunnerController
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
 
-        if (!$this->checkAuthorizationCookie($request, $session_hash)) return new Response("", 403);
+        if (!$this->checkAuthorizationToken($request, $session_hash)) return new Response("", 403);
 
         $result = $this->testRunnerService->submitToSession(
             $session_hash,
@@ -233,9 +233,9 @@ class TestRunnerController
             $request->getClientIp(),
             $request->server->get('HTTP_USER_AGENT')
         );
-        $response = new Response($result);
+        $result["token"] = $this->makeAuthorizationToken($result);
+        $response = new Response(json_encode($result));
         $response->headers->set('Content-Type', 'application/json');
-        $this->setAuthorizationCookie($response, $result);
         $this->setCookies($response, $result);
 
         return $response;
@@ -251,7 +251,7 @@ class TestRunnerController
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
 
-        if (!$this->checkAuthorizationCookie($request, $session_hash)) return new Response("", 403);
+        if (!$this->checkAuthorizationToken($request, $session_hash)) return new Response("", 403);
 
         $result = $this->testRunnerService->backgroundWorker(
             $session_hash,
@@ -260,9 +260,9 @@ class TestRunnerController
             $request->getClientIp(),
             $request->server->get('HTTP_USER_AGENT')
         );
-        $response = new Response($result);
+        $result["token"] = $this->extendAuthorizationToken($request);
+        $response = new Response(json_encode($result));
         $response->headers->set('Content-Type', 'application/json');
-        $this->extendAuthorizationCookie($response, $request);
         $this->setCookies($response, $result);
 
         return $response;
@@ -278,14 +278,14 @@ class TestRunnerController
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
 
-        if (!$this->checkAuthorizationCookie($request, $session_hash)) return new Response("", 403);
+        if (!$this->checkAuthorizationToken($request, $session_hash)) return new Response("", 403);
 
         $result = $this->testRunnerService->killSession(
             $session_hash,
             $request->getClientIp(),
             $request->server->get('HTTP_USER_AGENT')
         );
-        $response = new Response($result);
+        $response = new Response(json_encode($result));
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
@@ -301,16 +301,16 @@ class TestRunnerController
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
 
-        if (!$this->checkAuthorizationCookie($request, $session_hash)) return new Response("", 403);
+        if (!$this->checkAuthorizationToken($request, $session_hash)) return new Response("", 403);
 
         $result = $this->testRunnerService->keepAliveSession(
             $session_hash,
             $request->getClientIp(),
             $request->server->get('HTTP_USER_AGENT')
         );
-        $response = new Response($result);
+        $result["token"] = $this->extendAuthorizationToken($request);
+        $response = new Response(json_encode($result));
         $response->headers->set('Content-Type', 'application/json');
-        $this->extendAuthorizationCookie($response, $request);
 
         return $response;
     }
@@ -325,16 +325,16 @@ class TestRunnerController
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
 
-        if (!$this->checkAuthorizationCookie($request, $session_hash, false, true)) return new Response("", 403);
+        if (!$this->checkAuthorizationToken($request, $session_hash, false, true)) return new Response("", 403);
 
         $result = $this->testRunnerService->uploadFile(
             $session_hash,
             $request->files,
             $request->get("name")
         );
-        $response = new Response($result);
+        $result["token"] = $this->extendAuthorizationToken($request);
+        $response = new Response(json_encode($result));
         $response->headers->set('Content-Type', 'application/json');
-        $this->extendAuthorizationCookie($response, $request);
 
         return $response;
     }
@@ -348,7 +348,7 @@ class TestRunnerController
      */
     public function getProtectedFile(Request $request, $name)
     {
-        if (!$this->checkAuthorizationCookie($request, null, true)) return new Response("", 403);
+        if (!$this->checkAuthorizationToken($request, null, true)) return new Response("", 403);
 
         $dir = "{$this->projectDir}/src/Concerto/PanelBundle/Resources/public/files/protected";
         $realDir = realpath($dir);
@@ -367,8 +367,8 @@ class TestRunnerController
      */
     public function getSessionFile(Request $request, $name)
     {
-        $sessionHash = $this->getSessionHashFromAuthorizationCookie($request);
-        if (!$this->checkAuthorizationCookie($request, $sessionHash, false, true)) return new Response("", 403);
+        $sessionHash = $this->getSessionHashFromAuthorizationToken($request);
+        if (!$this->checkAuthorizationToken($request, $sessionHash, false, true)) return new Response("", 403);
 
         $dir = $this->sessionRunnerService->getWorkingDirPath($sessionHash) . "files";
         $realDir = realpath($dir);
@@ -386,7 +386,7 @@ class TestRunnerController
      */
     public function logErrorAction(Request $request, $session_hash)
     {
-        if (!$this->checkAuthorizationCookie($request, $session_hash, false, false)) return new Response("", 403);
+        if (!$this->checkAuthorizationToken($request, $session_hash, false, false)) return new Response("", 403);
 
         $result = $this->testRunnerService->logError(
             $session_hash,
@@ -399,17 +399,16 @@ class TestRunnerController
         return $response;
     }
 
-    private function setAuthorizationCookie(&$response, $result)
+    private function makeAuthorizationToken($result)
     {
         $protectedFilesAccess = false;
         $sessionFilesAccess = false;
         $sessionHash = null;
 
-        $decodedResult = json_decode($result, true);
-        $sessionHash = $decodedResult["hash"];
-        if (array_key_exists("data", $decodedResult) && is_array($decodedResult["data"])) {
-            if (array_key_exists("protectedFilesAccess", $decodedResult["data"]) && $decodedResult["data"]["protectedFilesAccess"] === true) $protectedFilesAccess = true;
-            if (array_key_exists("sessionFilesAccess", $decodedResult["data"]) && $decodedResult["data"]["sessionFilesAccess"] === true) $sessionFilesAccess = true;
+        $sessionHash = $result["hash"];
+        if (array_key_exists("data", $result) && is_array($result["data"])) {
+            if (array_key_exists("protectedFilesAccess", $result["data"]) && $result["data"]["protectedFilesAccess"] === true) $protectedFilesAccess = true;
+            if (array_key_exists("sessionFilesAccess", $result["data"]) && $result["data"]["sessionFilesAccess"] === true) $sessionFilesAccess = true;
         }
 
         $token = null;
@@ -424,26 +423,14 @@ class TestRunnerController
             return false;
         }
 
-        $cookie = new Cookie(
-            "concertoSession",
-            $token,
-            0,
-            '/',
-            null,
-            $this->testRunnerSettings["cookies_secure"] === "true",
-            true,
-            false,
-            $this->testRunnerSettings["cookies_same_site"] ? $this->testRunnerSettings["cookies_same_site"] : null
-        );
-        $response->headers->setCookie($cookie);
-        return true;
+        return $token;
     }
 
-    private function extendAuthorizationCookie(Response &$response, Request $request)
+    private function extendAuthorizationToken(Request $request)
     {
         $decodedToken = null;
         try {
-            $decodedToken = $this->jwtEncoder->decode($request->cookies->get("concertoSession"));
+            $decodedToken = $this->jwtEncoder->decode($request->get("token"));
         } catch (JWTDecodeFailureException $e) {
             return false;
         }
@@ -456,26 +443,14 @@ class TestRunnerController
             return false;
         }
 
-        $cookie = new Cookie(
-            "concertoSession",
-            $token,
-            0,
-            '/',
-            null,
-            $this->testRunnerSettings["cookies_secure"] === "true",
-            true,
-            false,
-            $this->testRunnerSettings["cookies_same_site"] ? $this->testRunnerSettings["cookies_same_site"] : null
-        );
-        $response->headers->setCookie($cookie);
-        return true;
+        return $token;
     }
 
-    private function checkAuthorizationCookie(Request $request, $sessionHash = null, $protectedFilesAccess = false, $sessionFilesAccess = false)
+    private function checkAuthorizationToken(Request $request, $sessionHash = null, $protectedFilesAccess = false, $sessionFilesAccess = false)
     {
         $token = null;
         try {
-            $token = $this->jwtEncoder->decode($request->cookies->get("concertoSession"));
+            $token = $this->jwtEncoder->decode($request->get("token"));
         } catch (JWTDecodeFailureException $e) {
             return false;
         }
@@ -486,11 +461,11 @@ class TestRunnerController
         return true;
     }
 
-    private function getSessionHashFromAuthorizationCookie(Request $request)
+    private function getSessionHashFromAuthorizationToken(Request $request)
     {
         $token = null;
         try {
-            $token = $this->jwtEncoder->decode($request->cookies->get("concertoSession"));
+            $token = $this->jwtEncoder->decode($request->get("token"));
         } catch (JWTDecodeFailureException $e) {
             return null;
         }
@@ -499,9 +474,8 @@ class TestRunnerController
 
     private function setCookies(Response &$response, $result)
     {
-        $decodedResult = json_decode($result, true);
-        if (array_key_exists("data", $decodedResult) && is_array($decodedResult["data"]) && array_key_exists("cookies", $decodedResult["data"])) {
-            $cookies = $decodedResult["data"]["cookies"];
+        if (array_key_exists("data", $result) && is_array($result["data"]) && array_key_exists("cookies", $result["data"])) {
+            $cookies = $result["data"]["cookies"];
             if (is_array($cookies)) {
                 foreach ($cookies as $k => $v) {
                     $cookie = new Cookie(

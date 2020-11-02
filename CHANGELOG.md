@@ -3,6 +3,7 @@
 #### Features
 
 * home test can now be set from administration tab settings (replaces home page)
+* session token is now in session storage instead of cookie
 
 ## 5.0.18 (2020-10-27)
 

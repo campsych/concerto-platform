@@ -26,60 +26,42 @@ class TestRunnerService
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params, $client_ip, $client_browser, $debug, $mustBeRunnable");
 
-        $response = $this->sessionService->startNewSession($test_slug, $test_name, $params, $cookies, $headers, $client_ip, $client_browser, $debug, $mustBeRunnable);
-        $response = json_encode($response);
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - response: $response");
-        return $response;
+        return $this->sessionService->startNewSession($test_slug, $test_name, $params, $cookies, $headers, $client_ip, $client_browser, $debug, $mustBeRunnable);
     }
 
     public function resumeSession($session_hash, $cookies, $client_ip, $client_browser, $debug)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser, $debug");
 
-        $response = $this->sessionService->resumeSession($session_hash, $cookies, $client_ip, $client_browser, $debug);
-        $response = json_encode($response);
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - response: $response");
-        return $response;
+        return $this->sessionService->resumeSession($session_hash, $cookies, $client_ip, $client_browser, $debug);
     }
 
     public function submitToSession($session_hash, $values, $cookies, $client_ip, $client_browser)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
 
-        $response = $this->sessionService->submit($session_hash, $values, $cookies, $client_ip, $client_browser);
-        $response = json_encode($response);
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - response: $response");
-        return $response;
+        return $this->sessionService->submit($session_hash, $values, $cookies, $client_ip, $client_browser);
     }
 
     public function backgroundWorker($session_hash, $values, $cookies, $client_ip, $client_browser)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
 
-        $response = $this->sessionService->backgroundWorker($session_hash, $values, $cookies, $client_ip, $client_browser);
-        $response = json_encode($response);
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - response: $response");
-        return $response;
+        return $this->sessionService->backgroundWorker($session_hash, $values, $cookies, $client_ip, $client_browser);
     }
 
     public function keepAliveSession($session_hash, $client_ip, $client_browser)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
 
-        $response = $this->sessionService->keepAlive($session_hash, $client_ip, $client_browser);
-        $response = json_encode($response);
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - response: $response");
-        return $response;
+        return $this->sessionService->keepAlive($session_hash, $client_ip, $client_browser);
     }
 
     public function killSession($session_hash, $client_ip, $client_browser)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
 
-        $response = $this->sessionService->kill($session_hash, $client_ip, $client_browser);
-        $response = json_encode($response);
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - response: $response");
-        return $response;
+        return $this->sessionService->kill($session_hash, $client_ip, $client_browser);
     }
 
     public function isBrowserValid($user_agent)
@@ -95,17 +77,12 @@ class TestRunnerService
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $name");
 
-        $response = $this->sessionService->uploadFile($session_hash, $files, $name);
-        $response = json_encode($response);
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - response: $response");
-        return $response;
+        return $this->sessionService->uploadFile($session_hash, $files, $name);
     }
 
     public function logError($session_hash, $error, $type)
     {
-        $response = $this->sessionService->logError($session_hash, $error, $type);
-        $response = json_encode($response);
-        return $response;
+        return $this->sessionService->logError($session_hash, $error, $type);
     }
 
     public function getBaseTemplateContent($test_slug = null, $test_name = null)
