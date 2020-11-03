@@ -37,6 +37,13 @@
   display: block;
 }
 
+.question-choice-label {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media screen and (max-width: 500px) {
   .question-choice {
     padding: 2px;

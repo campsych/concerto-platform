@@ -8,6 +8,7 @@
 #### Other
 
 * renamed **CONCERTO_SESSION_COOKIE_EXPIRY_TIME** to **CONCERTO_SESSION_TOKEN_EXPIRY_TIME**
+* **assessment** node labels for **options** item type are now centered horizontally and vertically
 
 ## 5.0.18 (2020-10-27)
 
