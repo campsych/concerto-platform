@@ -201,7 +201,9 @@ class TestWizardService extends AExportableSectionService
         } else
             $result = $this->importNew($new_name, $obj, $map, $queue, $test);
 
-        array_splice($queue, 1, 0, $obj["steps"]);
+        if ($instruction["action"] != 2) {
+            array_splice($queue, 1, 0, $obj["steps"]);
+        }
 
         return $result;
     }
