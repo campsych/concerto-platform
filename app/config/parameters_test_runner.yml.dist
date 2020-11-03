@@ -8,7 +8,7 @@ parameters:
     env(REDIS_PASS): ""
     env(CONCERTO_KEEP_ALIVE_INTERVAL_TIME): 900
     env(CONCERTO_KEEP_ALIVE_TOLERANCE_TIME): 0
-    env(CONCERTO_SESSION_COOKIE_EXPIRY_TIME): 7200
+    env(CONCERTO_SESSION_TOKEN_EXPIRY_TIME): 7200
     test_runner_settings:
         max_idle_time: 3900
         max_execution_time: 30
@@ -27,4 +27,4 @@ parameters:
         redis_pass: "%env(REDIS_PASS)%"
         cookies_same_site: '%env(CONCERTO_COOKIES_SAME_SITE)%'
         cookies_secure: '%env(CONCERTO_COOKIES_SECURE)%'
-        session_cookie_expiry_time: '%env(CONCERTO_SESSION_COOKIE_EXPIRY_TIME)%'
+        session_token_expiry_time: '%env(CONCERTO_SESSION_TOKEN_EXPIRY_TIME)%'

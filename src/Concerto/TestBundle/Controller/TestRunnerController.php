@@ -417,7 +417,7 @@ class TestRunnerController
                 "sessionHash" => $sessionHash,
                 "protectedFilesAccess" => $protectedFilesAccess,
                 "sessionFilesAccess" => $sessionFilesAccess,
-                "expiry" => time() + intval($this->testRunnerSettings["session_cookie_expiry_time"])
+                "expiry" => time() + intval($this->testRunnerSettings["session_token_expiry_time"])
             ]);
         } catch (JWTEncodeFailureException $e) {
             return false;
@@ -435,7 +435,7 @@ class TestRunnerController
             return false;
         }
 
-        $decodedToken["expiry"] = time() + intval($this->testRunnerSettings["session_cookie_expiry_time"]);
+        $decodedToken["expiry"] = time() + intval($this->testRunnerSettings["session_token_expiry_time"]);
 
         try {
             $token = $this->jwtEncoder->encode($decodedToken);
