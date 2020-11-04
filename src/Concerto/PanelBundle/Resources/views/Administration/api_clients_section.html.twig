@@ -1,6 +1,6 @@
 {% trans_default_domain "Administration" %}
 
-<uib-alert type="warning" ng-if="exposedSettingsMap['api_enabled'] === 'true'">
+<uib-alert type="warning" ng-if="exposedSettingsMap['api_enabled'] !== 'true'">
     <i class="glyphicon glyphicon-exclamation-sign"></i>
     {{ 'alerts.api_disabled'|trans }}
 </uib-alert>

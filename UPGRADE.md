@@ -1,6 +1,7 @@
 ## 5.0.19
 
 * renamed CONCERTO_SESSION_COOKIE_EXPIRY_TIME to CONCERTO_SESSION_TOKEN_EXPIRY_TIME
+* requests to GET protected and session files must now include **token** parameter
 
 ## 5.0.18
 

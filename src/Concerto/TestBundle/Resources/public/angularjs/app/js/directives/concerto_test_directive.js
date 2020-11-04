@@ -622,6 +622,14 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 scope.fileUploader.addToQueue(file);
             };
 
+            function getToken() {
+                return sessionStorage.getItem("concertoToken");
+            }
+
+            function setToken(token) {
+                sessionStorage.setItem("concertoToken", token);
+            }
+
             testRunner.submitView = scope.submitView;
             testRunner.runWorker = scope.runWorker;
             testRunner.logClientSideError = scope.logClientSideError;
@@ -629,19 +637,11 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             testRunner.addEventListener = scope.addEventListener;
             testRunner.removeEventListener = scope.removeEventListener;
             testRunner.queueUpload = scope.queueUpload;
+            testRunner.getToken = getToken;
 
             var options = scope.options;
             if (options.testSlug != null || options.testName != null) {
                 startNewTest();
-                return;
-            }
-
-            function getToken() {
-                return sessionStorage.getItem("concertoToken");
-            }
-
-            function setToken(token) {
-                sessionStorage.setItem("concertoToken", token);
             }
         }
 

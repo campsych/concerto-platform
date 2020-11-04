@@ -1,3 +1,13 @@
+## 5.0.20 (in progress)
+
+#### Fixes
+
+* fixed false alert about disabled API in administration tab
+
+#### Other
+
+* exposed js **testRunner.getToken()**
+
 ## 5.0.19 (2020-11-03)
 
 #### Features
