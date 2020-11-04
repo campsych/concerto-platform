@@ -57,7 +57,7 @@ class TestRunnerController
             $debug,
             false
         );
-        $response = new Response($result, $this->getHttpCode($result));
+        $response = new Response(json_encode($result), $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -84,7 +84,7 @@ class TestRunnerController
             $request->getClientIp(),
             $request->server->get('HTTP_USER_AGENT')
         );
-        $response = new Response($result, $this->getHttpCode($result));
+        $response = new Response(json_encode($result), $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -111,7 +111,7 @@ class TestRunnerController
             $request->getClientIp(),
             $request->server->get('HTTP_USER_AGENT')
         );
-        $response = new Response($result, $this->getHttpCode($result));
+        $response = new Response(json_encode($result), $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -132,7 +132,7 @@ class TestRunnerController
             $request->getClientIp(),
             $request->server->get('HTTP_USER_AGENT')
         );
-        $response = new Response($result, $this->getHttpCode($result));
+        $response = new Response(json_encode($result), $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -153,7 +153,7 @@ class TestRunnerController
             $request->getClientIp(),
             $request->server->get('HTTP_USER_AGENT')
         );
-        $response = new Response($result, $this->getHttpCode($result));
+        $response = new Response(json_encode($result), $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
@@ -174,15 +174,14 @@ class TestRunnerController
             $request->files,
             $request->get("name")
         );
-        $response = new Response($result, $this->getHttpCode($result));
+        $response = new Response(json_encode($result), $this->getHttpCode($result));
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
     private function getHttpCode($result)
     {
-        $decodedResult = json_decode($result, true);
-        switch ($decodedResult["code"]) {
+        switch ($result["code"]) {
             case 8:
                 return Response::HTTP_FORBIDDEN;
             case 12:

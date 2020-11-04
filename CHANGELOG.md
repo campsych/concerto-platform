@@ -3,6 +3,7 @@
 #### Fixes
 
 * fixed false alert about disabled API in administration tab
+* fixed API regression caused by 12213b3
 
 #### Other
 
