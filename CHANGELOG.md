@@ -1,3 +1,9 @@
+## 5.0.21 (in progress)
+
+#### Fixes
+
+* **assessment** node now properly calculates total score even when some items are skipped
+
 ## 5.0.20 (2020-11-05)
 
 #### Fixes

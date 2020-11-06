@@ -1,4 +1,4 @@
-version: 5.0.19
+version: 5.0.20
 collection:
   -
     class_name: DataTable
@@ -2410,7 +2410,7 @@ collection:
           -
             class_name: TestNodePort
             id: 56
-            value: 'sum(c.get("scores"))'
+            value: 'sum(c.get("scores"), na.rm=T)'
             node: 2
             variable: 78
             string: '0'
