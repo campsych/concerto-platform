@@ -38,7 +38,11 @@ class MaintenanceService
         }
 
         foreach (new \DirectoryIterator($this->getLogsPath()) as $file) {
-            if ($file->getFilename() == "dev.log" || $file->getFilename() == "prod.log") continue;
+            if (in_array($file->getFilename(), [
+                "dev.log",
+                "prod.log",
+                "forker.log"
+            ])) continue;
             if ($file->isFile() && $file->getMTime() < $borderTime) {
                 @$fs->remove($file->getRealPath());
             }

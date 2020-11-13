@@ -4,6 +4,7 @@
 
 * **assessment** node now properly calculates total score even when some items are skipped
 * **assessment** node options type item now can use value 0
+* forker logs are no longer removed by maintenance service
 
 ## 5.0.20 (2020-11-05)
 
