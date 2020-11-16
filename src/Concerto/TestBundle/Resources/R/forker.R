@@ -73,6 +73,7 @@ while (T) {
 
     if(is.null(response$rLogPath)) response$rLogPath = "/dev/null"
 
+    gcOutput = gc(F)
     mcparallel({
         if(ENV_CONCERTO_R_SESSION_LOG_LEVEL > 0) {
             sinkFile <- file(response$rLogPath, open = "at")

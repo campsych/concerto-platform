@@ -6,6 +6,15 @@
 * **assessment** node options type item now can use value 0
 * forker logs are no longer removed by maintenance service
 
+#### Improvements
+
+* forced garbage collection on forker tick
+
+#### Docker
+
+* forker guard cron job
+* forker logs goes to stdout
+
 ## 5.0.20 (2020-11-05)
 
 #### Fixes
