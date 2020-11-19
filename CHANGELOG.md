@@ -9,6 +9,7 @@
 #### Improvements
 
 * forced garbage collection on forker tick
+* **assessment** node template params module now also accepts **session** as input
 
 #### Docker
 

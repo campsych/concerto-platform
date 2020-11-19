@@ -65,6 +65,7 @@ if(!is.na(settings$itemTemplateParamsModule) && settings$itemTemplateParamsModul
     settings=settings,
     theta=theta,
     sem=sem,
+    session=session,
     scores=scores,
     traitScores=traitScores
   ))$params
