@@ -123,7 +123,8 @@ VALUES (
       session = session,
       item = item,
       skipped = skipped,
-      timeTaken = params$timeTaken
+      timeTaken = params$timeTaken,
+      templateResponse = templateResponse
     ))
   }
 }
