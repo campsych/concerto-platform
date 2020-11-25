@@ -11,6 +11,7 @@
 * forced garbage collection on forker tick
 * **assessment** node template params module now also accepts **session** as input
 * **assessment** node response saving module now also accepts **templateResponse** as input
+* **startSession** node will use database TZ for newly inserted session datetime values
 
 #### Docker
 

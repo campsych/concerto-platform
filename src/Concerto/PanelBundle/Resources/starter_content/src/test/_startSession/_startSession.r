@@ -10,8 +10,6 @@ formatFields = function(user, extraFields) {
     user_id=userId,
     internal_id=concerto$session$id, 
     test_id=test_id,
-    startedTime=Sys.time(),
-    updateTime=Sys.time(),
     finished=0
   )
   if(is.list(extraFields)) {
@@ -36,11 +34,16 @@ getMappedColumns = function(fieldNames, tableMap) {
 }
 
 insertSession = function(fields, tableMap) {
+  startedTimeColumn = tableMap$columns$startedTime
+  updateTimeColumn = tableMap$columns$updateTime
+  
   sqlColumns = paste(getMappedColumns(ls(fields), tableMap), collapse=",")
   sqlValues = paste0("'{{",ls(fields),"}}'", collapse=",")
-  sql = paste0("INSERT INTO {{table}} (",sqlColumns,") VALUES (",sqlValues,")")
+  sql = paste0("INSERT INTO {{table}} ({{startedTimeColumn}}, {{updateTimeColumn}}, ",sqlColumns,") VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ",sqlValues,")")
   concerto.table.query(sql, params=append(fields, list(
-    table=tableMap$table
+    table=tableMap$table,
+    startedTimeColumn=startedTimeColumn,
+    updateTimeColumn=updateTimeColumn
   )))
   id = concerto.table.lastInsertId()
 
