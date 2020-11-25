@@ -15,8 +15,6 @@ getExtraFieldsSql = function() {
   return(sql)
 }
 
-session$finished = 1
-session$updateTime = format(Sys.time(), "%Y-%m-%d %X")
 if(is.list(extraFields)) {
   for(name in ls(extraFields)) {
     session[[name]] = extraFields[[name]]
@@ -42,3 +40,9 @@ UPDATE {{table}} SET
 {{updateTimeColumn}}=CURRENT_TIMESTAMP
 ", getExtraFieldsSql(), "
 WHERE id={{id}}"), params=params)
+
+session = as.list(concerto.table.query("
+SELECT * FROM {{table}} WHERE id='{{id}}'", params=list(
+  table=sessionBank$table,
+  id=session$id
+)))
