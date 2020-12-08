@@ -95,7 +95,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 }
 
                 if (!stopped && displayState === DISPLAY_VIEW_SHOWN && lastResponse != null && lastResponse.code === RESPONSE_VIEW_TEMPLATE) {
-                    initializeTimer();
+                    startTestTimer();
                     startKeepAlive();
                     addSubmitEvents();
                 }
@@ -116,16 +116,21 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 return html;
             }
 
-            function clearTimer() {
-                $interval.cancel(timerId);
+            function clearAllTimers() {
+                stopTestTimer();
                 $interval.cancel(keepAliveTimerPromise);
                 $interval.cancel(retryTimerId);
             }
 
-            function initializeTimer() {
-                if (timeLimit > 0) {
+            function stopTestTimer() {
+                $interval.cancel(timerId);
+            }
+
+            function startTestTimer(limit = null) {
+                if (limit === null) limit = timeLimit;
+                if (limit > 0) {
                     scope.timerStarted = new Date();
-                    timer = timeLimit;
+                    timer = limit;
                     scope.timeLeft = dateFilter(new Date(0, 0, 0, 0, 0, timer), testRunner.settings.timeFormat);
                     timerId = $interval(function () {
                         timeTick();
@@ -148,7 +153,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                                     setToken(httpResponse.data.token);
                                 } else {
                                     removeSubmitEvents();
-                                    clearTimer();
+                                    clearAllTimers();
                                     hideView();
 
                                     showView(httpResponse.data);
@@ -162,7 +167,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                                 }
                                 if (stop) {
                                     removeSubmitEvents();
-                                    clearTimer();
+                                    clearAllTimers();
                                     hideView();
 
                                     handleHttpError(httpResponse);
@@ -270,7 +275,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                             setToken(httpResponse.data.token);
                         } else {
                             removeSubmitEvents();
-                            clearTimer();
+                            clearAllTimers();
                             hideView();
 
                             showView(httpResponse.data);
@@ -280,7 +285,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                         let stop = httpResult.status >= 400;
                         if (stop || stopOnNetworkError) {
                             removeSubmitEvents();
-                            clearTimer();
+                            clearAllTimers();
                             hideView();
 
                             handleHttpError(httpResult);
@@ -302,7 +307,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 $window.dispatchEvent(eventBeforeSubmitView);
 
                 removeSubmitEvents();
-                clearTimer();
+                clearAllTimers();
                 var values = getControlsValues();
                 hideView();
 
@@ -415,7 +420,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                     retryTimer--;
                     scope.retryTimeLeft = retryTimer;
                     if (retryTimer === 0) {
-                        clearTimer();
+                        clearAllTimers();
                         hideView();
                         submitViewPostValueGetter(btnName, isTimeout, passedVals, values);
                     }
@@ -637,6 +642,8 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             testRunner.addEventListener = scope.addEventListener;
             testRunner.removeEventListener = scope.removeEventListener;
             testRunner.queueUpload = scope.queueUpload;
+            testRunner.startTestTimer = startTestTimer;
+            testRunner.stopTestTimer = stopTestTimer;
             testRunner.getToken = getToken;
 
             var options = scope.options;
