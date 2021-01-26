@@ -6,6 +6,8 @@
 
 #### Docker
 
+* updated Ubuntu to v20.04
+* updated R to v4.0
 * exposed test_runner_settings.r_profile_session_path as env var
 * exposed test_runner_settings.r_environ_session_path as env var
 
