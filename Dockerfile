@@ -44,6 +44,7 @@ ENV CONCERTO_R_ENVIRON_SESSION_PATH=null
 ENV CONCERTO_R_PROFILE_SESSION_PATH=null
 ENV CONCERTO_R_ENVIRON_SERVICE_PATH=null
 ENV CONCERTO_R_PROFILE_SERVICE_PATH=null
+ENV CONCERTO_R_SERVICE=false
 ENV REDIS_HOST=redis
 ENV REDIS_PORT=6379
 ENV REDIS_PASS=''
@@ -104,6 +105,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && php /app/concerto/bin/console concerto:r:cache \
  && crontab -l | { cat; echo "* * * * * . /app/concerto/cron/concerto.schedule.tick.sh >> /var/log/cron.log 2>&1"; } | crontab - \
  && crontab -l | { cat; echo "* * * * * . /app/concerto/cron/concerto.forker.guard.sh >> /var/log/cron.log 2>&1"; } | crontab - \
+ && if [ "$CONCERTO_R_SERVICE" = "true" ]; \
+    then crontab -l | { cat; echo "* * * * * . /app/concerto/cron/concerto.service.guard.sh >> /var/log/cron.log 2>&1"; } | crontab -; \
+    fi \
  && crontab -l | { cat; echo "0 0 * * * . /app/concerto/cron/concerto.session.clear.sh >> /var/log/cron.log 2>&1"; } | crontab - \
  && crontab -l | { cat; echo "*/5 * * * * . /app/concerto/cron/concerto.session.log.sh >> /var/log/cron.log 2>&1"; } | crontab - \
  && rm -f /etc/nginx/sites-available/default \
@@ -157,4 +161,4 @@ CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
  && php bin/console concerto:forker:start --env=prod  \
  && /etc/init.d/php7.4-fpm start \
  && cron \
- && tail -F -n 0 var/logs/prod.log var/logs/forker.log
+ && tail -F -n 0 var/logs/prod.log var/logs/forker.log var/logs/service.log

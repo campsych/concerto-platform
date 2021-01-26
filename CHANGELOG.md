@@ -11,6 +11,7 @@
 * updated PHP to v7.4  
 * exposed test_runner_settings.r_profile_session_path as env var
 * exposed test_runner_settings.r_environ_session_path as env var
+* added CONCERTO_R_SERVICE env var
 
 ## 5.0.21 (2021-01-19)
 
