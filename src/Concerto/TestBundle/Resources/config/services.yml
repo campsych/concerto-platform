@@ -65,6 +65,11 @@ services:
             $testRunnerSettings: "%test_runner_settings%"
             $projectDir: "%kernel.project_dir%"
 
+    Concerto\TestBundle\Command\StartServiceCommand:
+        arguments:
+            $testRunnerSettings: "%test_runner_settings%"
+            $projectDir: "%kernel.project_dir%"
+
 #event subscribers
     Concerto\PanelBundle\EventSubscriber\LocaleSubscriber:
         arguments:

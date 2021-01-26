@@ -42,6 +42,8 @@ ENV CONCERTO_KEEP_ALIVE_TOLERANCE_TIME=0
 ENV CONCERTO_SESSION_TOKEN_EXPIRY_TIME=7200
 ENV CONCERTO_R_ENVIRON_SESSION_PATH=null
 ENV CONCERTO_R_PROFILE_SESSION_PATH=null
+ENV CONCERTO_R_ENVIRON_SERVICE_PATH=null
+ENV CONCERTO_R_PROFILE_SERVICE_PATH=null
 ENV REDIS_HOST=redis
 ENV REDIS_PORT=6379
 ENV REDIS_PASS=''
@@ -84,11 +86,11 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     libssl-dev \
     locales \
     nginx \
-    php7.2-curl \
-    php7.2-mbstring \
-    php7.2-mysql \
-    php7.2-xml \
-    php7.2-zip \
+    php7.4-curl \
+    php7.4-mbstring \
+    php7.4-mysql \
+    php7.4-xml \
+    php7.4-zip \
     php-fpm \
     procps \
     r-base \
@@ -108,11 +110,11 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && rm -f /etc/nginx/sites-enabled/default \
  && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf
 
-COPY build/docker/php/php.ini /etc/php/7.2/fpm/php.ini
+COPY build/docker/php/php.ini /etc/php/7.4/fpm/php.ini
 COPY build/docker/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY build/docker/nginx/concerto.conf.tpl /etc/nginx/sites-available/concerto.conf.tpl
-COPY build/docker/php-fpm/php-fpm.conf /etc/php/7.2/fpm/php-fpm.conf
-COPY build/docker/php-fpm/www.conf /etc/php/7.2/fpm/pool.d/www.conf
+COPY build/docker/php-fpm/php-fpm.conf /etc/php/7.4/fpm/php-fpm.conf
+COPY build/docker/php-fpm/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
 RUN rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/public/files \
  && rm -rf /app/concerto/src/Concerto/TestBundle/Resources/sessions
@@ -153,6 +155,6 @@ CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
  && cat /etc/nginx/sites-available/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" | sed "s/{{nginx_server_conf}}/$NGINX_SERVER_CONF/g" > /etc/nginx/sites-available/concerto.conf \
  && service nginx start \
  && php bin/console concerto:forker:start --env=prod  \
- && /etc/init.d/php7.2-fpm start \
+ && /etc/init.d/php7.4-fpm start \
  && cron \
  && tail -F -n 0 var/logs/prod.log var/logs/forker.log

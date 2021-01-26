@@ -12,8 +12,11 @@
 !/var/git
 /var/git/*
 !/var/git/.gitkeep
+!/var/R
 /var/R/session_fifo/*
-!/var/R/sessionn_fifo/.gitkeep
+!/var/R/session_fifo/.gitkeep
+var/R/service_socket/*
+!/var/R/service_socket/.gitkeep
 !/var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
