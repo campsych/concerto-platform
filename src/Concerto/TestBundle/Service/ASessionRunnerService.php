@@ -137,7 +137,7 @@ abstract class ASessionRunnerService
 
     public function getFifoDir()
     {
-        return realpath($this->getRDir() . "fifo") . "/";
+        return realpath($this->projectDir . "/var/R/session_fifo") . "/";
     }
 
     protected function checkSessionLimit($session, &$response)

@@ -142,7 +142,7 @@ CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
  && chown -R www-data:www-data /data/files \
  && rm -rf var/cache/* \
  && php bin/console cache:warmup --env=prod \
- && chown www-data:www-data src/Concerto/TestBundle/Resources/R/fifo \
+ && chown www-data:www-data var/R/session_fifo \
  && chown -R www-data:www-data var/cache \
  && chown -R www-data:www-data var/logs \
  && chown -R www-data:www-data var/sessions \
