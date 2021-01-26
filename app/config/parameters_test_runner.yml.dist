@@ -9,12 +9,15 @@ parameters:
     env(CONCERTO_KEEP_ALIVE_INTERVAL_TIME): 900
     env(CONCERTO_KEEP_ALIVE_TOLERANCE_TIME): 0
     env(CONCERTO_SESSION_TOKEN_EXPIRY_TIME): 7200
+    env(CONCERTO_R_ENVIRON_SESSION_PATH): null
+    env(CONCERTO_R_PROFILE_SESSION_PATH): null
     test_runner_settings:
         max_idle_time: 3900
         max_execution_time: 30
         keep_alive_interval_time: '%env(CONCERTO_KEEP_ALIVE_INTERVAL_TIME)%'
         keep_alive_tolerance_time: '%env(CONCERTO_KEEP_ALIVE_TOLERANCE_TIME)%'
-        r_environ_path: null
+        r_environ_session_path: '%env(CONCERTO_R_ENVIRON_SESSION_PATH)%'
+        r_profile_session_path: '%env(CONCERTO_R_PROFILE_SESSION_PATH)%'
         php_exec: php
         rscript_exec: Rscript
         timer_type: server #client or server

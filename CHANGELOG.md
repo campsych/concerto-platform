@@ -1,3 +1,14 @@
+# 5.1.0 (in progress)
+
+#### Features
+
+* added test_runner_settings.r_profile_session_path config
+
+#### Docker
+
+* exposed test_runner_settings.r_profile_session_path as env var
+* exposed test_runner_settings.r_environ_session_path as env var
+
 ## 5.0.21 (2021-01-19)
 
 #### Fixes
