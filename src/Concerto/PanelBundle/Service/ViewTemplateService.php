@@ -99,7 +99,7 @@ class ViewTemplateService extends AExportableSectionService
         $changeSet = $this->repository->getChangeSet($object);
         if ($isNew || !empty($changeSet)) {
             $this->repository->save($object, $flush);
-            $isRenamed = !$isNew && array_key_exists("name", $changeSet);
+            $isRenamed = !$isNew && isset($changeSet["name"]);
             if ($isRenamed) {
                 $this->testWizardParamService->onObjectRename($object, $changeSet["name"][0]);
             }
@@ -124,11 +124,11 @@ class ViewTemplateService extends AExportableSectionService
     public function importFromArray($instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
-        if (!array_key_exists("ViewTemplate", $renames))
+        if (!isset($renames["ViewTemplate"]))
             $renames["ViewTemplate"] = array();
-        if (!array_key_exists("ViewTemplate", $map))
+        if (!isset($map["ViewTemplate"]))
             $map["ViewTemplate"] = array();
-        if (array_key_exists("id" . $obj["id"], $map["ViewTemplate"]))
+        if (isset($map["ViewTemplate"]["id" . $obj["id"]]))
             return array("errors" => null, "entity" => $map["ViewTemplate"]["id" . $obj["id"]]);
 
         if (count($pre_queue) > 0) {
@@ -166,9 +166,9 @@ class ViewTemplateService extends AExportableSectionService
         $ent->setName($new_name);
         $ent->setDescription($obj["description"]);
         $ent->setHead($obj["head"]);
-        if (array_key_exists("css", $obj))
+        if (isset($obj["css"]))
             $ent->setCss($obj["css"]);
-        if (array_key_exists("js", $obj))
+        if (isset($obj["js"]))
             $ent->setJs($obj["js"]);
         $ent->setHtml($obj["html"]);
         $ent->setOwner($user);
@@ -204,9 +204,9 @@ class ViewTemplateService extends AExportableSectionService
         $ent->setDescription($obj["description"]);
         $ent->setHead($obj["head"]);
         $ent->setHtml($obj["html"]);
-        if (array_key_exists("css", $obj))
+        if (isset($obj["css"]))
             $ent->setCss($obj["css"]);
-        if (array_key_exists("js", $obj))
+        if (isset($obj["js"]))
             $ent->setJs($obj["js"]);
         $ent->setOwner($user);
         $ent->setStarterContent($obj["starterContent"]);

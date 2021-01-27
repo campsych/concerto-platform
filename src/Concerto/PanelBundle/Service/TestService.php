@@ -145,7 +145,7 @@ class TestService extends AExportableSectionService
         if ($isNew || !empty($changeSet)) {
             $this->repository->save($object, $flush);
             $this->onObjectSaved($object, $isNew, $serializedVariables, $flush);
-            $isRenamed = !$isNew && array_key_exists("name", $changeSet);
+            $isRenamed = !$isNew && isset($changeSet["name"]);
             if ($isRenamed) $this->testWizardParamService->onObjectRename($object, $changeSet["name"][0]);
         }
     }
@@ -216,17 +216,17 @@ class TestService extends AExportableSectionService
     public function importFromArray($instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
-        if (!array_key_exists("Test", $renames))
+        if (!isset($renames["Test"]))
             $renames["Test"] = array();
-        if (!array_key_exists("Test", $map))
+        if (!isset($map["Test"]))
             $map["Test"] = array();
-        if (array_key_exists("id" . $obj["id"], $map["Test"])) {
+        if (isset($map["Test"]["id" . $obj["id"]])) {
             return array("errors" => null, "entity" => $map["Test"]["id" . $obj["id"]]);
         }
 
         $wizard = null;
         if ($obj["sourceWizard"]) {
-            if (array_key_exists("TestWizard", $map) && array_key_exists("id" . $obj["sourceWizard"], $map["TestWizard"])) {
+            if (isset($map["TestWizard"]) && isset($map["TestWizard"]["id" . $obj["sourceWizard"]])) {
                 $wizard = $map["TestWizard"]["id" . $obj["sourceWizard"]];
             }
             if (!$wizard) {
@@ -240,8 +240,8 @@ class TestService extends AExportableSectionService
         }
 
         $baseTemplate = null;
-        if (array_key_exists("baseTemplate", $obj) && $obj["baseTemplate"]) {
-            if (array_key_exists("ViewTemplate", $map) && array_key_exists("id" . $obj["baseTemplate"], $map["ViewTemplate"])) {
+        if (isset($obj["baseTemplate"]) && $obj["baseTemplate"]) {
+            if (isset($map["ViewTemplate"]) && isset($map["ViewTemplate"]["id" . $obj["baseTemplate"]])) {
                 $baseTemplate = $map["ViewTemplate"]["id" . $obj["baseTemplate"]];
             }
             if (!$baseTemplate) {
@@ -269,7 +269,7 @@ class TestService extends AExportableSectionService
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent) {
             $result = $this->importConvert($new_name, $src_ent, $obj, $map, $queue, $wizard, $baseTemplate);
-            if (array_key_exists("clean", $instruction) && $instruction["clean"] == 1) $this->cleanConvert($result["entity"], $obj);
+            if (isset($instruction["clean"]) && $instruction["clean"] == 1) $this->cleanConvert($result["entity"], $obj);
         } else if ($instruction["action"] == 2 && $src_ent) {
             $map["Test"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);

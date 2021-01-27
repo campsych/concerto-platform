@@ -204,7 +204,7 @@ class AdministrationService
             $map[$k] = (string)$v;
         }
         foreach ($this->settingsRepository->findAllExposed() as $setting) {
-            if (array_key_exists($setting->getKey() . "_overridable", $map) && $map[$setting->getKey() . "_overridable"] === "false") {
+            if (isset($map[$setting->getKey() . "_overridable"]) && $map[$setting->getKey() . "_overridable"] === "false") {
                 continue;
             }
             $map[$setting->getKey()] = $setting->getValue();
@@ -233,12 +233,12 @@ class AdministrationService
 
     public function getSettingValue($key)
     {
-        if (array_key_exists($key, $this->testRunnerSettings)) {
+        if (isset($this->testRunnerSettings[$key])) {
             return $this->testRunnerSettings[$key];
         }
 
         $map = $this->getAllSettingsMap();
-        if (array_key_exists($key, $map)) {
+        if (isset($map[$key])) {
             return $map[$key];
         }
         return null;
@@ -326,7 +326,7 @@ class AdministrationService
     {
         $config = json_decode($configString, true);
         if ($config) {
-            if (array_key_exists($property, $config)) {
+            if (isset($config[$property])) {
                 return $config[$property];
             }
         }
@@ -371,7 +371,7 @@ class AdministrationService
         foreach ($map as $k => $v) {
             if (strpos($k, "_overridable") !== false)
                 continue;
-            if (array_key_exists($k . "_overridable", $this->configSettings) && $this->configSettings[$k . "_overridable"] === "false")
+            if (isset($this->configSettings[$k . "_overridable"]) && $this->configSettings[$k . "_overridable"] === "false")
                 continue;
             $setting = $this->settingsRepository->findKey($k);
             if ($setting) {

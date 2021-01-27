@@ -81,7 +81,7 @@ class TestVariableService extends ASectionService
             $parentVariable = null;
             if ($var["parentVariable"])
                 $parentVariable = $this->repository->find($var["parentVariable"]);
-            $r = $this->save($var["id"], $var["name"], $var["type"], $var["description"], $var["passableThroughUrl"], array_key_exists("value", $var) ? $var["value"] : null, $test, $parentVariable, $flush);
+            $r = $this->save($var["id"], $var["name"], $var["type"], $var["description"], $var["passableThroughUrl"], isset($var["value"]) ? $var["value"] : null, $test, $parentVariable, $flush);
             if (count($r["errors"]) > 0) {
                 for ($a = 0; $a < count($r["errors"]); $a++) {
                     array_push($result["errors"], $r["errors"][$a]);
@@ -210,21 +210,21 @@ class TestVariableService extends ASectionService
     public function importFromArray($instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
-        if (!array_key_exists("TestVariable", $map))
+        if (!isset($map["TestVariable"]))
             $map["TestVariable"] = array();
-        if (array_key_exists("id" . $obj["id"], $map["TestVariable"])) {
+        if (isset($map["TestVariable"]["id" . $obj["id"]])) {
             return array("errors" => null, "entity" => $map["TestVariable"]["id" . $obj["id"]]);
         }
 
         $test = null;
         if ($obj["test"]) {
-            if (array_key_exists("Test", $map) && array_key_exists("id" . $obj["test"], $map["Test"])) {
+            if (isset($map["Test"]) && isset($map["Test"]["id" . $obj["test"]])) {
                 $test = $map["Test"]["id" . $obj["test"]];
             }
         }
 
         $parentVariable = null;
-        if (array_key_exists("TestVariable", $map) && $obj["parentVariable"]) {
+        if (isset($map["TestVariable"]) && $obj["parentVariable"]) {
             $parentVariable = $map["TestVariable"]["id" . $obj["parentVariable"]];
         }
 

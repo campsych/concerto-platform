@@ -180,7 +180,7 @@ class UserService extends ASectionService
             if (!$user->hasGroup($group))
                 continue;
             foreach (self::$uio_eligible_classes as $class) {
-                if (array_key_exists($class, $classes)) {
+                if (isset($classes[$class])) {
                     foreach ($classes[$class] as $obj) {
                         //@TODO this needs to be checked as it right now creates object for user adding new user instead of added user
                         $copySuccessful = $this->importService->copy($class, $obj["id"], $obj["name"], $errorMessages);

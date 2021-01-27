@@ -115,7 +115,7 @@ class TestWizardService extends AExportableSectionService
             return;
         $steps = json_decode($serializedSteps, true);
         foreach ($steps as $step) {
-            if (!array_key_exists("params", $step)) {
+            if (!isset($step["params"])) {
                 continue;
             }
             foreach ($step["params"] as $param) {
@@ -160,15 +160,15 @@ class TestWizardService extends AExportableSectionService
     public function importFromArray($instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
-        if (!array_key_exists("TestWizard", $renames))
+        if (!isset($renames["TestWizard"]))
             $renames["TestWizard"] = array();
-        if (!array_key_exists("TestWizard", $map))
+        if (!isset($map["TestWizard"]))
             $map["TestWizard"] = array();
-        if (array_key_exists("id" . $obj["id"], $map["TestWizard"]))
+        if (isset($map["TestWizard"]["id" . $obj["id"]]))
             return array("errors" => null, "entity" => $map["TestWizard"]["id" . $obj["id"]]);
 
         $test = null;
-        if (array_key_exists("Test", $map) && array_key_exists("id" . $obj["test"], $map["Test"])) {
+        if (isset($map["Test"]) && isset($map["Test"]["id" . $obj["test"]])) {
             $test = $map["Test"]["id" . $obj["test"]];
             if (!$test) {
                 foreach ($queue as $elem) {
@@ -194,7 +194,7 @@ class TestWizardService extends AExportableSectionService
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent) {
             $result = $this->importConvert($new_name, $src_ent, $obj, $map, $queue, $test);
-            if (array_key_exists("clean", $instruction) && $instruction["clean"] == 1) $this->cleanConvert($result["entity"], $obj);
+            if (isset($instruction["clean"]) && $instruction["clean"] == 1) $this->cleanConvert($result["entity"], $obj);
         } else if ($instruction["action"] == 2 && $src_ent) {
             $map["TestWizard"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);

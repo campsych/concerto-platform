@@ -66,10 +66,10 @@ abstract class ASessionRunnerService
             $con_array["port"] = 3306;
         }
         $params = $con->getParams();
-        if (array_key_exists("path", $params)) {
+        if (isset($params["path"])) {
             $con_array["path"] = $params["path"];
         }
-        if (array_key_exists("unix_socket", $params)) {
+        if (isset($params["unix_socket"])) {
             $con_array["unix_socket"] = $params["unix_socket"];
         }
         return $con_array;

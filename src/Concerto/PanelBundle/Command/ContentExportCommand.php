@@ -126,7 +126,7 @@ class ContentExportCommand extends Command
 
                 if (!$single) {
                     $collection = array();
-                    if (array_key_exists("collection", $dependencies)) {
+                    if (isset($dependencies["collection"])) {
                         $collection = $this->exportService->convertCollectionToExportable($dependencies["collection"], $decodedInstructions, false, !$noHash);
                     }
                     $result = array("version" => $this->version, "collection" => $this->externalizeSource($collection));
@@ -139,7 +139,7 @@ class ContentExportCommand extends Command
         }
         if ($single) {
             $collection = array();
-            if (array_key_exists("collection", $dependencies)) {
+            if (isset($dependencies["collection"])) {
                 $collection = $this->exportService->convertCollectionToExportable($dependencies["collection"], $decodedInstructions, false, !$noHash);
             }
             $result = array("version" => $this->version, "collection" => $this->externalizeSource($collection));
@@ -225,7 +225,7 @@ class ContentExportCommand extends Command
                 case "DataTable":
                 {
                     //data
-                    if (array_key_exists("data", $obj) && count($obj["data"]) > 0) {
+                    if (isset($obj["data"]) && count($obj["data"]) > 0) {
                         $path = $srcDir . "/" . ExportService::getTableDataFilename($obj);
                         $data = Yaml::dump($obj["data"], 100, 2, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
                         $filesystem->dumpFile($path, $data);

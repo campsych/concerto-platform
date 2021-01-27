@@ -146,36 +146,36 @@ class TestNodeConnectionService extends ASectionService
     public function importFromArray($instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
-        if (!array_key_exists("TestNodeConnection", $map))
+        if (!isset($map["TestNodeConnection"]))
             $map["TestNodeConnection"] = array();
-        if (array_key_exists("id" . $obj["id"], $map["TestNodeConnection"]))
+        if (isset($map["TestNodeConnection"]["id" . $obj["id"]]))
             return array("errors" => null, "entity" => $map["TestNodeConnection"]["id" . $obj["id"]]);
 
         $flowTest = null;
-        if (array_key_exists("Test", $map) && array_key_exists("id" . $obj["flowTest"], $map["Test"])) {
+        if (isset($map["Test"]) && isset($map["Test"]["id" . $obj["flowTest"]])) {
             $flowTest = $map["Test"]["id" . $obj["flowTest"]];
         }
 
         $sourceNode = null;
-        if (array_key_exists("TestNode", $map) && array_key_exists("id" . $obj["sourceNode"], $map["TestNode"])) {
+        if (isset($map["TestNode"]) && isset($map["TestNode"]["id" . $obj["sourceNode"]])) {
             $sourceNode = $map["TestNode"]["id" . $obj["sourceNode"]];
         }
 
         $destinationNode = null;
-        if (array_key_exists("TestNode", $map) && array_key_exists("id" . $obj["destinationNode"], $map["TestNode"])) {
+        if (isset($map["TestNode"]) && isset($map["TestNode"]["id" . $obj["destinationNode"]])) {
             $destinationNode = $map["TestNode"]["id" . $obj["destinationNode"]];
         }
 
         $sourcePort = null;
         if ($obj["sourcePort"]) {
-            if (array_key_exists("TestNodePort", $map) && array_key_exists("id" . $obj["sourcePort"], $map["TestNodePort"])) {
+            if (isset($map["TestNodePort"]) && isset($map["TestNodePort"]["id" . $obj["sourcePort"]])) {
                 $sourcePort = $map["TestNodePort"]["id" . $obj["sourcePort"]];
             }
         }
 
         $destinationPort = null;
         if ($obj["destinationPort"]) {
-            if (array_key_exists("TestNodePort", $map) && array_key_exists("id" . $obj["destinationPort"], $map["TestNodePort"])) {
+            if (isset($map["TestNodePort"]) && isset($map["TestNodePort"]["id" . $obj["destinationPort"]])) {
                 $destinationPort = $map["TestNodePort"]["id" . $obj["destinationPort"]];
             }
         }
@@ -205,7 +205,7 @@ class TestNodeConnectionService extends ASectionService
         $ent->setReturnFunction($obj["returnFunction"]);
         $ent->setSourceNode($sourceNode);
         $ent->setSourcePort($sourcePort);
-        if (array_key_exists("defaultReturnFunction", $obj))
+        if (isset($obj["defaultReturnFunction"]))
             $ent->setDefaultReturnFunction($obj["defaultReturnFunction"]);
         else
             $ent->setDefaultReturnFunction($sourcePort->getVariable()->getName() == $obj["returnFunction"]);

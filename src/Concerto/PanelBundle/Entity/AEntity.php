@@ -62,9 +62,9 @@ abstract class AEntity
 
     public static function reserveDependency(&$dependencies, $class, $id)
     {
-        if (!array_key_exists("reservations", $dependencies))
+        if (!isset($dependencies["reservations"]))
             $dependencies["reservations"] = array();
-        if (!array_key_exists($class, $dependencies["reservations"]))
+        if (!isset($dependencies["reservations"][$class]))
             $dependencies["reservations"][$class] = array();
         if (!in_array($id, $dependencies["reservations"][$class]))
             array_push($dependencies["reservations"][$class], $id);
@@ -72,16 +72,16 @@ abstract class AEntity
 
     public static function isDependencyReserved($dependencies, $class, $id)
     {
-        if (!array_key_exists("reservations", $dependencies))
+        if (!isset($dependencies["reservations"]))
             return false;
-        if (!array_key_exists($class, $dependencies["reservations"]))
+        if (!isset($dependencies["reservations"][$class]))
             return false;
         return in_array($id, $dependencies["reservations"][$class]);
     }
 
     public static function addDependency(&$dependencies, $serialized)
     {
-        if (!array_key_exists("collection", $dependencies)) {
+        if (!isset($dependencies["collection"])) {
             $dependencies["collection"] = array();
         }
         array_push($dependencies["collection"], $serialized);
@@ -99,10 +99,10 @@ abstract class AEntity
     public static function normalizeId($class, $id, &$normalizedIdsMap = array())
     {
         if ($id === null) return null;
-        if (!array_key_exists($class, $normalizedIdsMap)) {
+        if (!isset($normalizedIdsMap[$class])) {
             $normalizedIdsMap[$class] = array();
         }
-        if (!array_key_exists($id, $normalizedIdsMap[$class])) {
+        if (!isset($normalizedIdsMap[$class][$id])) {
             $normalizedIdsMap[$class][$id] = count($normalizedIdsMap[$class]) + 1;
         }
         return $normalizedIdsMap[$class][$id];

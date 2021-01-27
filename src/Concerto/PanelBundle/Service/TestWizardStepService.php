@@ -101,13 +101,13 @@ class TestWizardStepService extends ASectionService
     public function importFromArray($instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
-        if (!array_key_exists("TestWizardStep", $map))
+        if (!isset($map["TestWizardStep"]))
             $map["TestWizardStep"] = array();
-        if (array_key_exists("id" . $obj["id"], $map["TestWizardStep"]))
+        if (isset($map["TestWizardStep"]["id" . $obj["id"]]))
             return array("errors" => null, "entity" => $map["TestWizardStep"]["id" . $obj["id"]]);
 
         $wizard = null;
-        if (array_key_exists("TestWizard", $map) && array_key_exists("id" . $obj["wizard"], $map["TestWizard"])) {
+        if (isset($map["TestWizard"]) && isset($map["TestWizard"]["id" . $obj["wizard"]])) {
             $wizard = $map["TestWizard"]["id" . $obj["wizard"]];
         }
 

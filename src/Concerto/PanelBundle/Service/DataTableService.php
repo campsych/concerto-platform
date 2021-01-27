@@ -117,7 +117,7 @@ class DataTableService extends AExportableSectionService
         $changeSet = $this->repository->getChangeSet($obj);
         if ($isNew || !empty($changeSet)) {
             $this->repository->save($obj, $flush);
-            $isRenamed = !$isNew && array_key_exists("name", $changeSet);
+            $isRenamed = !$isNew && isset($changeSet["name"]);
             if ($isRenamed) {
                 $this->testWizardParamService->onObjectRename($obj, $changeSet["name"][0]);
             }
@@ -130,7 +130,7 @@ class DataTableService extends AExportableSectionService
 
         if ($instruction !== null) {
             //include data
-            if (array_key_exists("data", $instruction) && $instruction["data"] == 2) {
+            if (isset($instruction["data"]) && $instruction["data"] == 2) {
                 $array["data"] = $this->getFilteredData($array["name"], false, null, $secure);
             }
         }
@@ -451,11 +451,11 @@ class DataTableService extends AExportableSectionService
     public function importFromArray($instructions, $obj, &$map, &$renames, &$queue, $secure = true)
     {
         $pre_queue = array();
-        if (!array_key_exists("DataTable", $renames))
+        if (!isset($renames["DataTable"]))
             $renames["DataTable"] = array();
-        if (!array_key_exists("DataTable", $map))
+        if (!isset($map["DataTable"]))
             $map["DataTable"] = array();
-        if (array_key_exists("id" . $obj["id"], $map["DataTable"]))
+        if (isset($map["DataTable"]["id" . $obj["id"]]))
             return array("errors" => null, "entity" => $map["DataTable"]["id" . $obj["id"]]);
         if (count($pre_queue) > 0)
             return array("pre_queue" => $pre_queue);
@@ -471,16 +471,16 @@ class DataTableService extends AExportableSectionService
         $src_ent = $this->findConversionSource($obj, $map);
         if ($instruction["action"] == 1 && $src_ent) {
             $result = $this->importConvert($new_name, $src_ent, $obj, $map, $queue);
-            if (array_key_exists("clean", $instruction) && $instruction["clean"] == 1) $this->cleanConvert($result["entity"], $obj);
+            if (isset($instruction["clean"]) && $instruction["clean"] == 1) $this->cleanConvert($result["entity"], $obj);
         } else if ($instruction["action"] == 2 && $src_ent) {
             $map["DataTable"]["id" . $obj["id"]] = $src_ent;
             $result = array("errors" => null, "entity" => $src_ent);
         } else
             $result = $this->importNew($new_name, $obj, $map, $queue);
 
-        if ($instruction["action"] != 2 && array_key_exists("data", $instruction) && $instruction["data"] == 2) {
+        if ($instruction["action"] != 2 && isset($instruction["data"]) && $instruction["data"] == 2) {
             $this->dbDataDao->truncate($new_name);
-            if (array_key_exists("data", $obj)) {
+            if (isset($obj["data"])) {
                 $batch = null;
                 foreach ($obj["data"] as $row) {
                     $batch = $this->dbDataDao->addInsertBatch($new_name, $row, $batch);
@@ -576,7 +576,7 @@ class DataTableService extends AExportableSectionService
             if ($new_col["name"] == "id") continue;
             $found = false;
             $lengthString = "";
-            if (array_key_exists("length", $new_col)) $lengthString = $new_col["length"];
+            if (isset($new_col["length"])) $lengthString = $new_col["length"];
             foreach ($old_columns as $old_col) {
                 if ($old_col["name"] == $new_col["name"]) {
                     $found = true;

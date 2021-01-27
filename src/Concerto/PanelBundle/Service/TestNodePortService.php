@@ -122,7 +122,7 @@ class TestNodePortService extends ASectionService
             if ($port["variable"] !== null) {
                 $variable = $this->testVariableRepository->find($port["variable"]);
             }
-            $r = $this->save($port["id"], $node, $variable, $port["defaultValue"], array_key_exists("value", $port) ? $port["value"] : null, $port["string"], $port["type"], $port["dynamic"], $port["exposed"], $port["name"], $port["pointer"], $port["pointerVariable"]);
+            $r = $this->save($port["id"], $node, $variable, $port["defaultValue"], isset($port["value"]) ? $port["value"] : null, $port["string"], $port["type"], $port["dynamic"], $port["exposed"], $port["name"], $port["pointer"], $port["pointerVariable"]);
             if (count($r["errors"]) > 0) {
                 for ($a = 0; $a < count($r["errors"]); $a++) {
                     array_push($result["errors"], $r["errors"][$a]);
@@ -214,20 +214,20 @@ class TestNodePortService extends ASectionService
     public function importFromArray($instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
-        if (!array_key_exists("TestNodePort", $map))
+        if (!isset($map["TestNodePort"]))
             $map["TestNodePort"] = array();
-        if (array_key_exists("id" . $obj["id"], $map["TestNodePort"])) {
+        if (isset($map["TestNodePort"]["id" . $obj["id"]])) {
             return array("errors" => null, "entity" => $map["TestNodePort"]["id" . $obj["id"]]);
         }
 
         $node = null;
-        if (array_key_exists("TestNode", $map) && array_key_exists("id" . $obj["node"], $map["TestNode"])) {
+        if (isset($map["TestNode"]) && isset($map["TestNode"]["id" . $obj["node"]])) {
             $node = $map["TestNode"]["id" . $obj["node"]];
         }
 
         $variable = null;
         if ($obj["variable"]) {
-            if (array_key_exists("TestVariable", $map) && array_key_exists("id" . $obj["variable"], $map["TestVariable"])) {
+            if (isset($map["TestVariable"]) && isset($map["TestVariable"]["id" . $obj["variable"]])) {
                 $variable = $map["TestVariable"]["id" . $obj["variable"]];
             }
         }
@@ -268,12 +268,12 @@ class TestNodePortService extends ASectionService
         $ent->setType($obj["type"]);
         $ent->setExposed($obj["exposed"] == "1");
         $ent->setName($obj["name"]);
-        if (array_key_exists("pointer", $obj)) {
+        if (isset($obj["pointer"])) {
             $ent->setPointer($obj["pointer"]);
         } else {
             $ent->setPointer($ent->getName());
         }
-        if (array_key_exists("pointerVariable", $obj)) {
+        if (isset($obj["pointerVariable"])) {
             $ent->setPointerVariable($obj["pointerVariable"]);
         }
 

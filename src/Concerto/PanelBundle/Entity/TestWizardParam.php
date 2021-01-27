@@ -387,13 +387,13 @@ class TestWizardParam extends AEntity implements \JsonSerializable
 
     public static function getParamValueDependencies($val, $def, $type, &$dependencies = array())
     {
-        if (!array_key_exists("ids", $dependencies))
+        if (!isset($dependencies["ids"]))
             $dependencies["ids"] = array();
         switch ($type) {
             case 5:
             {
                 if ($val) {
-                    if (!array_key_exists("ViewTemplate", $dependencies["ids"]))
+                    if (!isset($dependencies["ids"]["ViewTemplate"]))
                         $dependencies["ids"]["ViewTemplate"] = array();
                     if (!in_array($val, $dependencies["ids"]["ViewTemplate"]))
                         array_push($dependencies["ids"]["ViewTemplate"], $val);
@@ -403,7 +403,7 @@ class TestWizardParam extends AEntity implements \JsonSerializable
             case 6:
             {
                 if ($val) {
-                    if (!array_key_exists("DataTable", $dependencies["ids"]))
+                    if (!isset($dependencies["ids"]["DataTable"]))
                         $dependencies["ids"]["DataTable"] = array();
                     if (!in_array($val, $dependencies["ids"]["DataTable"]))
                         array_push($dependencies["ids"]["DataTable"], $val);
@@ -417,8 +417,8 @@ class TestWizardParam extends AEntity implements \JsonSerializable
                     $val = json_decode($val, true);
                 if (!$val)
                     return;
-                if (array_key_exists("table", $val) && $val["table"]) {
-                    if (!array_key_exists("DataTable", $dependencies["ids"]))
+                if (isset($val["table"]) && $val["table"]) {
+                    if (!isset($dependencies["ids"]["DataTable"]))
                         $dependencies["ids"]["DataTable"] = array();
                     if (!in_array($val["table"], $dependencies["ids"]["DataTable"]))
                         array_push($dependencies["ids"]["DataTable"], $val["table"]);
@@ -428,7 +428,7 @@ class TestWizardParam extends AEntity implements \JsonSerializable
             case 8:
             {
                 if ($val) {
-                    if (!array_key_exists("Test", $dependencies["ids"]))
+                    if (!isset($dependencies["ids"]["Test"]))
                         $dependencies["ids"]["Test"] = array();
                     if (!in_array($val, $dependencies["ids"]["Test"]))
                         array_push($dependencies["ids"]["Test"], $val);
@@ -442,8 +442,8 @@ class TestWizardParam extends AEntity implements \JsonSerializable
                 if (!$val)
                     return;
                 foreach ($def["fields"] as $field) {
-                    if (array_key_exists($field["name"], $val) && $val[$field["name"]]) {
-                        $has_definition = array_key_exists("definition", $field);
+                    if (isset($val[$field["name"]]) && $val[$field["name"]]) {
+                        $has_definition = isset($field["definition"]);
                         self::getParamValueDependencies($val[$field["name"]], $has_definition ? $field["definition"] : array(), $field["type"], $dependencies);
                     }
                 }
@@ -455,7 +455,7 @@ class TestWizardParam extends AEntity implements \JsonSerializable
                     $val = json_decode($val, true);
                 if (!is_array($val))
                     return;
-                $has_definition = array_key_exists("definition", $def["element"]);
+                $has_definition = isset($def["element"]["definition"]);
                 foreach ($val as $row) {
                     self::getParamValueDependencies($row, $has_definition ? $def["element"]["definition"] : array(), $def["element"]["type"], $dependencies);
                 }
@@ -464,7 +464,7 @@ class TestWizardParam extends AEntity implements \JsonSerializable
             case 13:
             {
                 if (is_array($def) && $def["test"]) {
-                    if (!array_key_exists("Test", $dependencies["ids"]))
+                    if (!isset($dependencies["ids"]["Test"]))
                         $dependencies["ids"]["Test"] = array();
                     if (!in_array($def["test"], $dependencies["ids"]["Test"]))
                         array_push($dependencies["ids"]["Test"], $def["test"]);

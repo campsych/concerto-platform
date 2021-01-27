@@ -406,9 +406,9 @@ class TestRunnerController
         $sessionHash = null;
 
         $sessionHash = $result["hash"];
-        if (array_key_exists("data", $result) && is_array($result["data"])) {
-            if (array_key_exists("protectedFilesAccess", $result["data"]) && $result["data"]["protectedFilesAccess"] === true) $protectedFilesAccess = true;
-            if (array_key_exists("sessionFilesAccess", $result["data"]) && $result["data"]["sessionFilesAccess"] === true) $sessionFilesAccess = true;
+        if (isset($result["data"]) && is_array($result["data"])) {
+            if (isset($result["data"]["protectedFilesAccess"]) && $result["data"]["protectedFilesAccess"] === true) $protectedFilesAccess = true;
+            if (isset($result["data"]["sessionFilesAccess"]) && $result["data"]["sessionFilesAccess"] === true) $sessionFilesAccess = true;
         }
 
         $token = null;
@@ -474,7 +474,7 @@ class TestRunnerController
 
     private function setCookies(Response &$response, $result)
     {
-        if (array_key_exists("data", $result) && is_array($result["data"]) && array_key_exists("cookies", $result["data"])) {
+        if (isset($result["data"]) && is_array($result["data"]) && isset($result["data"]["cookies"])) {
             $cookies = $result["data"]["cookies"];
             if (is_array($cookies)) {
                 foreach ($cookies as $k => $v) {

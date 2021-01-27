@@ -109,7 +109,7 @@ class ContentImportCommand extends Command
                             "src"
                         );
                         foreach ($fields as $field) {
-                            if (array_key_exists($field, $instructionOverrideElem)) {
+                            if (isset($instructionOverrideElem[$field])) {
                                 $instructions[$i][$field] = $instructionOverrideElem[$field];
                             }
                         }

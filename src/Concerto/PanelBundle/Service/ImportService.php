@@ -144,7 +144,7 @@ class ImportService
     private function getAllTopObjectsFromImportData($data, &$top_data)
     {
         foreach ($data as $obj) {
-            if (array_key_exists("class_name", $obj) && in_array($obj["class_name"], array(
+            if (isset($obj["class_name"]) && in_array($obj["class_name"], array(
                     "DataTable",
                     "Test",
                     "TestWizard",
@@ -188,7 +188,7 @@ class ImportService
                 $existing_entity_hash = $existing_entity->getEntityHash();
 
                 //same hash
-                if (array_key_exists("hash", $imported_object) && $existing_entity_hash == $imported_object["hash"])
+                if (isset($imported_object["hash"]) && $existing_entity_hash == $imported_object["hash"])
                     $can_ignore = true;
             }
 
@@ -201,7 +201,7 @@ class ImportService
             $data_num = 0;
             if ($imported_object["class_name"] == "DataTable") {
                 $data = "1";
-                if (array_key_exists("data", $imported_object) && $imported_object["data"] !== null) {
+                if (isset($imported_object["data"]) && $imported_object["data"] !== null) {
                     //value will be zero when data set in external file
                     $data_num = count($imported_object["data"]);
                 }
@@ -228,7 +228,7 @@ class ImportService
     public function getPreImportStatusFromFile($file, &$errorMessages = null)
     {
         $data = $this->getImportFileContents($file, false);
-        $valid = array_key_exists("version", $data) && $this->isVersionValid($data["version"]);
+        $valid = isset($data["version"]) && $this->isVersionValid($data["version"]);
         if (!$valid) {
             $errorMessages = ["import.incompatible_version"];
             return false;
@@ -248,7 +248,7 @@ class ImportService
     {
         $dir = pathinfo($file)["dirname"];
         $data = $this->getImportFileContents($file, $unlink);
-        $valid = array_key_exists("version", $data) && $this->isVersionValid($data["version"]);
+        $valid = isset($data["version"]) && $this->isVersionValid($data["version"]);
         if (!$valid) {
             $errorMessages = ["import.incompatible_version"];
             return false;
@@ -256,7 +256,7 @@ class ImportService
 
         foreach ($data["collection"] as &$obj) {
             $instruction = ASectionService::getObjectImportInstruction($obj, $instructions);
-            if (array_key_exists("src", $instruction) && $instruction["src"] == 1) {
+            if (isset($instruction["src"]) && $instruction["src"] == 1) {
                 $this->mergeExternalSource($obj, $dir . "/src");
             }
         }
@@ -373,7 +373,7 @@ class ImportService
             case "DataTable":
             {
                 //data
-                if (array_key_exists("data", $obj) && $obj["data"] === null) {
+                if (isset($obj["data"]) && $obj["data"] === null) {
                     $path = $srcDir . "/" . ExportService::getTableDataFilename($obj);
                     if (file_exists($path)) {
                         $obj["data"] = Yaml::parseFile($path);
@@ -389,14 +389,14 @@ class ImportService
         $this->queue = $data;
         while (count($this->queue) > 0) {
             $obj = $this->queue[0];
-            if (is_array($obj) && array_key_exists("class_name", $obj)) {
+            if (is_array($obj) && isset($obj["class_name"])) {
                 $service = $this->serviceMap[$obj["class_name"]];
                 $lastResult = $service->importFromArray($instructions, $obj, $this->map, $this->renames, $this->queue);
-                if (array_key_exists("errors", $lastResult) && $lastResult["errors"] != null) {
+                if (isset($lastResult["errors"]) && $lastResult["errors"] != null) {
                     $errorMessages = $lastResult["errors"];
                     return false;
                 }
-                if (array_key_exists("pre_queue", $lastResult) && count($lastResult["pre_queue"]) > 0) {
+                if (isset($lastResult["pre_queue"]) && count($lastResult["pre_queue"]) > 0) {
                     $this->queue = array_merge($lastResult["pre_queue"], $this->queue);
                 } else {
                     array_shift($this->queue);

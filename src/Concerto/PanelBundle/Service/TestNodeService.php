@@ -149,19 +149,19 @@ class TestNodeService extends ASectionService
     public function importFromArray($instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
-        if (!array_key_exists("TestNode", $map))
+        if (!isset($map["TestNode"]))
             $map["TestNode"] = array();
-        if (array_key_exists("id" . $obj["id"], $map["TestNode"])) {
+        if (isset($map["TestNode"]["id" . $obj["id"]])) {
             return array("errors" => null, "entity" => $map["TestNode"]["id" . $obj["id"]]);
         }
 
         $flowTest = null;
-        if (array_key_exists("Test", $map) && array_key_exists("id" . $obj["flowTest"], $map["Test"])) {
+        if (isset($map["Test"]) && isset($map["Test"]["id" . $obj["flowTest"]])) {
             $flowTest = $map["Test"]["id" . $obj["flowTest"]];
         }
 
         $sourceTest = null;
-        if (array_key_exists("Test", $map) && array_key_exists("id" . $obj["sourceTest"], $map["Test"])) {
+        if (isset($map["Test"]) && isset($map["Test"]["id" . $obj["sourceTest"]])) {
             $sourceTest = $map["Test"]["id" . $obj["sourceTest"]];
         }
         if (!$sourceTest) {
@@ -204,7 +204,7 @@ class TestNodeService extends ASectionService
         $ent->setPosY($obj["posY"]);
         $ent->setSourceTest($sourceTest);
         $ent->setType($obj["type"]);
-        if (array_key_exists("title", $obj))
+        if (isset($obj["title"]))
             $ent->setTitle($obj["title"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();

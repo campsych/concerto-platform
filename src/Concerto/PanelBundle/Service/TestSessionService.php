@@ -146,7 +146,7 @@ class TestSessionService
         $timeLimit = $session->getTimeLimit();
         $timeTaken = $values["timeTaken"];
         $isTimeout = 0;
-        if (array_key_exists("isTimeout", $values)) {
+        if (isset($values["isTimeout"])) {
             $isTimeout = $values["isTimeout"];
         }
         if ($this->testRunnerSettings["timer_type"] == "server") {
@@ -323,7 +323,7 @@ class TestSessionService
         if ($session_hash !== null) {
             $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
             if ($session !== null) {
-                if (array_key_exists("systemError", $response)) {
+                if (isset($response["systemError"])) {
                     $this->saveErrorLog($session, $response["systemError"], TestSessionLog::TYPE_SYSTEM);
                 }
 

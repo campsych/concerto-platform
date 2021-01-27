@@ -15,12 +15,12 @@ class TestSessionCountRepository extends EntityRepository {
 
     public function findByFilter($filter) {
         $qb = $this->createQueryBuilder('sc');
-        if (array_key_exists("min", $filter)) {
+        if (isset($filter["min"])) {
             $min = new DateTime();
             $min->setTimestamp((int) $filter["min"]);
             $qb = $qb->where("sc.created >= :min")->setParameter("min", $min);
         }
-        if (array_key_exists("max", $filter)) {
+        if (isset($filter["max"])) {
             $max = new DateTime();
             $max->setTimestamp((int) $filter["max"]);
             $qb = $qb->andWhere("sc.created <= :max")->setParameter("max", $max);

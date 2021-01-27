@@ -75,7 +75,7 @@ class DataRecordService
 
         $columns = $this->dbStructureDAO->getColumns($table->getName());
         foreach ($newData as $k => $v) {
-            if (!array_key_exists($k, $columns))
+            if (!isset($columns[$k]))
                 return array("response" => Response::HTTP_BAD_REQUEST, "result" => null);
         }
 
@@ -97,7 +97,7 @@ class DataRecordService
 
         $columns = $this->dbStructureDAO->getColumns($table->getName());
         foreach ($newData as $k => $v) {
-            if (!array_key_exists($k, $columns))
+            if (!isset($columns[$k]))
                 return array("response" => Response::HTTP_BAD_REQUEST, "result" => null);
         }
 

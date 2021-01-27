@@ -116,7 +116,7 @@ class TestWizardParamService extends ASectionService
     {
         $isNew = $object->getId() === null;
         $changeSet = $this->repository->getChangeSet($object);
-        if($isNew || !empty($changeSet)) {
+        if ($isNew || !empty($changeSet)) {
             $this->repository->save($object);
             $this->onObjectSaved($object, $originalObject, $flush);
         }
@@ -153,24 +153,24 @@ class TestWizardParamService extends ASectionService
     public function importFromArray($instructions, $obj, &$map, &$renames, &$queue)
     {
         $pre_queue = array();
-        if (!array_key_exists("TestWizardParam", $map))
+        if (!isset($map["TestWizardParam"]))
             $map["TestWizardParam"] = array();
-        if (array_key_exists("id" . $obj["id"], $map["TestWizardParam"])) {
+        if (isset($map["TestWizardParam"]["id" . $obj["id"]])) {
             return array("errors" => null, "entity" => $map["TestWizardParam"]["id" . $obj["id"]]);
         }
 
         $variable = null;
-        if (array_key_exists("TestVariable", $map) && array_key_exists("id" . $obj["testVariable"], $map["TestVariable"])) {
+        if (isset($map["TestVariable"]) && isset($map["TestVariable"]["id" . $obj["testVariable"]])) {
             $variable = $map["TestVariable"]["id" . $obj["testVariable"]];
         }
 
         $wizard = null;
-        if (array_key_exists("TestWizard", $map) && array_key_exists("id" . $obj["wizard"], $map["TestWizard"])) {
+        if (isset($map["TestWizard"]) && isset($map["TestWizard"]["id" . $obj["wizard"]])) {
             $wizard = $map["TestWizard"]["id" . $obj["wizard"]];
         }
 
         $step = null;
-        if (array_key_exists("TestWizardStep", $map) && array_key_exists("id" . $obj["wizardStep"], $map["TestWizardStep"])) {
+        if (isset($map["TestWizardStep"]) && isset($map["TestWizardStep"]["id" . $obj["wizardStep"]])) {
             $step = $map["TestWizardStep"]["id" . $obj["wizardStep"]];
         }
 
@@ -400,8 +400,8 @@ class TestWizardParamService extends ASectionService
             }
 
             //check if should use default value when simple
-            $allowDefault &= $typeChanged || $oldVal === null || $oldDef === null || ($isParam && array_key_exists("defvalue", $oldDef) && $oldDef["defvalue"] == $oldVal);
-            if ($allowDefault && is_array($newDef) && array_key_exists("defvalue", $newDef)) {
+            $allowDefault &= $typeChanged || $oldVal === null || $oldDef === null || ($isParam && isset($oldDef["defvalue"]) && $oldDef["defvalue"] == $oldVal);
+            if ($allowDefault && is_array($newDef) && isset($newDef["defvalue"])) {
                 $mergedVal = $newDef["defvalue"];
             }
         } else {
@@ -434,13 +434,13 @@ class TestWizardParamService extends ASectionService
                     }
 
                     foreach ($newDef["fields"] as $field) {
-                        if (!is_array($mergedVal) || !array_key_exists($field["name"], $mergedVal)) {
+                        if (!is_array($mergedVal) || !isset($mergedVal[$field["name"]])) {
                             $mergedVal[$field["name"]] = null;
                         }
                         $dstFieldVal = &$mergedVal[$field["name"]];
                         $newFieldVal = &$newVal[$field["name"]];
                         $newFieldDef = null;
-                        if (array_key_exists("definition", $field))
+                        if (isset($field["definition"]))
                             $newFieldDef = $field["definition"];
                         $oldFieldType = null;
                         $oldFieldDef = null;
@@ -449,9 +449,9 @@ class TestWizardParamService extends ASectionService
                             foreach ($oldDef["fields"] as $oldField) {
                                 if ($oldField["name"] == $field["name"]) {
                                     $oldFieldType = $oldField["type"];
-                                    if (is_array($oldField) && array_key_exists("definition", $oldField))
+                                    if (is_array($oldField) && isset($oldField["definition"]))
                                         $oldFieldDef = $oldField["definition"];
-                                    if (is_array($oldVal) && array_key_exists($oldField["name"], $oldVal))
+                                    if (is_array($oldVal) && isset($oldVal[$oldField["name"]]))
                                         $oldFieldVal = $oldVal[$oldField["name"]];
                                     break;
                                 }
@@ -466,14 +466,14 @@ class TestWizardParamService extends ASectionService
                         for ($i = 0; $i < count($mergedVal); $i++) {
 
                             //invalid data check
-                            if (!array_key_exists($i, $mergedVal)) continue;
+                            if (!isset($mergedVal[$i])) continue;
 
                             $oldElemType = null;
                             $oldElemDef = null;
                             $oldElemVal = null;
                             if (!$typeChanged) {
                                 $oldElemType = $oldDef["element"]["type"];
-                                if (array_key_exists("definition", $oldDef["element"]))
+                                if (isset($oldDef["element"]["definition"]))
                                     $oldElemDef = $oldDef["element"]["definition"];
                                 if ($oldVal !== null && count($oldVal) > $i) {
                                     $oldElemVal = $oldVal[$i];
@@ -553,7 +553,7 @@ class TestWizardParamService extends ASectionService
                 $moded = true;
                 $val = $newName;
             }
-            if (!$onlyVal && array_key_exists("defvalue", $def) && $def["defvalue"] == $oldName) {
+            if (!$onlyVal && isset($def["defvalue"]) && $def["defvalue"] == $oldName) {
                 $moded = true;
                 $def["defvalue"] = $newName;
             }
@@ -564,7 +564,7 @@ class TestWizardParamService extends ASectionService
                 $moded = true;
                 $val = $newName;
             }
-            if (!$onlyVal && array_key_exists("defvalue", $def) && $def["defvalue"] == $oldName) {
+            if (!$onlyVal && isset($def["defvalue"]) && $def["defvalue"] == $oldName) {
                 $moded = true;
                 $def["defvalue"] = $newName;
             }
@@ -573,7 +573,7 @@ class TestWizardParamService extends ASectionService
         if ($type == 7 && $class === DataTable::class) {
             if (!is_array($val))
                 $val = json_decode($val, true);
-            if (array_key_exists("table", $val) && $val["table"] == $oldName) {
+            if (isset($val["table"]) && $val["table"] == $oldName) {
                 $moded = true;
                 $val["table"] = $newName;
             }
@@ -584,7 +584,7 @@ class TestWizardParamService extends ASectionService
                 $moded = true;
                 $val = $newName;
             }
-            if (!$onlyVal && array_key_exists("defvalue", $def) && $def["defvalue"] == $oldName) {
+            if (!$onlyVal && isset($def["defvalue"]) && $def["defvalue"] == $oldName) {
                 $moded = true;
                 $def["defvalue"] = $newName;
             }
@@ -593,7 +593,7 @@ class TestWizardParamService extends ASectionService
         if ($type == 9) {
             if (!is_array($val))
                 $val = json_decode($val, true);
-            if (array_key_exists("fields", $def)) {
+            if (isset($def["fields"])) {
                 for ($i = 0; $i < count($def["fields"]); $i++) {
                     $field = $def["fields"][$i];
                     $moded |= self::modifyPropertiesOnRename($newName, $class, $oldName, $field["type"], $def["fields"][$i]["definition"], $val[$field["name"]], $onlyVal);
@@ -604,7 +604,7 @@ class TestWizardParamService extends ASectionService
         if ($type == 10) {
             if (!is_array($val))
                 $val = json_decode($val, true);
-            if ($val !== null && array_key_exists("element", $def) && array_key_exists("definition", $def["element"])) {
+            if ($val !== null && isset($def["element"]) && isset($def["element"]["definition"])) {
                 for ($i = 0; $i < count($val); $i++) {
                     $moded |= self::modifyPropertiesOnRename($newName, $class, $oldName, $def["element"]["type"], $def["element"]["definition"], $val[$i], $onlyVal);
                 }
@@ -614,7 +614,7 @@ class TestWizardParamService extends ASectionService
         if ($type === 12 && $class === DataTable::class) {
             if (!is_array($val))
                 $val = json_decode($val, true);
-            if (array_key_exists("table", $val) && $val["table"] == $oldName) {
+            if (isset($val["table"]) && $val["table"] == $oldName) {
                 $moded = true;
                 $val["table"] = $newName;
             }
@@ -623,7 +623,7 @@ class TestWizardParamService extends ASectionService
         if ($type == 13 && $class === Test::class) {
             if (!is_array($val))
                 $val = json_decode($val, true);
-            if (array_key_exists("test", $val) && $val["test"] == $oldName) {
+            if (isset($val["test"]) && $val["test"] == $oldName) {
                 $moded = true;
                 $val["test"] = $newName;
             }

@@ -79,7 +79,7 @@ class ExportService
             return false;
         $entity->jsonSerialize($dependencies, $normalizedIdsMap);
 
-        if (array_key_exists("ids", $dependencies)) {
+        if (isset($dependencies["ids"])) {
             foreach ($dependencies["ids"] as $className => $ids) {
                 $ids_service = $this->serviceMap[$className];
                 foreach ($ids as $id) {
@@ -105,11 +105,11 @@ class ExportService
             $elemInstruction = null;
             if ($instructions !== null) {
                 foreach ($instructions as $instruction) {
-                    if ($instruction["class_name"] == $elem["class_name"] && array_key_exists("id", $instruction) && $instruction["id"] == $elem["id"]) {
+                    if ($instruction["class_name"] == $elem["class_name"] && isset($instruction["id"]) && $instruction["id"] == $elem["id"]) {
                         $elemInstruction = $instruction;
                         break;
                     }
-                    if ($instruction["class_name"] == $elem["class_name"] && array_key_exists("name", $instruction) && $instruction["name"] == $elem["name"]) {
+                    if ($instruction["class_name"] == $elem["class_name"] && isset($instruction["name"]) && $instruction["name"] == $elem["name"]) {
                         $elemInstruction = $instruction;
                         break;
                     }
@@ -142,7 +142,7 @@ class ExportService
         }
 
         $collection = array();
-        if (array_key_exists("collection", $dependencies)) {
+        if (isset($dependencies["collection"])) {
             $collection = $this->convertCollectionToExportable($dependencies["collection"], $instructions);
         }
         return $collection;

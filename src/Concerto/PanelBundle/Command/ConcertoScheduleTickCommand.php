@@ -96,12 +96,12 @@ class ConcertoScheduleTickCommand extends Command
     {
         foreach ($this->scheduledTasksRepository->findAllPending() as $task) {
             $info = json_decode($task->getInfo(), true);
-            $blockingTask = array_key_exists("content_block", $info) && $info["content_block"] === 1;
+            $blockingTask = isset($info["content_block"]) && $info["content_block"] === 1;
             if ($blockingTask) return true;
         }
         foreach ($this->scheduledTasksRepository->findAllOngoing() as $task) {
             $info = json_decode($task->getInfo(), true);
-            $blockingTask = array_key_exists("content_block", $info) && $info["content_block"] === 1;
+            $blockingTask = isset($info["content_block"]) && $info["content_block"] === 1;
             if ($blockingTask) return true;
         }
         return false;

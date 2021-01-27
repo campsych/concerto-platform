@@ -75,7 +75,7 @@ class TestRunnerController
 
         $content = json_decode($request->getContent(), true);
         $values = array();
-        if (array_key_exists("values", $content)) $values = $content["values"];
+        if (isset($content["values"])) $values = $content["values"];
 
         $result = $this->service->submitToSession(
             $session_hash,
@@ -102,7 +102,7 @@ class TestRunnerController
 
         $content = json_decode($request->getContent(), true);
         $values = array();
-        if (array_key_exists("values", $content)) $values = $content["values"];
+        if (isset($content["values"])) $values = $content["values"];
 
         $result = $this->service->backgroundWorker(
             $session_hash,
