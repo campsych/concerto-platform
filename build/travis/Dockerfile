@@ -13,5 +13,5 @@ CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
  && cat /etc/nginx/sites-available/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" | sed "s/{{nginx_server_conf}}/$NGINX_SERVER_CONF/g" > /etc/nginx/sites-available/concerto.conf \
  && service nginx start \
  && php bin/console concerto:forker:start --env=test \
- && /etc/init.d/php7.4-fpm start \
+ && /etc/init.d/php7.2-fpm start \
  && vendor/bin/simple-phpunit

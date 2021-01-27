@@ -6,9 +6,7 @@
 
 #### Docker
 
-* updated Ubuntu to v20.04
 * updated R to v4.0
-* updated PHP to v7.4  
 * exposed test_runner_settings.r_profile_session_path as env var
 * exposed test_runner_settings.r_environ_session_path as env var
 * added CONCERTO_R_SERVICE env var

@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:18.04
 MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
 ARG CRAN_MIRROR=https://cloud.r-project.org
@@ -72,7 +72,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && apt-get -y install \
     ca-certificates \
     gnupg \
- && echo "deb $CRAN_MIRROR/bin/linux/ubuntu focal-cran40/" | tee -a /etc/apt/sources.list \
+ && echo "deb $CRAN_MIRROR/bin/linux/ubuntu bionic-cran40/" | tee -a /etc/apt/sources.list \
  && apt-key adv --no-tty --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 \
  && apt-get update -y \
  && apt-get -y install \
@@ -87,11 +87,11 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     libssl-dev \
     locales \
     nginx \
-    php7.4-curl \
-    php7.4-mbstring \
-    php7.4-mysql \
-    php7.4-xml \
-    php7.4-zip \
+    php7.2-curl \
+    php7.2-mbstring \
+    php7.2-mysql \
+    php7.2-xml \
+    php7.2-zip \
     php-fpm \
     procps \
     r-base \
@@ -159,6 +159,6 @@ CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
  && cat /etc/nginx/sites-available/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" | sed "s/{{nginx_server_conf}}/$NGINX_SERVER_CONF/g" > /etc/nginx/sites-available/concerto.conf \
  && service nginx start \
  && php bin/console concerto:forker:start --env=prod  \
- && /etc/init.d/php7.4-fpm start \
+ && /etc/init.d/php7.2-fpm start \
  && cron \
  && tail -F -n 0 var/logs/prod.log var/logs/forker.log var/logs/service.log
