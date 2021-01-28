@@ -1,4 +1,4 @@
-concerto.init = function(dbConnectionParams, publicDir, platformUrl, appUrl, maxExecTime, maxIdleTime, keepAliveToleranceTime, sessionStorage, redisConnectionParams, sessionFilesExpiration){
+concerto.init = function(dbConnectionParams, publicDir, platformUrl, appUrl, maxExecTime, maxIdleTime, keepAliveToleranceTime, sessionStorage, redisConnectionParams, sessionFilesExpiration, serviceFifoDir){
     options(digits.secs = 6)
     if(Sys.info()['sysname'] != "Windows") {
         options(encoding='UTF-8')
@@ -60,6 +60,8 @@ concerto.init = function(dbConnectionParams, publicDir, platformUrl, appUrl, max
     concerto$queuedResponse <<- NULL
     concerto$skipTemplateOnResume <<- F
     concerto$response <<- list()
+    concerto$serviceRequestId <<- 0
+    concerto$serviceFifoDir <<- serviceFifoDir
 
     concerto$publicDir <<- publicDir
     concerto$platformUrl <<- platformUrl

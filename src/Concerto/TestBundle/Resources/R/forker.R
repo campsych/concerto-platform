@@ -3,7 +3,8 @@ require(parallel)
 
 ENV_CONCERTO_R_APP_URL = Sys.getenv("CONCERTO_R_APP_URL")
 ENV_CONCERTO_R_DB_CONNECTION = Sys.getenv("CONCERTO_R_DB_CONNECTION")
-ENV_CONCERTO_R_FIFO_PATH = Sys.getenv("CONCERTO_R_FIFO_PATH")
+ENV_CONCERTO_R_SESSION_FIFO_PATH = Sys.getenv("CONCERTO_R_SESSION_FIFO_PATH")
+ENV_CONCERTO_R_SERVICE_FIFO_PATH = Sys.getenv("CONCERTO_R_SERVICE_FIFO_PATH")
 ENV_CONCERTO_R_MAX_EXEC_TIME = Sys.getenv("CONCERTO_R_MAX_EXEC_TIME")
 ENV_CONCERTO_R_MAX_IDLE_TIME = Sys.getenv("CONCERTO_R_MAX_IDLE_TIME")
 ENV_CONCERTO_R_KEEP_ALIVE_TOLERANCE_TIME = Sys.getenv("CONCERTO_R_KEEP_ALIVE_TOLERANCE_TIME")
@@ -24,7 +25,8 @@ concerto5:::concerto.init(
     keepAliveToleranceTime = as.numeric(ENV_CONCERTO_R_KEEP_ALIVE_TOLERANCE_TIME),
     sessionStorage = ENV_CONCERTO_R_SESSION_STORAGE,
     redisConnectionParams = fromJSON(ENV_CONCERTO_R_REDIS_CONNECTION),
-    sessionFilesExpiration = ENV_CONCERTO_R_SESSION_FILES_EXPIRATION
+    sessionFilesExpiration = ENV_CONCERTO_R_SESSION_FILES_EXPIRATION,
+    serviceFifoDir = ENV_CONCERTO_R_SERVICE_FIFO_PATH
 )
 
 switch(concerto$dbConnectionParams$driver,
@@ -38,11 +40,11 @@ switch(ENV_CONCERTO_R_SESSION_STORAGE,
 
 concerto.log("starting forker listener")
 queue = c()
-unlink(paste0(ENV_CONCERTO_R_FIFO_PATH,"*.fifo"))
-while (T) {
+unlink(paste0(ENV_CONCERTO_R_SESSION_FIFO_PATH, "*.fifo"))
+repeat {
     fpath = ""
     if(length(queue) == 0) {
-        queue = list.files(ENV_CONCERTO_R_FIFO_PATH, full.names=TRUE)
+        queue = list.files(ENV_CONCERTO_R_SESSION_FIFO_PATH, full.names=TRUE)
     }
     if(length(queue) > 0) {
         fpath = queue[1]

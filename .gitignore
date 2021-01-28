@@ -15,8 +15,8 @@
 !/var/R
 /var/R/session_fifo/*
 !/var/R/session_fifo/.gitkeep
-var/R/service_socket/*
-!/var/R/service_socket/.gitkeep
+var/R/service_fifo/*
+!/var/R/service_fifo/.gitkeep
 !/var/SymfonyRequirements.php
 /vendor/
 /web/bundles/

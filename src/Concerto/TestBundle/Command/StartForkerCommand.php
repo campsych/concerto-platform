@@ -47,7 +47,8 @@ class StartForkerCommand extends Command
     {
         $output->writeln("starting forker...");
 
-        $fifoPath = $this->sessionRunnerService->getFifoDir();
+        $sessionFifoPath = $this->sessionRunnerService->getSessionFifoDir();
+        $serviceFifoPath = $this->sessionRunnerService->getServiceFifoDir();
         $publicDir = $this->sessionRunnerService->getPublicDirPath();
         $dbConnection = json_encode($this->sessionRunnerService->getDbConnectionParams());
         $platformUrl = $this->sessionRunnerService->getPlatformUrl();
@@ -69,7 +70,8 @@ class StartForkerCommand extends Command
         $env = [
             "CONCERTO_R_APP_URL" => $appUrl,
             "CONCERTO_R_DB_CONNECTION" => $dbConnection,
-            "CONCERTO_R_FIFO_PATH" => $fifoPath,
+            "CONCERTO_R_SESSION_FIFO_PATH" => $sessionFifoPath,
+            "CONCERTO_R_SERVICE_FIFO_PATH" => $serviceFifoPath,
             "CONCERTO_R_MAX_EXEC_TIME" => $maxExecTime,
             "CONCERTO_R_MAX_IDLE_TIME" => $maxIdleTime,
             "CONCERTO_R_KEEP_ALIVE_TOLERANCE_TIME" => $keepAliveToleranceTime,

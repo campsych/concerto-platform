@@ -135,9 +135,14 @@ abstract class ASessionRunnerService
         return $arg;
     }
 
-    public function getFifoDir()
+    public function getSessionFifoDir()
     {
         return realpath($this->projectDir . "/var/R/session_fifo") . "/";
+    }
+
+    public function getServiceFifoDir()
+    {
+        return realpath($this->projectDir . "/var/R/service_fifo") . "/";
     }
 
     protected function checkSessionLimit($session, &$response)
@@ -386,7 +391,7 @@ abstract class ASessionRunnerService
             "runnerType" => $this->runnerType
         ]);
 
-        $path = $this->getFifoDir() . ($sessionHash ? $sessionHash : uniqid("hc", true)) . ".fifo";
+        $path = $this->getSessionFifoDir() . ($sessionHash ? $sessionHash : uniqid("hc", true)) . ".fifo";
         posix_mkfifo($path, POSIX_S_IFIFO | 0644);
         $fh = fopen($path, "wt");
         if ($fh === false) {
@@ -426,6 +431,7 @@ abstract class ASessionRunnerService
         $sessionStorage = $this->testRunnerSettings["session_storage"];
         $redisConnection = json_encode($this->sessionRunnerService->getRedisConnectionParams());
         $sessionFilesExpiration = $this->administrationService->getSettingValue("session_files_expiration");
+        $serviceFifoPath = $this->getServiceFifoDir();
 
         $process = new Process($cmd);
         $process->setEnhanceWindowsCompatibility(false);
@@ -450,6 +456,7 @@ abstract class ASessionRunnerService
             "CONCERTO_R_SESSION_STORAGE" => $sessionStorage,
             "CONCERTO_R_WORKING_DIR" => $workingDir,
             "CONCERTO_R_SESSION_FILES_EXPIRATION" => $sessionFilesExpiration,
+            "CONCERTO_R_SERVICE_FIFO_PATH" => $serviceFifoPath,
             "R_GC_MEM_GROW" => 0,
             "R_ENVIRON_USER" => $r_environ_path != null ? $r_environ_path : "{$this->projectDir}/app/config/R/.Renviron_session",
             "R_PROFILE_USER" => $r_profile_path != null ? $r_profile_path : "{$this->projectDir}/app/config/R/.Rprofile_session"

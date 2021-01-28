@@ -11,6 +11,7 @@ export(
     concerto.log,
     concerto.redis.connect,
     concerto.saml.getAuthenticatedUser,
+    concerto.service.eval,
     concerto.session.getResumeUrl,
     concerto.table.get,
     concerto.table.insertParams,

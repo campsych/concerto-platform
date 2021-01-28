@@ -105,20 +105,18 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && php /app/concerto/bin/console concerto:r:cache \
  && crontab -l | { cat; echo "* * * * * . /app/concerto/cron/concerto.schedule.tick.sh >> /var/log/cron.log 2>&1"; } | crontab - \
  && crontab -l | { cat; echo "* * * * * . /app/concerto/cron/concerto.forker.guard.sh >> /var/log/cron.log 2>&1"; } | crontab - \
- && if [ "$CONCERTO_R_SERVICE" = "true" ]; \
-    then crontab -l | { cat; echo "* * * * * . /app/concerto/cron/concerto.service.guard.sh >> /var/log/cron.log 2>&1"; } | crontab -; \
-    fi \
+ && crontab -l | { cat; echo "* * * * * . /app/concerto/cron/concerto.service.guard.sh >> /var/log/cron.log 2>&1"; } | crontab - \
  && crontab -l | { cat; echo "0 0 * * * . /app/concerto/cron/concerto.session.clear.sh >> /var/log/cron.log 2>&1"; } | crontab - \
  && crontab -l | { cat; echo "*/5 * * * * . /app/concerto/cron/concerto.session.log.sh >> /var/log/cron.log 2>&1"; } | crontab - \
  && rm -f /etc/nginx/sites-available/default \
  && rm -f /etc/nginx/sites-enabled/default \
  && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf
 
-COPY build/docker/php/php.ini /etc/php/7.4/fpm/php.ini
+COPY build/docker/php/php.ini /etc/php/7.2/fpm/php.ini
 COPY build/docker/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY build/docker/nginx/concerto.conf.tpl /etc/nginx/sites-available/concerto.conf.tpl
-COPY build/docker/php-fpm/php-fpm.conf /etc/php/7.4/fpm/php-fpm.conf
-COPY build/docker/php-fpm/www.conf /etc/php/7.4/fpm/pool.d/www.conf
+COPY build/docker/php-fpm/php-fpm.conf /etc/php/7.2/fpm/php-fpm.conf
+COPY build/docker/php-fpm/www.conf /etc/php/7.2/fpm/pool.d/www.conf
 
 RUN rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/public/files \
  && rm -rf /app/concerto/src/Concerto/TestBundle/Resources/sessions
@@ -158,7 +156,10 @@ CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
  && chown -R www-data:www-data /data/git \
  && cat /etc/nginx/sites-available/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" | sed "s/{{nginx_server_conf}}/$NGINX_SERVER_CONF/g" > /etc/nginx/sites-available/concerto.conf \
  && service nginx start \
- && php bin/console concerto:forker:start --env=prod  \
+ && php bin/console concerto:forker:start --env=prod \
+ && if [ "$CONCERTO_R_SERVICE" = "true" ]; \
+    then php bin/console concerto:service:start --env=prod; \
+    fi \
  && /etc/init.d/php7.2-fpm start \
  && cron \
  && tail -F -n 0 var/logs/prod.log var/logs/forker.log var/logs/service.log
