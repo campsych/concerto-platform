@@ -38,10 +38,10 @@ repeat {
     result = result
   )
   serializedResponse = serialize(response, NULL, ascii=T)
-  serializedResponse = rawToChar(serializedResponse, T)
+  serializedResponse = rawToChar(serializedResponse)
 
-  resFifoPath = paste0(concerto$serviceFifoDir, request$sessionHash, "_", request$requestId, ".resfifo")
-  con = fifo(resFifoPath, open="wt", blocking=F)
+  resFifoPath = paste0(ENV_CONCERTO_R_SERVICE_FIFO_PATH, request$sessionHash, "_", request$requestId, ".resfifo")
+  con = fifo(resFifoPath, open="wt", blocking=T)
   writeLines(serializedResponse, con)
   close(con)
 }

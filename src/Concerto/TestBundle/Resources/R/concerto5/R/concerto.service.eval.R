@@ -12,7 +12,7 @@ concerto.service.eval = function(expr, params = list()) {
     sessionHash = concerto$session$hash
   )
   serializedPayload = serialize(payload, NULL, ascii=T)
-  serializedPayload = rawToChar(serializedPayload, T)
+  serializedPayload = rawToChar(serializedPayload)
 
   reqFifoPath = paste0(concerto$serviceFifoDir, payload$sessionHash, "_", payload$requestId, ".reqfifo")
   con = fifo(reqFifoPath, open="wt", blocking=T)
@@ -22,7 +22,7 @@ concerto.service.eval = function(expr, params = list()) {
   resFifoPath = paste0(concerto$serviceFifoDir, payload$sessionHash, "_", payload$requestId, ".resfifo")
   repeat {
     if(file.exists(resFifoPath)) {
-      con = fifo(resFifoPath, open="rt")
+      con = fifo(resFifoPath, open="rt", blocking=T)
       response = readLines(con)
       close(con)
       unlink(resFifoPath)
