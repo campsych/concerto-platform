@@ -5,32 +5,53 @@ concerto.service.eval = function(expr, params = list()) {
   concerto$serviceRequestId <<- concerto$serviceRequestId + 1
   requestId = concerto$serviceRequestId
 
-  payload = list(
+  #request payload rd
+  if(length(params) > 0) {
+    env = new.env()
+    for(name in ls(params)) {
+      assign(name, params[[name]], envir=env)
+    }
+
+    reqPayloadPath = paste0(concerto$serviceFifoDir, concerto$session$hash, "_", requestId, ".reqrd")
+    save(list=ls(params), file=reqPayloadPath, envir=env)
+    rm(env)
+  }
+
+  #request fifo
+  fifoPayload = list(
     expr = expr,
-    params = params,
     requestId = requestId,
     sessionHash = concerto$session$hash
   )
-  serializedPayload = serialize(payload, NULL, ascii=T)
+  serializedPayload = serialize(fifoPayload, NULL, ascii=T)
   serializedPayload = rawToChar(serializedPayload)
 
-  reqFifoPath = paste0(concerto$serviceFifoDir, payload$sessionHash, "_", payload$requestId, ".reqfifo")
+  reqFifoPath = paste0(concerto$serviceFifoDir, concerto$session$hash, "_", requestId, ".reqfifo")
   con = fifo(reqFifoPath, open="wt", blocking=T)
   writeLines(serializedPayload, con)
   close(con)
 
-  resFifoPath = paste0(concerto$serviceFifoDir, payload$sessionHash, "_", payload$requestId, ".resfifo")
+  resFifoPath = paste0(concerto$serviceFifoDir, concerto$session$hash, "_", requestId, ".resfifo")
+  resPayloadPath = paste0(concerto$serviceFifoDir, concerto$session$hash, "_", requestId, ".resrd")
   repeat {
     if(file.exists(resFifoPath)) {
+      #response fifo
       con = fifo(resFifoPath, open="rt", blocking=T)
       response = readLines(con)
       close(con)
       unlink(resFifoPath)
-
       response = paste0(response, collapse="\n")
       response = charToRaw(response)
       response = unserialize(response)
-      return(response$result)
+
+      if(response$result == 0) {
+        #response payload rd
+        load(resPayloadPath)
+        unlink(resPayloadPath)
+        return(result)
+      } else {
+        stop("failed service eval")
+      }
     } else {
       Sys.sleep(0.01)
     }

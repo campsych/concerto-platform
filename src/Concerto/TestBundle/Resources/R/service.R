@@ -1,10 +1,9 @@
 ENV_CONCERTO_R_SERVICE_FIFO_PATH = Sys.getenv("CONCERTO_R_SERVICE_FIFO_PATH")
 
-require(concerto5)
-
 concerto.log("starting service listener")
 
 queue = c()
+unlink(paste0(ENV_CONCERTO_R_SERVICE_FIFO_PATH, "*"))
 repeat {
   reqFifoPath = NULL
   if(length(queue) == 0) {
@@ -14,7 +13,7 @@ repeat {
     reqFifoPath = queue[1]
     queue = queue[-1]
   } else {
-    Sys.sleep(0.25)
+    Sys.sleep(0.01)
     next
   }
 
@@ -28,21 +27,29 @@ repeat {
   request = unserialize(request)
 
   env = new.env()
-  for(name in ls(request$params)) {
-    assign(name, request$params[[name]], envir=env)
+  reqPayloadPath = paste0(ENV_CONCERTO_R_SERVICE_FIFO_PATH, request$sessionHash, "_", request$requestId, ".reqrd")
+  if(file.exists(reqPayloadPath)) {
+    load(reqPayloadPath, envir=env)
+    unlink(reqPayloadPath)
   }
+
   result = NULL
   result = tryCatch(eval(request$expr, envir=env), error = function(ex) {})
+  rm(env)
 
-  response = list(
-    result = result
+  resPayloadPath = paste0(ENV_CONCERTO_R_SERVICE_FIFO_PATH, request$sessionHash, "_", request$requestId, ".resrd")
+  save(result, file=resPayloadPath)
+
+  #response fifo
+  respFifoPayload = list(
+    result=0
   )
-  serializedResponse = serialize(response, NULL, ascii=T)
-  serializedResponse = rawToChar(serializedResponse)
-
   resFifoPath = paste0(ENV_CONCERTO_R_SERVICE_FIFO_PATH, request$sessionHash, "_", request$requestId, ".resfifo")
+  serializedPayload = serialize(respFifoPayload, NULL, ascii=T)
+  serializedPayload = rawToChar(serializedPayload)
+
   con = fifo(resFifoPath, open="wt", blocking=T)
-  writeLines(serializedResponse, con)
+  writeLines(serializedPayload, con)
   close(con)
 }
 

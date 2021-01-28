@@ -42,8 +42,8 @@ class ConcertoRCacheCommand extends Command
         $r_environ_path = $this->testRunnerSettings['r_environ_session_path'];
         $r_profile_path = $this->testRunnerSettings['r_profile_session_path'];
         $env = [
-            "R_ENVIRON_USER" => $r_environ_path != null ? $r_environ_path : "{$this->projectDir}/app/config/R/.Renviron_session",
-            "R_PROFILE_USER" => $r_profile_path != null ? $r_profile_path : "{$this->projectDir}/app/config/R/.Rprofile_session"
+            "R_ENVIRON_USER" => $r_environ_path !== "null" ? $r_environ_path : "{$this->projectDir}/app/config/R/.Renviron_session",
+            "R_PROFILE_USER" => $r_profile_path !== "null" ? $r_profile_path : "{$this->projectDir}/app/config/R/.Rprofile_session"
         ];
         $process->setEnv($env);
 

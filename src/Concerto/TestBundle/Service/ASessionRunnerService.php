@@ -458,8 +458,8 @@ abstract class ASessionRunnerService
             "CONCERTO_R_SESSION_FILES_EXPIRATION" => $sessionFilesExpiration,
             "CONCERTO_R_SERVICE_FIFO_PATH" => $serviceFifoPath,
             "R_GC_MEM_GROW" => 0,
-            "R_ENVIRON_USER" => $r_environ_path != null ? $r_environ_path : "{$this->projectDir}/app/config/R/.Renviron_session",
-            "R_PROFILE_USER" => $r_profile_path != null ? $r_profile_path : "{$this->projectDir}/app/config/R/.Rprofile_session"
+            "R_ENVIRON_USER" => $r_environ_path !== "null" ? $r_environ_path : "{$this->projectDir}/app/config/R/.Renviron_session",
+            "R_PROFILE_USER" => $r_profile_path !== "null" ? $r_profile_path : "{$this->projectDir}/app/config/R/.Rprofile_session"
         );
         $process->setEnv($env);
 

@@ -1,31 +1,4 @@
 concerto.init = function(dbConnectionParams, publicDir, platformUrl, appUrl, maxExecTime, maxIdleTime, keepAliveToleranceTime, sessionStorage, redisConnectionParams, sessionFilesExpiration, serviceFifoDir){
-    options(digits.secs = 6)
-    if(Sys.info()['sysname'] != "Windows") {
-        options(encoding='UTF-8')
-        Sys.setlocale("LC_ALL","en_US.utf8")
-    } else {
-        Sys.setlocale("LC_ALL","English")
-    }
-
-    assign(
-        "fromJSON",
-        function(txt, simplifyVector = FALSE, ...) {
-            result = jsonlite::fromJSON(txt, simplifyVector = simplifyVector, ...)
-            return(result)
-        },
-        envir = .GlobalEnv
-    )
-
-    assign(
-        "toJSON",
-        function(x, auto_unbox = TRUE, ...) {
-            result = jsonlite::toJSON(x, auto_unbox = auto_unbox, ...)
-            result = as.character(result)
-            return(result)
-        },
-        envir = .GlobalEnv
-    )
-
     SOURCE_PROCESS <<- 1
     SOURCE_SERVER <<- 2
 

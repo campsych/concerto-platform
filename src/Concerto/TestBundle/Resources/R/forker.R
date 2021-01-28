@@ -1,4 +1,3 @@
-require(concerto5)
 require(parallel)
 
 ENV_CONCERTO_R_APP_URL = Sys.getenv("CONCERTO_R_APP_URL")
