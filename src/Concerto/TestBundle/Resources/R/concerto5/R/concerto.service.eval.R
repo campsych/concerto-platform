@@ -44,14 +44,13 @@ concerto.service.eval = function(expr, params = list()) {
       response = charToRaw(response)
       response = unserialize(response)
 
-      if(response$result == 0) {
+      if(response$success) {
         #response payload rd
         load(resPayloadPath)
         unlink(resPayloadPath)
-        return(result)
-      } else {
-        stop("failed service eval")
+        response$result = resultData
       }
+      return(response)
     } else {
       Sys.sleep(0.01)
     }

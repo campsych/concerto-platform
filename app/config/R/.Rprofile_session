@@ -1,4 +1,4 @@
-options(defaultPackages = character())
+options(defaultPackages = c("utils", "stats"))
 options(digits.secs = 6)
 
 if(Sys.info()['sysname'] != "Windows") {

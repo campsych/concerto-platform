@@ -27,22 +27,38 @@ repeat {
   request = unserialize(request)
 
   env = new.env()
+  for(name in ls(.GlobalEnv)) {
+    assign(name, .GlobalEnv[[name]], env)
+  }
   reqPayloadPath = paste0(ENV_CONCERTO_R_SERVICE_FIFO_PATH, request$sessionHash, "_", request$requestId, ".reqrd")
   if(file.exists(reqPayloadPath)) {
     load(reqPayloadPath, envir=env)
     unlink(reqPayloadPath)
   }
 
-  result = NULL
-  result = tryCatch(eval(request$expr, envir=env), error = function(ex) {})
+  result = tryCatch({
+    list(
+      success=T,
+      data=eval(request$expr, envir=env)
+    )
+  }, error = function(ex) {
+    list(
+      success=F,
+      errorMessage=ex
+    )
+  })
   rm(env)
 
-  resPayloadPath = paste0(ENV_CONCERTO_R_SERVICE_FIFO_PATH, request$sessionHash, "_", request$requestId, ".resrd")
-  save(result, file=resPayloadPath)
+  if(result$success) {
+    resPayloadPath = paste0(ENV_CONCERTO_R_SERVICE_FIFO_PATH, request$sessionHash, "_", request$requestId, ".resrd")
+    resultData = result$data
+    save(resultData, file=resPayloadPath)
+  }
 
   #response fifo
   respFifoPayload = list(
-    result=0
+    success=result$success,
+    errorMessage=result$errorMessage
   )
   resFifoPath = paste0(ENV_CONCERTO_R_SERVICE_FIFO_PATH, request$sessionHash, "_", request$requestId, ".resfifo")
   serializedPayload = serialize(respFifoPayload, NULL, ascii=T)
