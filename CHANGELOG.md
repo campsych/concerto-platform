@@ -3,6 +3,7 @@
 #### Features
 
 * added test_runner_settings.r_profile_session_path config
+* compressed (gzip) session serialization
 
 #### Docker
 
