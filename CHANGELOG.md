@@ -18,6 +18,10 @@
 
 * fixed forker guard cron job check
 
+#### Improvements
+
+* forker forced GC only once a day
+
 ## 5.0.21 (2021-01-19)
 
 #### Fixes
