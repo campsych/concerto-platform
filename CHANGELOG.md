@@ -1,3 +1,9 @@
+## 5.0.22 (in progress)
+
+#### Fixes
+
+* fixed forker guard cron job check
+
 ## 5.0.21 (2021-01-19)
 
 #### Fixes
