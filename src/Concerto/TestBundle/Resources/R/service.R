@@ -4,7 +4,14 @@ concerto.log("starting service listener")
 
 queue = c()
 unlink(paste0(ENV_CONCERTO_R_SERVICE_FIFO_PATH, "*"))
+lastForcedGcTime = as.numeric(Sys.time())
 repeat {
+  currentTime = as.numeric(Sys.time())
+  if(currentTime - lastForcedGcTime > 86400) {
+    gcOutput = gc(F)
+    lastForcedGcTime = currentTime
+  }
+
   reqFifoPath = NULL
   if(length(queue) == 0) {
     queue = list.files(ENV_CONCERTO_R_SERVICE_FIFO_PATH, pattern=".*\\.reqfifo", full.names=TRUE)
