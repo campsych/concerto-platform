@@ -41,6 +41,12 @@ queue = c()
 unlink(paste0(ENV_CONCERTO_R_FIFO_PATH,"*.fifo"))
 lastForcedGcTime = as.numeric(Sys.time())
 while (T) {
+    currentTime = as.numeric(Sys.time())
+    if(currentTime - lastForcedGcTime > 3600) {
+        gcOutput = gc(F)
+        lastForcedGcTime = currentTime
+    }
+
     fpath = ""
     if(length(queue) == 0) {
         queue = list.files(ENV_CONCERTO_R_FIFO_PATH, full.names=TRUE)
@@ -74,11 +80,6 @@ while (T) {
 
     if(is.null(response$rLogPath)) response$rLogPath = "/dev/null"
 
-    currentTime = as.numeric(Sys.time())
-    if(currentTime - lastForcedGcTime > 86400) {
-        gcOutput = gc(F)
-        lastForcedGcTime = currentTime
-    }
     mcparallel({
         if(ENV_CONCERTO_R_SESSION_LOG_LEVEL > 0) {
             sinkFile <- file(response$rLogPath, open = "at")
