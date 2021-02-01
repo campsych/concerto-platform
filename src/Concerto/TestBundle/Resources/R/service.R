@@ -7,7 +7,7 @@ unlink(paste0(ENV_CONCERTO_R_SERVICE_FIFO_PATH, "*"))
 lastForcedGcTime = as.numeric(Sys.time())
 repeat {
   currentTime = as.numeric(Sys.time())
-  if(currentTime - lastForcedGcTime > 86400) {
+  if(currentTime - lastForcedGcTime > 3600) {
     gcOutput = gc(F)
     lastForcedGcTime = currentTime
   }
