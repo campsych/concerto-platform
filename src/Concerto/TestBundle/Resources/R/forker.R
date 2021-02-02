@@ -13,6 +13,7 @@ ENV_CONCERTO_R_REDIS_CONNECTION = Sys.getenv("CONCERTO_R_REDIS_CONNECTION")
 ENV_CONCERTO_R_SESSION_STORAGE = Sys.getenv("CONCERTO_R_SESSION_STORAGE")
 ENV_CONCERTO_R_SESSION_FILES_EXPIRATION = Sys.getenv("CONCERTO_R_SESSION_FILES_EXPIRATION")
 ENV_CONCERTO_R_SESSION_LOG_LEVEL = as.numeric(Sys.getenv("CONCERTO_R_SESSION_LOG_LEVEL"))
+ENV_CONCERTO_R_FORCED_GC_INTERVAL = as.numeric(Sys.getenv("CONCERTO_R_FORCED_GC_INTERVAL"))
 
 concerto5:::concerto.init(
     dbConnectionParams = fromJSON(ENV_CONCERTO_R_DB_CONNECTION),
@@ -42,10 +43,12 @@ queue = c()
 unlink(paste0(ENV_CONCERTO_R_SESSION_FIFO_PATH, "*.fifo"))
 lastForcedGcTime = as.numeric(Sys.time())
 repeat {
-    currentTime = as.numeric(Sys.time())
-    if(currentTime - lastForcedGcTime > 3600) {
-        gcOutput = gc(F)
-        lastForcedGcTime = currentTime
+    if(ENV_CONCERTO_R_FORCED_GC_INTERVAL >= 0) {
+        currentTime = as.numeric(Sys.time())
+        if(currentTime - lastForcedGcTime > ENV_CONCERTO_R_FORCED_GC_INTERVAL) {
+            gcOutput = gc(F)
+            lastForcedGcTime = currentTime
+        }
     }
 
     fpath = ""

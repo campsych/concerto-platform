@@ -20,7 +20,7 @@
 
 #### Improvements
 
-* forker forced GC only once a day
+* configurable R long running processes forced GC interval (r_forced_gc_interval)
 
 ## 5.0.21 (2021-01-19)
 

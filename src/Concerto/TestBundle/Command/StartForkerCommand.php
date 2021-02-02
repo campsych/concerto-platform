@@ -60,6 +60,7 @@ class StartForkerCommand extends Command
         $redisConnection = json_encode($this->sessionRunnerService->getRedisConnectionParams());
         $sessionFilesExpiration = $this->administrationService->getSettingValue("session_files_expiration");
         $sessionLogLevel = $this->administrationService->getSettingValue("session_log_level");
+        $forcedGcInterval = $this->testRunnerSettings["r_forced_gc_interval"];
 
         $cmd = $this->getCommand();
         $process = new Process($cmd);
@@ -81,9 +82,10 @@ class StartForkerCommand extends Command
             "CONCERTO_R_SESSION_STORAGE" => $sessionStorage,
             "CONCERTO_R_SESSION_FILES_EXPIRATION" => $sessionFilesExpiration,
             "CONCERTO_R_SESSION_LOG_LEVEL" => $sessionLogLevel,
-            "R_GC_MEM_GROW" => 0,
             "R_ENVIRON_USER" => $r_environ_path !== "null" ? $r_environ_path : "{$this->projectDir}/app/config/R/.Renviron_session",
-            "R_PROFILE_USER" => $r_profile_path !== "null" ? $r_profile_path : "{$this->projectDir}/app/config/R/.Rprofile_session"
+            "R_PROFILE_USER" => $r_profile_path !== "null" ? $r_profile_path : "{$this->projectDir}/app/config/R/.Rprofile_session",
+            "CONCERTO_R_FORCED_GC_INTERVAL" => $forcedGcInterval,
+            "R_GC_MEM_GROW" => 0
         ];
         $process->setEnv($env);
 

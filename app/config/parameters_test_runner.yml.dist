@@ -13,6 +13,7 @@ parameters:
     env(CONCERTO_R_PROFILE_SESSION_PATH): null
     env(CONCERTO_R_ENVIRON_SERVICE_PATH): null
     env(CONCERTO_R_PROFILE_SERVICE_PATH): null
+    env(CONCERTO_R_FORCED_GC_INTERVAL): 30
     test_runner_settings:
         max_idle_time: 3900
         max_execution_time: 30
@@ -22,6 +23,7 @@ parameters:
         r_profile_session_path: '%env(CONCERTO_R_PROFILE_SESSION_PATH)%'
         r_environ_service_path: '%env(CONCERTO_R_ENVIRON_SERVICE_PATH)%'
         r_profile_service_path: '%env(CONCERTO_R_PROFILE_SERVICE_PATH)%'
+        r_forced_gc_interval: '%env(CONCERTO_R_FORCED_GC_INTERVAL)%'
         php_exec: php
         rscript_exec: Rscript
         timer_type: server #client or server
