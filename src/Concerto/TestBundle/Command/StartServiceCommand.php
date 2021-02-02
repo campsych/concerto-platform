@@ -52,11 +52,14 @@ class StartServiceCommand extends Command
         $serviceFifoPath = $this->sessionRunnerService->getServiceFifoDir();
         $r_environ_path = $this->testRunnerSettings["r_environ_service_path"];
         $r_profile_path = $this->testRunnerSettings['r_profile_service_path'];
+        $forcedGcInterval = $this->testRunnerSettings["r_forced_gc_interval"];
+
         $env = [
             "CONCERTO_R_SERVICE_FIFO_PATH" => $serviceFifoPath,
-            "R_GC_MEM_GROW" => 0,
             "R_ENVIRON_USER" => $r_environ_path !== "null" ? $r_environ_path : "{$this->projectDir}/app/config/R/.Renviron_service",
-            "R_PROFILE_USER" => $r_profile_path !== "null" ? $r_profile_path : "{$this->projectDir}/app/config/R/.Rprofile_service"
+            "R_PROFILE_USER" => $r_profile_path !== "null" ? $r_profile_path : "{$this->projectDir}/app/config/R/.Rprofile_service",
+            "CONCERTO_R_FORCED_GC_INTERVAL" => $forcedGcInterval,
+            "R_GC_MEM_GROW" => 0
         ];
         $process->setEnv($env);
 
