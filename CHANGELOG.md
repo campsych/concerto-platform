@@ -22,6 +22,10 @@
 
 * configurable R long running processes forced GC interval (r_forced_gc_interval)
 
+#### Starter content
+
+* added PATCH method to **http** node
+
 ## 5.0.21 (2021-01-19)
 
 #### Fixes

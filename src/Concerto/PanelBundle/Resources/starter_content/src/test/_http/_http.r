@@ -15,7 +15,8 @@ response = tryCatch({
     POST = POST(url, config, body=requestBody, encode=requestBodyEncode),
     GET = GET(url, config),
     DELETE = DELETE(url, config, body=requestBody, encode=requestBodyEncode),
-    UPDATE = UPDATE(url, config, body=requestBody, encode=requestBodyEncode)
+    UPDATE = UPDATE(url, config, body=requestBody, encode=requestBodyEncode),
+    PATCH = PATCH(url, config, body=requestBody, encode=requestBodyEncode)
   )
   response
 }, error = function(e) {
