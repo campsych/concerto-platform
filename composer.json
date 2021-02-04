@@ -21,7 +21,7 @@
     ]
   },
   "require": {
-    "php": ">=7.1",
+    "php": ">=7.2",
     "cocur/slugify": "~1.0",
     "doctrine/doctrine-bundle": "^1.6",
     "doctrine/orm": "^2.5",
@@ -30,11 +30,11 @@
     "onelogin/php-saml": "^3.3",
     "sensio/distribution-bundle": "^5.0.19",
     "sensio/framework-extra-bundle": "5.1.*",
-    "symfony/monolog-bundle": "^3.1.0",
+    "symfony/monolog-bundle": "3.4.*",
     "symfony/polyfill-apcu": "^1.0",
     "symfony/symfony": "3.4.*",
     "twig/twig": "2.9.*",
-    "lexik/jwt-authentication-bundle": "2.8.*"
+    "lexik/jwt-authentication-bundle": "2.10.*"
   },
   "require-dev": {
     "symfony/phpunit-bridge": "^3.0"
@@ -57,7 +57,7 @@
   },
   "config": {
     "platform": {
-      "php": "7.4"
+      "php": "7.2"
     },
     "sort-packages": true
   },
