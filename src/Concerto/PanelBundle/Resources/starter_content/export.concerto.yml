@@ -1,4 +1,4 @@
-version: 5.0.21
+version: 5.0.22
 collection:
   -
     class_name: DataTable
@@ -13228,6 +13228,9 @@ collection:
                 -
                   label: DELETE
                   value: DELETE
+                -
+                  label: PATCH
+                  value: PATCH
               defvalue: GET
               placeholder: 0
           -
