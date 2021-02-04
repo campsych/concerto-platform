@@ -7,6 +7,7 @@
 #### Improvements
 
 * configurable R long running processes forced GC interval (r_forced_gc_interval)
+* replaced RSA key pair for JWT with HMAC key (CONCERTO_JWT_SECRET env)
 
 #### Starter content
 

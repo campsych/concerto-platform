@@ -33,7 +33,6 @@ ENV CONCERTO_FAILED_AUTH_LOCK_TIME=300
 ENV CONCERTO_FAILED_AUTH_LOCK_STREAK=3
 ENV CONCERTO_SESSION_FILES_EXPIRATION=7
 ENV CONCERTO_SESSION_LOG_LEVEL=1
-ENV CONCERTO_KEY_PASS=changeme
 ENV CONCERTO_SESSION_STORAGE=filesystem
 ENV CONCERTO_COOKIES_SAME_SITE=strict
 ENV CONCERTO_COOKIES_SECURE=false
@@ -41,6 +40,7 @@ ENV CONCERTO_KEEP_ALIVE_INTERVAL_TIME=900
 ENV CONCERTO_KEEP_ALIVE_TOLERANCE_TIME=0
 ENV CONCERTO_SESSION_TOKEN_EXPIRY_TIME=7200
 ENV CONCERTO_R_FORCED_GC_INTERVAL=30
+ENV CONCERTO_JWT_SECRET=changeme
 ENV REDIS_HOST=redis
 ENV REDIS_PORT=6379
 ENV REDIS_PASS=''
@@ -134,7 +134,6 @@ CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
  && chown www-data:www-data /data/sessions \
  && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
  && php bin/console concerto:setup --env=prod --admin-pass=$CONCERTO_PASSWORD \
- && chown www-data:www-data /app/concerto/app/config/jwt/private.pem /app/concerto/app/config/jwt/public.pem \
  && if [ "$CONCERTO_CONTENT_IMPORT_AT_START" = "true" ]; \
     then php bin/console concerto:content:import --env=prod --sc; \
     fi \

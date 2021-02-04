@@ -82,7 +82,7 @@ fos_oauth_server:
     auth_code_class:     Concerto\APIBundle\Entity\AuthCode
 
 lexik_jwt_authentication:
-    secret_key: 'changeme'
+    secret_key: "%env(CONCERTO_JWT_SECRET)%"
     token_ttl: 3600
     encoder:
         signature_algorithm: HS512

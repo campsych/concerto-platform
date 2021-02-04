@@ -17,4 +17,4 @@ parameters:
     secret: ThisTokenIsNotSoSecretChangeIt
     env(CONCERTO_BEHIND_PROXY): false
     behind_proxy: '%env(CONCERTO_BEHIND_PROXY)%'
-    env(CONCERTO_KEY_PASS): changeme
+    env(CONCERTO_JWT_SECRET): changeme

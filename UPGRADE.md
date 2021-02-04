@@ -1,3 +1,7 @@
+## 5.0.22
+
+* set value for lexik_jwt_authentication.secret_key (config.yml)
+
 ## 5.0.19
 
 * renamed CONCERTO_SESSION_COOKIE_EXPIRY_TIME to CONCERTO_SESSION_TOKEN_EXPIRY_TIME
