@@ -13,6 +13,11 @@
 
 * added PATCH method to **http** node
 
+#### Docker
+
+* exposed PHP config session.save_handler as PHP_SESSION_SAVE_HANDLER env variable
+* exposed PHP config session.save_path as PHP_SESSION_SAVE_PATH env variable
+
 ## 5.0.21 (2021-01-19)
 
 #### Fixes
