@@ -393,7 +393,7 @@ class TestRunnerController
             $request->get("error"),
             TestSessionLog::TYPE_JS
         );
-        $response = new Response($result);
+        $response = new Response(json_encode($result));
         $response->headers->set('Content-Type', 'application/json');
 
         return $response;
