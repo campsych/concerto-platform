@@ -1,8 +1,0 @@
-id,fixedIndex,trait,question,p1,p2,p3,p4,responseLabel1,responseValue1,responseScore1,responseTrait1,responseLabel2,responseValue2,responseScore2,responseTrait2,responseLabel3,responseValue3,responseScore3,responseTrait3,responseLabel4,responseValue4,responseScore4,responseTrait4,type,skippable,instructions
-1,,maths,2+5,1,-2,0,1,7,7,1,,9,9,0,,3,3,0,,10,10,0,,options,,Pick the correct option
-2,,maths,9+7,1,-1.6,0,1,,16,1,,,,0,,,,0,,,,0,,open,,Type in the correct answer
-3,,maths,29+13,1,-0.8,0,1,42,42,1,,32,32,0,,36,36,0,,52,52,0,,options,,Pick the correct option
-4,,maths,42+49,1,0,0,1,,91,1,,,,0,,,,0,,,,0,,open,,Type in the correct answer
-5,,maths,125+347,1,1,0,1,,472,1,,,,0,,,,0,,,,0,,open,,Type in the correct answer
-6,,maths,333+888,1,2.1,0,1,1221,1221,1,,1111,1111,0,,555,555,0,,1321,1321,0,,options,,Pick the correct option
-7,,maths,1275+374,1,3,0,1,,1649,1,,,,0,,,,0,,,,0,,open,,Type in the correct answer
