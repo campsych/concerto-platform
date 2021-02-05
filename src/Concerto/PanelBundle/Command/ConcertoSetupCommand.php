@@ -20,15 +20,13 @@ class ConcertoSetupCommand extends Command
     private $kernel;
     private $encoderFactory;
     private $projectDir;
-    private $keyPass;
 
-    public function __construct(ManagerRegistry $doctrine, KernelInterface $kernel, EncoderFactoryInterface $encoderFactory, $projectDir, $keyPass)
+    public function __construct(ManagerRegistry $doctrine, KernelInterface $kernel, EncoderFactoryInterface $encoderFactory, $projectDir)
     {
         $this->doctrine = $doctrine;
         $this->kernel = $kernel;
         $this->encoderFactory = $encoderFactory;
         $this->projectDir = $projectDir;
-        $this->keyPass = $keyPass;
 
         parent::__construct();
     }
@@ -98,51 +96,10 @@ class ConcertoSetupCommand extends Command
         }
     }
 
-    private function hasJwtKeys()
-    {
-        $jwtPath = "{$this->projectDir}/app/config/jwt";
-        return file_exists("$jwtPath/private.pem") && file_exists("$jwtPath/public.pem");
-    }
-
-    private function generateJwtKeys(OutputInterface $output)
-    {
-        $output->writeln("generating keys...");
-        $jwtPath = "{$this->projectDir}/app/config/jwt";
-
-        $cmd = "openssl genpkey -out $jwtPath/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096 -pass pass:{$this->keyPass}";
-        $proc = new Process($cmd);
-        if($proc->run() === 0) {
-            $output->writeln($proc->getOutput());
-        } else {
-            $output->writeln($proc->getErrorOutput());
-            $output->writeln("private key generation failed");
-            return false;
-        }
-
-        $cmd = "openssl pkey -in $jwtPath/private.pem -out $jwtPath/public.pem -pubout -passin pass:{$this->keyPass}";
-        $proc = new Process($cmd);
-        if($proc->run() === 0) {
-            $output->writeln($proc->getOutput());
-        } else {
-            $output->writeln($proc->getErrorOutput());
-            $output->writeln("public key generation failed");
-            return false;
-        }
-        $output->writeln("key generation successful");
-        return true;
-    }
-
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->updateSchema($input, $output);
         $this->initializeUsers($input, $output);
-
-        if (!$this->hasJwtKeys()) {
-            $output->writeln("no keys found...");
-            $this->generateJwtKeys($output);
-        } else {
-            $output->writeln("keys found");
-        }
     }
 
 }

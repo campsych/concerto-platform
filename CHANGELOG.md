@@ -17,14 +17,24 @@
 #### Fixes
 
 * fixed forker guard cron job check
+* fixed files permissions when importing content
+* client side error logging should now log all js exceptions
+* fixed 403 on client side error logging
 
 #### Improvements
 
 * configurable R long running processes forced GC interval (r_forced_gc_interval)
+* replaced RSA key pair for JWT with HMAC key (CONCERTO_JWT_SECRET env)
 
 #### Starter content
 
 * added PATCH method to **http** node
+
+#### Docker
+
+* exposed PHP config session.save_handler as PHP_SESSION_SAVE_HANDLER env variable
+* exposed PHP config session.save_path as PHP_SESSION_SAVE_PATH env variable
+* import directory is now on shared storage
 
 ## 5.0.21 (2021-01-19)
 

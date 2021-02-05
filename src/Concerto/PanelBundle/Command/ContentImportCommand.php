@@ -28,8 +28,9 @@ class ContentImportCommand extends Command
     private $input;
     private $output;
     private $projectDir;
+    private $webUser;
 
-    public function __construct(ImportService $importService, ManagerRegistry $doctrine, AdministrationService $adminService, TranslatorInterface $translator, GitService $gitService, $projectDir)
+    public function __construct(ImportService $importService, ManagerRegistry $doctrine, AdministrationService $adminService, TranslatorInterface $translator, GitService $gitService, $projectDir, $webUser)
     {
         $this->importService = $importService;
         $this->adminService = $adminService;
@@ -37,6 +38,7 @@ class ContentImportCommand extends Command
         $this->translator = $translator;
         $this->gitService = $gitService;
         $this->projectDir = $projectDir;
+        $this->webUser = $webUser;
 
         parent::__construct();
     }
@@ -202,6 +204,7 @@ class ContentImportCommand extends Command
         if (file_exists($srcDir)) {
             $filesystem = new Filesystem();
             $filesystem->mirror($srcDir, $dstDir);
+            $filesystem->chown($dstDir, $this->webUser, true);
             $this->output->writeln("files copied successfully");
         }
         return true;

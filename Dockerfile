@@ -33,7 +33,6 @@ ENV CONCERTO_FAILED_AUTH_LOCK_TIME=300
 ENV CONCERTO_FAILED_AUTH_LOCK_STREAK=3
 ENV CONCERTO_SESSION_FILES_EXPIRATION=7
 ENV CONCERTO_SESSION_LOG_LEVEL=1
-ENV CONCERTO_KEY_PASS=changeme
 ENV CONCERTO_SESSION_STORAGE=filesystem
 ENV CONCERTO_COOKIES_SAME_SITE=strict
 ENV CONCERTO_COOKIES_SECURE=false
@@ -46,6 +45,7 @@ ENV CONCERTO_R_ENVIRON_SERVICE_PATH=null
 ENV CONCERTO_R_PROFILE_SERVICE_PATH=null
 ENV CONCERTO_R_SERVICE=false
 ENV CONCERTO_R_FORCED_GC_INTERVAL=30
+ENV CONCERTO_JWT_SECRET=changeme
 ENV REDIS_HOST=redis
 ENV REDIS_PORT=6379
 ENV REDIS_PASS=''
@@ -63,6 +63,9 @@ ENV PHP_FPM_PM_MIN_SPARE_SERVERS=5
 ENV PHP_FPM_PM_MAX_SPARE_SERVERS=15
 ENV PHP_FPM_PM_PROCESS_IDLE_TIMEOUT=10s
 ENV PHP_FPM_PM_MAX_REQUESTS=300
+ENV PHP_SESSION_SAVE_HANDLER=files
+ENV PHP_SESSION_SAVE_PATH=''
+ENV WEB_USER=www-data
 ENV TZ=Europe/London
 
 COPY . /app/concerto/
@@ -120,7 +123,8 @@ COPY build/docker/php-fpm/php-fpm.conf /etc/php/7.2/fpm/php-fpm.conf
 COPY build/docker/php-fpm/www.conf /etc/php/7.2/fpm/pool.d/www.conf
 
 RUN rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/public/files \
- && rm -rf /app/concerto/src/Concerto/TestBundle/Resources/sessions
+ && rm -rf /app/concerto/src/Concerto/TestBundle/Resources/sessions \
+ && rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/import
 
 EXPOSE 80 9000
 WORKDIR /app/concerto
@@ -134,28 +138,29 @@ CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
  && mkdir -p /data/files \
  && mkdir -p /data/sessions \
  && mkdir -p /data/git \
+ && mkdir -p /data/import \
  && ln -sf /data/files /app/concerto/src/Concerto/PanelBundle/Resources/public \
  && ln -sf /data/sessions /app/concerto/src/Concerto/TestBundle/Resources \
  && ln -sf /app/concerto/src/Concerto/PanelBundle/Resources/public/files /app/concerto/web \
- && chown www-data:www-data /data/sessions \
+ && ln -sf /data/import /app/concerto/src/Concerto/PanelBundle/Resources \
+ && chown $WEB_USER /data/sessions \
+ && chown $WEB_USER /data/import \
  && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
  && php bin/console concerto:setup --env=prod --admin-pass=$CONCERTO_PASSWORD \
- && chown www-data:www-data /app/concerto/app/config/jwt/private.pem /app/concerto/app/config/jwt/public.pem \
  && if [ "$CONCERTO_CONTENT_IMPORT_AT_START" = "true" ]; \
     then php bin/console concerto:content:import --env=prod --sc; \
     fi \
- && chown -R www-data:www-data /data/files \
+ && chown -R $WEB_USER /data/files \
  && rm -rf var/cache/* \
  && php bin/console cache:warmup --env=prod \
- && chown www-data:www-data var/R/session_fifo \
- && chown www-data:www-data var/R/service_fifo \
- && chown -R www-data:www-data var/cache \
- && chown -R www-data:www-data var/logs \
- && chown -R www-data:www-data var/sessions \
- && chown -R www-data:www-data var/git \
- && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/import \
- && chown -R www-data:www-data src/Concerto/PanelBundle/Resources/export \
- && chown -R www-data:www-data /data/git \
+ && chown $WEB_USER var/R/session_fifo \
+ && chown $WEB_USER var/R/service_fifo \
+ && chown -R $WEB_USER var/cache \
+ && chown -R $WEB_USER var/logs \
+ && chown -R $WEB_USER var/sessions \
+ && chown -R $WEB_USER var/git \
+ && chown -R $WEB_USER src/Concerto/PanelBundle/Resources/export \
+ && chown -R $WEB_USER /data/git \
  && cat /etc/nginx/sites-available/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" | sed "s/{{nginx_server_conf}}/$NGINX_SERVER_CONF/g" > /etc/nginx/sites-available/concerto.conf \
  && service nginx start \
  && php bin/console concerto:forker:start --env=prod \

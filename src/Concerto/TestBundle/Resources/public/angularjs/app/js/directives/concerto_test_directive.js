@@ -86,13 +86,13 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             scope.fileUploader.removeAfterUpload = true;
             scope.R = {};
 
+            $window.addEventListener("error", function (event) {
+                scope.logClientSideError(event.message);
+            });
+
             scope.$watch('html', function (newValue) {
-                try {
-                    angular.element("#testHtml").empty().append(newValue);
-                    $compile(element.contents())(scope);
-                } catch (e) {
-                    scope.logClientSideError(e.toString());
-                }
+                angular.element("#testHtml").empty().append(newValue);
+                $compile(element.contents())(scope);
 
                 if (!stopped && displayState === DISPLAY_VIEW_SHOWN && lastResponse != null && lastResponse.code === RESPONSE_VIEW_TEMPLATE) {
                     startTestTimer();
@@ -103,9 +103,9 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
 
             scope.logClientSideError = function (error) {
                 $http.post(internalSettings.appUrl + "/test/session/" + testRunner.sessionHash + "/log", {
-                    error: error
+                    error: error,
+                    token: getToken()
                 });
-                console.error(error);
             };
 
             function joinHtml(css, js, html) {
