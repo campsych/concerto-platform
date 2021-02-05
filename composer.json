@@ -23,8 +23,9 @@
   "require": {
     "php": ">=7.2",
     "cocur/slugify": "~1.0",
-    "doctrine/doctrine-bundle": "^1.6",
-    "doctrine/orm": "^2.5",
+    "doctrine/doctrine-bundle": "^1.12",
+    "doctrine/orm": "2.7.*",
+    "doctrine/inflector": "1.3.*",
     "friendsofsymfony/oauth-server-bundle": "^1.6",
     "incenteev/composer-parameter-handler": "^2.0",
     "onelogin/php-saml": "^3.3",
@@ -33,7 +34,7 @@
     "symfony/monolog-bundle": "3.4.*",
     "symfony/polyfill-apcu": "^1.0",
     "symfony/symfony": "3.4.*",
-    "twig/twig": "2.9.*",
+    "twig/twig": "2.10.*",
     "lexik/jwt-authentication-bundle": "2.10.*"
   },
   "require-dev": {
@@ -56,9 +57,6 @@
     ]
   },
   "config": {
-    "platform": {
-      "php": "7.2"
-    },
     "sort-packages": true
   },
   "extra": {
