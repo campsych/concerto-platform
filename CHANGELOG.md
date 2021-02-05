@@ -3,6 +3,7 @@
 #### Fixes
 
 * fixed forker guard cron job check
+* fixed files permissions when importing content
 
 #### Improvements
 

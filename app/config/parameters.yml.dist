@@ -18,3 +18,5 @@ parameters:
     env(CONCERTO_BEHIND_PROXY): false
     behind_proxy: '%env(CONCERTO_BEHIND_PROXY)%'
     env(CONCERTO_JWT_SECRET): changeme
+    env(WEB_USER): www-data
+    web_user: '%env(WEB_USER)%'

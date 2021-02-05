@@ -80,6 +80,7 @@ services:
     Concerto\PanelBundle\Command\ContentImportCommand:
         arguments:
             $projectDir: "%kernel.project_dir%"
+            $webUser: "%web_user%"
 
     Concerto\PanelBundle\Command\ConcertoSetupCommand:
         arguments:
