@@ -117,7 +117,8 @@ COPY build/docker/php-fpm/php-fpm.conf /etc/php/7.2/fpm/php-fpm.conf
 COPY build/docker/php-fpm/www.conf /etc/php/7.2/fpm/pool.d/www.conf
 
 RUN rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/public/files \
- && rm -rf /app/concerto/src/Concerto/TestBundle/Resources/sessions
+ && rm -rf /app/concerto/src/Concerto/TestBundle/Resources/sessions \
+ && rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/import
 
 EXPOSE 80 9000
 WORKDIR /app/concerto
@@ -131,10 +132,13 @@ CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
  && mkdir -p /data/files \
  && mkdir -p /data/sessions \
  && mkdir -p /data/git \
+ && mkdir -p /data/import \
  && ln -sf /data/files /app/concerto/src/Concerto/PanelBundle/Resources/public \
  && ln -sf /data/sessions /app/concerto/src/Concerto/TestBundle/Resources \
  && ln -sf /app/concerto/src/Concerto/PanelBundle/Resources/public/files /app/concerto/web \
+ && ln -sf /data/import /app/concerto/src/Concerto/PanelBundle/Resources \
  && chown $WEB_USER /data/sessions \
+ && chown $WEB_USER /data/import \
  && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
  && php bin/console concerto:setup --env=prod --admin-pass=$CONCERTO_PASSWORD \
  && if [ "$CONCERTO_CONTENT_IMPORT_AT_START" = "true" ]; \
@@ -148,7 +152,6 @@ CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
  && chown -R $WEB_USER var/logs \
  && chown -R $WEB_USER var/sessions \
  && chown -R $WEB_USER var/git \
- && chown -R $WEB_USER src/Concerto/PanelBundle/Resources/import \
  && chown -R $WEB_USER src/Concerto/PanelBundle/Resources/export \
  && chown -R $WEB_USER /data/git \
  && cat /etc/nginx/sites-available/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" | sed "s/{{nginx_server_conf}}/$NGINX_SERVER_CONF/g" > /etc/nginx/sites-available/concerto.conf \
