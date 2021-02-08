@@ -77,13 +77,14 @@ class RDataCacheService
 
         $fs = new Filesystem();
         $html_dir = $this->getCacheDirectory() . 'html';
-
-        $files = new \RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($html_dir, RecursiveDirectoryIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::CHILD_FIRST
-        );
-        $fs->remove($files);
-        $fs->remove($html_dir);
+        if ($fs->exists($html_dir)) {
+            $files = new \RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($html_dir, RecursiveDirectoryIterator::SKIP_DOTS),
+                \RecursiveIteratorIterator::CHILD_FIRST
+            );
+            $fs->remove($files);
+            $fs->remove($html_dir);
+        }
 
         rename($this->tmp_cache_dir, $html_dir);
     }
