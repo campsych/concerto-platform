@@ -65,11 +65,7 @@ class ConcertoRCacheCommand extends Command
             $obj = json_decode(stripslashes($json));
             unset($buffer);
             if (!is_object($obj)) {
-                $output->writeln($json);
-                $output->writeln(json_last_error_msg());
-                $output->writeln("SKIPPED!!!");
                 $failed++;
-                break;
             } else {
                 $names = $obj->fun;
                 $lib = $obj->lib;
