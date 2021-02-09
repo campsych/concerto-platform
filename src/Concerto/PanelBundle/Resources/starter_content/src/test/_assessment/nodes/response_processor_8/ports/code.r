@@ -23,6 +23,8 @@ saveResponse = function(score, trait, item, skipped) {
   }
 
   hasSkippedColumn = !is.null(responseBank$columns$skipped) && !is.na(responseBank$columns$skipped) && responseBank$columns$skipped != ""
+  hasCreatedTimeColumn = !is.null(responseBank$columns$createdTime) && !is.na(responseBank$columns$createdTime) && responseBank$columns$createdTime != ""
+  hasUpdateTimeColumn = !is.null(responseBank$columns$updateTime) && !is.na(responseBank$columns$updateTime) && responseBank$columns$updateTime != ""
 
   params = list(
     table = responseBank$table,
@@ -43,7 +45,9 @@ saveResponse = function(score, trait, item, skipped) {
     semColumn = responseBank$columns$sem,
     sem = sem,
     traitColumn = responseBank$columns$trait,
-    trait = trait
+    trait = trait,
+    createdTimeColumn = responseBank$columns$createdTime,
+    updateTimeColumn = responseBank$columns$updateTime
   )
 
   sql = NULL
@@ -66,9 +70,14 @@ UPDATE {{table}} SET
 {{thetaColumn}} = {{theta}},
 {{semColumn}} = {{sem}},
 {{traitColumn}} = IF('{{trait}}' = '', NULL, '{{trait}}')"
+
     if(hasSkippedColumn) {
       sql = paste0(sql, ",{{skippedColumn}} = {{skipped}} ")
     }
+    if(hasUpdateTimeColumn) {
+      sql = paste0(sql, ",{{updateTimeColumn}} = CURRENT_TIMESTAMP ")
+    }
+
     sql = paste0(sql, "
 WHERE id={{id}}")
   } else {
@@ -83,9 +92,17 @@ INSERT INTO {{table}}
 ,{{thetaColumn}}
 ,{{semColumn}}
 ,{{traitColumn}}"
+
     if(hasSkippedColumn) {
       sql = paste0(sql, ",{{skippedColumn}}")
     }
+    if(hasCreatedTimeColumn) {
+      sql = paste0(sql, ",{{createdTimeColumn}}")
+    }
+    if(hasUpdateTimeColumn) {
+      sql = paste0(sql, ",{{updateTimeColumn}}")
+    }
+
     sql = paste0(sql, "
 ) 
 VALUES (
@@ -97,9 +114,17 @@ VALUES (
 ,{{theta}}
 ,{{sem}}
 ,IF('{{trait}}' = '', NULL, '{{trait}}')")
+
     if(hasSkippedColumn) {
       sql = paste0(sql, ",{{skipped}}")
     }
+    if(hasCreatedTimeColumn) {
+      sql = paste0(sql, ",CURRENT_TIMESTAMP")
+    }
+    if(hasUpdateTimeColumn) {
+      sql = paste0(sql, ",CURRENT_TIMESTAMP")
+    }
+
     sql = paste0(sql, "
 )")
   }

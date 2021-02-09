@@ -16,6 +16,7 @@
 #### Starter content
 
 * added PATCH method to **http** node
+* added createdTime and updateTime column to assessment responses table
 
 #### Docker
 

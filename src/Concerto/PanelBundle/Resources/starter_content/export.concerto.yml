@@ -183,6 +183,16 @@ collection:
         type: boolean
         nullable: false
         length: ''
+      -
+        name: createdTime
+        type: datetime
+        nullable: true
+        length: ''
+      -
+        name: updateTime
+        type: datetime
+        nullable: true
+        length: ''
     groups: ''
     starterContent: true
   -
@@ -8415,6 +8425,14 @@ collection:
                   name: skipped
                   label: Skipped
                   tooltip: Optional.
+                -
+                  name: createdTime
+                  label: 'Created Time'
+                  tooltip: Optional.
+                -
+                  name: updateTime
+                  label: 'Update Time'
+                  tooltip: Optional.
               placeholder: 0
       -
         class_name: TestWizardStep
@@ -9246,7 +9264,7 @@ collection:
         type: 0
         description: ''
         passableThroughUrl: '0'
-        value: '{"table":"assessmentResponses","columns":{"id":"id","item_id":"item_id","response":"response","timeTaken":"timeTaken","session_id":"session_id","correct":"correct","theta":"theta","sem":"sem","catValue":"catValue","score":"score","trait":"trait","skipped":"skipped"}}'
+        value: '{"table":"assessmentResponses","columns":{"id":"id","item_id":"item_id","response":"response","timeTaken":"timeTaken","session_id":"session_id","correct":"correct","theta":"theta","sem":"sem","catValue":"catValue","score":"score","trait":"trait","skipped":"skipped","createdTime":"createdTime","updateTime":"updateTime"}}'
         test: 15
         parentVariable: 55
       -
