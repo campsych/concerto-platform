@@ -23,6 +23,7 @@
 * exposed PHP config session.save_handler as PHP_SESSION_SAVE_HANDLER env variable
 * exposed PHP config session.save_path as PHP_SESSION_SAVE_PATH env variable
 * import directory is now on shared storage
+* /data/php/sessions set as PHP session path
 
 ## 5.0.21 (2021-01-19)
 
