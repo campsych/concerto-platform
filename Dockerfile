@@ -64,7 +64,7 @@ ENV PHP_FPM_PM_MAX_SPARE_SERVERS=15
 ENV PHP_FPM_PM_PROCESS_IDLE_TIMEOUT=10s
 ENV PHP_FPM_PM_MAX_REQUESTS=300
 ENV PHP_SESSION_SAVE_HANDLER=files
-ENV PHP_SESSION_SAVE_PATH=''
+ENV PHP_SESSION_SAVE_PATH=/data/php/sessions
 ENV WEB_USER=www-data
 ENV TZ=Europe/London
 
@@ -139,12 +139,14 @@ CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
  && mkdir -p /data/sessions \
  && mkdir -p /data/git \
  && mkdir -p /data/import \
+ && mkdir -p /data/php/sessions \
  && ln -sf /data/files /app/concerto/src/Concerto/PanelBundle/Resources/public \
  && ln -sf /data/sessions /app/concerto/src/Concerto/TestBundle/Resources \
  && ln -sf /app/concerto/src/Concerto/PanelBundle/Resources/public/files /app/concerto/web \
  && ln -sf /data/import /app/concerto/src/Concerto/PanelBundle/Resources \
  && chown $WEB_USER /data/sessions \
  && chown $WEB_USER /data/import \
+ && chown $WEB_USER /data/php/sessions \
  && /wait-for-it.sh $DB_HOST:$DB_PORT -t 300 \
  && php bin/console concerto:setup --env=prod --admin-pass=$CONCERTO_PASSWORD \
  && if [ "$CONCERTO_CONTENT_IMPORT_AT_START" = "true" ]; \
