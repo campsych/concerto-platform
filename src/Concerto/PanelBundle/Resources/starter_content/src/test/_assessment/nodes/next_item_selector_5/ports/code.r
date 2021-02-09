@@ -52,10 +52,16 @@ getSafeItems = function(items, extraFields) {
         for(i in 1:length(orderedOptions)) {
           option = orderedOptions[[i]]
           fixedIndex = as.numeric(option$fixedIndex)
-          if(length(fixedIndex) > 0 && !is.na(fixedIndex)) {
+
+          loopNum = 1
+          while(length(fixedIndex) > 0 && !is.na(fixedIndex) && fixedIndex != i && loopNum <= length(orderedOptions)) {
             replacedOption = orderedOptions[[fixedIndex]]
             orderedOptions[[i]] = replacedOption
             orderedOptions[[fixedIndex]] = option
+
+            option = orderedOptions[[i]]
+            fixedIndex = as.numeric(option$fixedIndex)
+            loopNum = loopNum + 1
           }
         }
       }

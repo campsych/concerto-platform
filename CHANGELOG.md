@@ -20,6 +20,7 @@
 * fixed files permissions when importing content
 * client side error logging should now log all js exceptions
 * fixed 403 on client side error logging
+* fixed 'options' item type fixed index
 
 #### Improvements
 
@@ -29,6 +30,7 @@
 #### Starter content
 
 * added PATCH method to **http** node
+* added createdTime and updateTime column to assessment responses table
 
 #### Docker
 
