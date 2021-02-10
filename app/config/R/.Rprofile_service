@@ -9,6 +9,7 @@ if(Sys.info()['sysname'] != "Windows") {
 }
 
 require(concerto5)
+require(filelock)
 assign(
     "fromJSON",
     function(txt, simplifyVector = FALSE, ...) {

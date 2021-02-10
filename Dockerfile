@@ -43,7 +43,7 @@ ENV CONCERTO_R_ENVIRON_SESSION_PATH=null
 ENV CONCERTO_R_PROFILE_SESSION_PATH=null
 ENV CONCERTO_R_ENVIRON_SERVICE_PATH=null
 ENV CONCERTO_R_PROFILE_SERVICE_PATH=null
-ENV CONCERTO_R_SERVICE=false
+ENV CONCERTO_R_SERVICES_NUM=0
 ENV CONCERTO_R_FORCED_GC_INTERVAL=30
 ENV CONCERTO_JWT_SECRET=changeme
 ENV CONCERTO_PHP_SESSION_SAVE_PATH=/data/php/sessions
@@ -102,7 +102,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && rm -rf /var/lib/apt/lists/* \
  && sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
  && locale-gen "en_US.UTF-8" \
- && Rscript -e "install.packages(c('catR','digest','httr','jsonlite','redux','rjson','RMySQL','session','xml2'), repos='$CRAN_MIRROR')" \
+ && Rscript -e "install.packages(c('catR','digest','filelock','httr','jsonlite','redux','rjson','RMySQL','session','xml2'), repos='$CRAN_MIRROR')" \
  && R CMD INSTALL /app/concerto/src/Concerto/TestBundle/Resources/R/concerto5 \
  && chmod +x /wait-for-it.sh \
  && php /app/concerto/bin/console concerto:r:cache \
@@ -165,9 +165,9 @@ CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
  && cat /etc/nginx/sites-available/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" | sed "s/{{nginx_server_conf}}/$NGINX_SERVER_CONF/g" > /etc/nginx/sites-available/concerto.conf \
  && service nginx start \
  && php bin/console concerto:forker:start --env=prod \
- && if [ "$CONCERTO_R_SERVICE" = "true" ]; \
-    then php bin/console concerto:service:start --env=prod; \
-    fi \
+ && for i in `seq $CONCERTO_R_SERVICES_NUM`; \
+    do php bin/console concerto:service:start --env=prod; \
+    done \
  && /etc/init.d/php7.2-fpm start \
  && cron \
  && tail -F -n 0 var/logs/prod.log var/logs/forker.log var/logs/service.log
