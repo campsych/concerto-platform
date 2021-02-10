@@ -20,8 +20,7 @@
 
 #### Docker
 
-* exposed PHP config session.save_handler as PHP_SESSION_SAVE_HANDLER env variable
-* exposed PHP config session.save_path as PHP_SESSION_SAVE_PATH env variable
+* exposed Symfony's config framework.session.save_path as CONCERTO_PHP_SESSION_SAVE_PATH env variable
 * import directory is now on shared storage
 * /data/php/sessions set as PHP session path
 
