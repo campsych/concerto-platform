@@ -20,3 +20,4 @@ parameters:
     env(CONCERTO_JWT_SECRET): changeme
     env(WEB_USER): www-data
     web_user: '%env(WEB_USER)%'
+    env(CONCERTO_PHP_SESSION_SAVE_PATH): '%kernel.project_dir%/var/sessions/%kernel.environment%'
