@@ -40,7 +40,7 @@ concerto.service.eval = function(expr, params = list()) {
       con = file(resJsonPath, open="rt", blocking=F)
 
       response = readLines(con)
-      while(nchar(response) == 0) {
+      while(length(response) == 0) {
         Sys.sleep(0.1)
         response = readLines(con)
       }
