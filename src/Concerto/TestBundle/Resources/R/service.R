@@ -83,17 +83,15 @@ repeat {
     save(resultData, file=resPayloadPath)
   }
 
-  #response fifo
-  respFifoPayload = list(
+  #response JSON
+  respJsonPayload = toJSON(list(
     success=result$success,
     errorMessage=result$errorMessage
-  )
-  resFifoPath = paste0(ENV_CONCERTO_R_SERVICE_FIFO_PATH, request$sessionHash, "_", request$requestId, ".resfifo")
-  serializedPayload = serialize(respFifoPayload, NULL, ascii=T)
-  serializedPayload = rawToChar(serializedPayload)
+  ))
+  resJsonPath = paste0(ENV_CONCERTO_R_SERVICE_FIFO_PATH, request$sessionHash, "_", request$requestId, ".resjson")
 
-  con = fifo(resFifoPath, open="wt", blocking=T)
-  writeLines(serializedPayload, con)
+  con = file(resJsonPath, open="wt", blocking=F)
+  writeLines(respJsonPayload, con)
   close(con)
 }
 

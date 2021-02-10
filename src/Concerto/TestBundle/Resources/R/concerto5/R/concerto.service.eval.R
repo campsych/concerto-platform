@@ -2,6 +2,7 @@ concerto.service.eval = function(expr, params = list()) {
   if(!is.expression(expr)) stop("expr must be an expression")
   if(!is.list(params)) stop("params must be a list")
 
+  currentTimestamp = as.numeric(Sys.time())
   concerto$serviceRequestId <<- concerto$serviceRequestId + 1
   requestId = concerto$serviceRequestId
 
@@ -26,23 +27,27 @@ concerto.service.eval = function(expr, params = list()) {
   serializedPayload = serialize(fifoPayload, NULL, ascii=T)
   serializedPayload = rawToChar(serializedPayload)
 
-  reqFifoPath = paste0(concerto$serviceFifoDir, concerto$session$hash, "_", requestId, ".reqfifo")
+  reqFifoPath = paste0(concerto$serviceFifoDir, currentTimestamp, "_", concerto$session$hash, "_", requestId, ".reqfifo")
   con = fifo(reqFifoPath, open="wt", blocking=T)
   writeLines(serializedPayload, con)
   close(con)
 
-  resFifoPath = paste0(concerto$serviceFifoDir, concerto$session$hash, "_", requestId, ".resfifo")
+  resJsonPath = paste0(concerto$serviceFifoDir, concerto$session$hash, "_", requestId, ".resjson")
   resPayloadPath = paste0(concerto$serviceFifoDir, concerto$session$hash, "_", requestId, ".resrd")
   repeat {
-    if(file.exists(resFifoPath)) {
-      #response fifo
-      con = fifo(resFifoPath, open="rt", blocking=T)
+    if(file.exists(resJsonPath)) {
+      #response JSON
+      con = file(resJsonPath, open="rt", blocking=F)
+
       response = readLines(con)
+      while(nchar(response) == 0) {
+        Sys.sleep(0.1)
+        response = readLines(con)
+      }
+
       close(con)
-      unlink(resFifoPath)
-      response = paste0(response, collapse="\n")
-      response = charToRaw(response)
-      response = unserialize(response)
+      unlink(resJsonPath)
+      response = fromJSON(response)
 
       if(response$success) {
         #response payload rd
@@ -52,7 +57,7 @@ concerto.service.eval = function(expr, params = list()) {
       }
       return(response)
     } else {
-      Sys.sleep(0.01)
+      Sys.sleep(0.1)
     }
   }
 }
