@@ -3,7 +3,6 @@ ENV_CONCERTO_R_FORCED_GC_INTERVAL = as.numeric(Sys.getenv("CONCERTO_R_FORCED_GC_
 
 concerto.log("starting service listener")
 
-queue = c()
 #unlink(paste0(ENV_CONCERTO_R_SERVICE_FIFO_PATH, "*"))
 lastForcedGcTime = as.numeric(Sys.time())
 repeat {
@@ -15,22 +14,32 @@ repeat {
     }
   }
 
-  reqFifoPath = NULL
-  if(length(queue) == 0) {
-    queue = list.files(ENV_CONCERTO_R_SERVICE_FIFO_PATH, pattern=".*\\.reqfifo$", full.names=TRUE)
-  }
+  queue = list.files(ENV_CONCERTO_R_SERVICE_FIFO_PATH, pattern=".*\\.reqfifo$", full.names=TRUE)
 
   fl = NULL
   lockPath = NULL
+  reqFifoPath = NULL
+  locked = F
   if(length(queue) > 0) {
-    reqFifoPath = queue[1]
-    queue = queue[-1]
+    for(path in queue) {
+      reqFifoPath = path
+      lockPath = paste0(reqFifoPath, ".lock")
+      fl = lock(lockPath, exclusive=T, timeout=0)
+      locked = !is.null(fl)
+      if(locked) {
+        if(!file.exists(path)) {
+          locked = F
+          unlock(fl)
+          unlink(lockPath)
+          next
+        }
+        break
+      }
+    }
+  }
 
-    lockPath = paste0(reqFifoPath, ".lock")
-    fl = lock(lockPath, exclusive=T, timeout=0)
-    if(is.null(fl)) { next }
-  } else {
-    Sys.sleep(0.01)
+  if(!locked) {
+    Sys.sleep(0.25)
     next
   }
 

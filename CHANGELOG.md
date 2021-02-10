@@ -11,6 +11,7 @@
 * exposed test_runner_settings.r_profile_session_path as env var
 * exposed test_runner_settings.r_environ_session_path as env var
 * added CONCERTO_R_SERVICES_NUM env var
+* added file lock to forker and service guard
 
 ## 5.0.22 (in progress)
 
