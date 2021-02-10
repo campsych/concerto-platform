@@ -157,7 +157,7 @@ CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
  && chown -R $WEB_USER /data/git \
  && cat /etc/nginx/sites-available/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" | sed "s/{{nginx_server_conf}}/$NGINX_SERVER_CONF/g" > /etc/nginx/sites-available/concerto.conf \
  && service nginx start \
- && php bin/console concerto:forker:start --env=prod  \
+ && . /app/concerto/cron/concerto.forker.guard.sh  \
  && /etc/init.d/php7.2-fpm start \
  && cron \
  && tail -F -n 0 var/logs/prod.log var/logs/forker.log

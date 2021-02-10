@@ -23,6 +23,7 @@
 * exposed Symfony's config framework.session.save_path as CONCERTO_PHP_SESSION_SAVE_PATH env variable
 * import directory is now on shared storage
 * /data/php/sessions set as PHP session path
+* file lock for forker guard
 
 ## 5.0.21 (2021-01-19)
 
