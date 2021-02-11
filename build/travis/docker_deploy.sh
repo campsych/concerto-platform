@@ -10,7 +10,7 @@ fi
 
 if [[ -n $TRAVIS_COMMIT ]]
 then
-  COMMIT_SHORT=${$TRAVIS_COMMIT:0:7}
+  COMMIT_SHORT=${TRAVIS_COMMIT:0:7}
   docker push campsych/concerto-platform:$COMMIT_SHORT
 fi
 
