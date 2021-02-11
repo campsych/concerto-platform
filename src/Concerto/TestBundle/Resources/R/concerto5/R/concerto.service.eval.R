@@ -41,7 +41,7 @@ concerto.service.eval = function(expr, params = list()) {
       response = readLines(con)
       close(con)
 
-      while(length(response) == 0) {
+      if(length(response) == 0) {
         Sys.sleep(0.1)
         next
       }
