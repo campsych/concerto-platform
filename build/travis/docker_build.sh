@@ -7,6 +7,13 @@ then
   if [[ $TRAVIS_BRANCH = master ]]; then docker tag campsych/concerto-platform:$TRAVIS_BRANCH campsych/concerto-platform:latest; fi
 fi
 
+if [[ -n $TRAVIS_COMMIT ]]
+then
+  COMMIT_SHORT=${TRAVIS_COMMIT:0:7}
+  docker build -t campsych/concerto-platform:$COMMIT_SHORT .
+  docker tag campsych/concerto-platform:$COMMIT_SHORT campsych/concerto-platform:test
+fi
+
 if [[ -n $TRAVIS_TAG ]]
 then
   if [[ $TRAVIS_TAG =~ ^(v)?([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]
