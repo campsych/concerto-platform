@@ -38,14 +38,14 @@ concerto.service.eval = function(expr, params = list()) {
     if(file.exists(resJsonPath)) {
       #response JSON
       con = file(resJsonPath, open="rt", blocking=F)
-
       response = readLines(con)
+      close(con)
+
       while(length(response) == 0) {
         Sys.sleep(0.1)
-        response = readLines(con)
+        next
       }
 
-      close(con)
       unlink(resJsonPath)
       response = fromJSON(response)
 
