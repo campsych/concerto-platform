@@ -645,6 +645,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             testRunner.startTestTimer = startTestTimer;
             testRunner.stopTestTimer = stopTestTimer;
             testRunner.getToken = getToken;
+            testRunner.getControlValues = getControlsValues;
 
             var options = scope.options;
             if (options.testSlug != null || options.testName != null) {
