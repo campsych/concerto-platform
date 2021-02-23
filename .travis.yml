@@ -8,6 +8,7 @@ services:
   - mysql
 
 before_install:
+  - bash ./build/travis/sonarqube.sh
   - npm install -g bower
   - composer self-update
   - mysql -e 'CREATE DATABASE concerto_test;'
