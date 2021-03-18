@@ -3,6 +3,7 @@
 #### Fixes
 
 * fixed port default values
+* security improvements
 
 ## 5.0.22 (2021-02-19)
 

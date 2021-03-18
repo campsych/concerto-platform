@@ -10,6 +10,7 @@
 {{ include("ConcertoTestBundle::connection_retry_template.html.twig") }}
 
 <div ng-controller="testRunnerController" id="testContainer" ng-init="init(
+{% autoescape 'js' %}
     '{{ platform_url }}',
     '{{ app_url }}',
     '{{ test_slug }}',
@@ -19,7 +20,9 @@
     {{ keep_alive_interval }},
     {{ keep_alive_tolerance }},
     {% if existing_session_hash %} '{{ existing_session_hash }}' {% else %} null {% endif %}
+{% endautoescape %}
 )">
+
 <div class="center">
     <table>
         <tr>

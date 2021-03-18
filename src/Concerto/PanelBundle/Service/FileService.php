@@ -21,24 +21,24 @@ class FileService
 
     public function listFiles($path)
     {
+        $urlPath = $this->canonicalizePath($path);
+        $fullPath = realpath($this->getPublicUploadDirectory()) . "/" . $urlPath;
         $files = array_values(array_filter(
-            scandir($this->getPublicUploadDirectory() . $path),
+            scandir($fullPath),
             function ($path) {
                 return !($path === '.' || $path === '..');
             }
         ));
-        $files = array_map(function ($file) use ($path) {
-            $file = $this->canonicalizePath(
-                $this->getPublicUploadDirectory() . $path . "/" . $file
-            );
-            $date = new \DateTime('@' . filemtime($file));
+        $files = array_map(function ($file) use ($fullPath, $urlPath) {
+            $fullFilePath = $fullPath . "/" . $file;
+            $date = new \DateTime('@' . filemtime($fullFilePath));
             return [
-                'name' => basename($file),
-                'rights' => $this->parsePerms(fileperms($file)),
-                'size' => filesize($file),
+                'name' => basename($fullFilePath),
+                'rights' => $this->parsePerms(fileperms($fullFilePath)),
+                'size' => filesize($fullFilePath),
                 'date' => $date->format('Y-m-d H:i:s'),
-                'type' => is_dir($file) ? 'dir' : 'file',
-                'url' => $this->assetManager->getUrl("bundles/concertopanel/files/" . basename($file))
+                'type' => is_dir($fullFilePath) ? 'dir' : 'file',
+                'url' => $this->assetManager->getUrl("files/" . $urlPath . "/" . basename($fullFilePath))
             ];
         }, $files);
         return $files;
@@ -70,14 +70,16 @@ class FileService
                 $path = $this->getPrivateUploadDirectory();
                 break;
         }
-        $basePath = realpath($path);
-        $path = $this->canonicalizePath($basePath . $destination);
+        $dirPath = realpath($path) . "/" . $this->canonicalizePath($destination);
         foreach ($files as $file) {
-            $fileName = $file->getClientOriginalName();
-            $uploaded = move_uploaded_file(
-                $file->getRealPath(),
-                $path . "/" . $fileName
-            );
+            $uploaded = false;
+            $fileName = $this->canonicalizePath(basename($file->getClientOriginalName()));
+            if ($fileName) {
+                $uploaded = move_uploaded_file(
+                    $file->getRealPath(),
+                    $dirPath . "/" . $fileName
+                );
+            }
             if ($uploaded === false) {
                 $error = "upload_failed";
                 return false;
@@ -88,13 +90,13 @@ class FileService
 
     public function renameFile($item, $newItemPath, &$error)
     {
-        $oldPath = $this->getPublicUploadDirectory() . $item;
-        $newPath = $this->getPublicUploadDirectory() . $newItemPath;
-        if (!file_exists($oldPath)) {
+        $srcPath = realpath($this->getPublicUploadDirectory()) . "/" . $this->canonicalizePath($item);
+        $dstPath = realpath($this->getPublicUploadDirectory()) . "/" . $this->canonicalizePath($newItemPath);
+        if (!file_exists($srcPath)) {
             $error = 'file_not_found';
             return false;
         }
-        $success = rename($oldPath, $newPath);
+        $success = rename($srcPath, $dstPath);
         if (!$success) {
             $error = "renaming_failed";
             return false;
@@ -102,20 +104,24 @@ class FileService
         return true;
     }
 
-    public function copyFiles($items, $newPath, &$error)
+    public function copyFiles($items, $newPath, $singleDstFileName, &$error)
     {
-        $newPath = $this->getPublicUploadDirectory() . $this->canonicalizePath($newPath) . DIRECTORY_SEPARATOR;
         foreach ($items as $oldPath) {
-            if (!file_exists($this->getPublicUploadDirectory() . $oldPath)) {
-                $error = "copying_failed";
+            $srcPath = $this->canonicalizePath($oldPath);
+            $dstFileName = $this->canonicalizePath(basename($srcPath));
+            if ($singleDstFileName) {
+                $singleDstFileName = $this->canonicalizePath(basename($singleDstFileName));
+                $dstFileName = $singleDstFileName;
+            }
+            $srcPath = realpath($this->getPublicUploadDirectory()) . "/" . $srcPath;
+            $dstPath = realpath($this->getPublicUploadDirectory()) . "/" . $this->canonicalizePath($newPath) . "/" . $dstFileName;
+            if (!file_exists($srcPath)) {
+                $error = "copying_failed $srcPath";
                 return false;
             }
-            $copied = copy(
-                $this->getPublicUploadDirectory() . $oldPath,
-                $newPath . basename($oldPath)
-            );
+            $copied = copy($srcPath, $dstPath);
             if ($copied === false) {
-                $error = "copying_failed";
+                $error = "copying_failed $srcPath -> $dstPath";
                 return false;
             }
         }
@@ -124,13 +130,16 @@ class FileService
 
     public function moveFiles($items, $newPath, &$error)
     {
-        $newPath = $this->getPublicUploadDirectory() . $this->canonicalizePath($newPath) . DIRECTORY_SEPARATOR;
         foreach ($items as $oldPath) {
-            if (!file_exists($this->getPublicUploadDirectory() . $oldPath)) {
+            $srcPath = realpath($this->getPublicUploadDirectory()) . "/" . $this->canonicalizePath($oldPath);
+            $dstDir = realpath($this->getPublicUploadDirectory()) . "/" . $this->canonicalizePath($newPath);
+            $fileName = $this->canonicalizePath(basename($srcPath));
+            $dstPath = $dstDir . "/" . $fileName;
+            if (!file_exists($srcPath)) {
                 $error = "moving_failed";
                 return false;
             }
-            $renamed = rename($this->getPublicUploadDirectory() . $oldPath, $newPath . basename($oldPath));
+            $renamed = rename($srcPath, $dstPath);
             if ($renamed === false) {
                 $error = "moving_failed";
                 return false;
@@ -142,7 +151,7 @@ class FileService
     public function deleteFiles($items, &$error)
     {
         foreach ($items as $path) {
-            $path = $this->canonicalizePath($this->getPublicUploadDirectory() . $path);
+            $path = realpath($this->getPublicUploadDirectory()) . "/" . $this->canonicalizePath($path);
             if (is_dir($path)) {
                 $dirEmpty = (new \FilesystemIterator($path))->valid();
                 if ($dirEmpty) {
@@ -164,7 +173,7 @@ class FileService
 
     public function editFile($item, $content, &$error)
     {
-        $path = $this->getPublicUploadDirectory() . $item;
+        $path = realpath($this->getPublicUploadDirectory()) . "/" . $this->canonicalizePath($item);
         $success = file_put_contents($path, $content);
         if (!$success) {
             $error = "saving_failed";
@@ -175,7 +184,7 @@ class FileService
 
     public function getFileContent($item, &$error)
     {
-        $path = $this->getPublicUploadDirectory() . $item;
+        $path = realpath($this->getPublicUploadDirectory()) . "/" . $this->canonicalizePath($item);
         if (!file_exists($path)) {
             $error = "file_not_found";
             return false;
@@ -190,7 +199,7 @@ class FileService
 
     public function createDirectory($newPath, &$error)
     {
-        $path = $this->getPublicUploadDirectory() . $newPath;
+        $path = realpath($this->getPublicUploadDirectory()) . "/" . $this->canonicalizePath($newPath);
         if (file_exists($path) && is_dir($path)) {
             $error = 'folder_already_exists';
             return false;
@@ -221,19 +230,19 @@ class FileService
 
     public function compressFiles($items, $destination, $compressedFilename, &$error)
     {
-        $archivePath = $this->getPublicUploadDirectory() . $destination . $compressedFilename;
+        $archivePath = realpath($this->getPublicUploadDirectory()) . "/" . $this->canonicalizePath($destination) . "/" . $this->canonicalizePath(basename($compressedFilename));
         $zip = new \ZipArchive();
         if ($zip->open($archivePath, \ZipArchive::CREATE) !== true) {
             $error = "compression_failed";
             return false;
         }
         foreach ($items as $path) {
-            $fullPath = $this->getPublicUploadDirectory() . $path;
+            $fullPath = realpath($this->getPublicUploadDirectory()) . "/" . $this->canonicalizePath($path);
             if (is_dir($fullPath)) {
                 $dirs = [
                     [
                         'dir' => basename($path),
-                        'path' => $this->canonicalizePath($this->getPublicUploadDirectory() . $path),
+                        'path' => $fullPath,
                     ]
                 ];
                 while (count($dirs)) {
@@ -242,16 +251,16 @@ class FileService
                     $dh = opendir($dir['path']);
                     while ($file = readdir($dh)) {
                         if ($file != '.' && $file != '..') {
-                            $filePath = $dir['path'] . DIRECTORY_SEPARATOR . $file;
+                            $filePath = $dir['path'] . '/' . $file;
                             if (is_file($filePath)) {
                                 $zip->addFile(
-                                    $dir['path'] . DIRECTORY_SEPARATOR . $file,
+                                    $dir['path'] . '/' . $file,
                                     $dir['dir'] . '/' . basename($file)
                                 );
                             } elseif (is_dir($filePath)) {
                                 $dirs[] = [
                                     'dir' => $dir['dir'] . '/' . $file,
-                                    'path' => $dir['path'] . DIRECTORY_SEPARATOR . $file
+                                    'path' => $dir['path'] . '/' . $file
                                 ];
                             }
                         }
@@ -273,8 +282,8 @@ class FileService
 
     public function extractFiles($destination, $item, $folderName, &$error)
     {
-        $archivePath = $this->getPublicUploadDirectory() . $item;
-        $folderPath = $this->getPublicUploadDirectory() . $this->canonicalizePath($destination) . DIRECTORY_SEPARATOR . $folderName;
+        $archivePath = realpath($this->getPublicUploadDirectory()) . "/" . $this->canonicalizePath($item);
+        $folderPath = realpath($this->getPublicUploadDirectory()) . "/" . $this->canonicalizePath($destination) . "/" . $this->canonicalizePath(basename($folderName));
         $zip = new \ZipArchive;
         if ($zip->open($archivePath) === false) {
             $error = 'archive_opening_failed';
@@ -293,7 +302,8 @@ class FileService
     public function setPermissions($items, $perms, $recursive, &$error)
     {
         foreach ($items as $path) {
-            if (!file_exists($this->getPublicUploadDirectory() . $path)) {
+            $path = realpath($this->getPublicUploadDirectory()) . "/" . $this->canonicalizePath($path);
+            if (!file_exists($path)) {
                 $error = 'file_not_found';
                 return false;
             }
@@ -303,7 +313,8 @@ class FileService
                     RecursiveIteratorIterator::SELF_FIRST
                 );
                 foreach ($iterator as $item) {
-                    $changed = chmod($this->getPublicUploadDirectory() . $item, octdec($perms));
+                    $itemPath = realpath($this->getPublicUploadDirectory()) . "/" . $item;
+                    $changed = chmod($itemPath, octdec($perms));
 
                     if ($changed === false) {
                         $error = "permissions_change_failed";
@@ -311,7 +322,7 @@ class FileService
                     }
                 }
             }
-            $success = chmod($this->getPublicUploadDirectory() . $path, octdec($perms));
+            $success = chmod($path, octdec($perms));
             if (!$success) {
                 $error = "permissions_change_failed";
                 return false;
