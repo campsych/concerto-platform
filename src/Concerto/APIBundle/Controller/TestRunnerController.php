@@ -95,7 +95,7 @@ class TestRunnerController
      * @param string $session_hash
      * @return Response
      */
-    public function backgroundWorkerAction(Request $request, $session_hash)
+    public function backgroundWorkerAction(Request $request, string $session_hash)
     {
         if (!$this->administrationService->isApiEnabled())
             return new Response("API disabled", Response::HTTP_FORBIDDEN);

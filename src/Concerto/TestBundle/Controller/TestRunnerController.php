@@ -247,7 +247,7 @@ class TestRunnerController
      * @param string $session_hash
      * @return RedirectResponse|Response
      */
-    public function backgroundWorkerAction(Request $request, $session_hash)
+    public function backgroundWorkerAction(Request $request, string $session_hash)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
 
@@ -405,6 +405,7 @@ class TestRunnerController
         $sessionFilesAccess = false;
         $sessionHash = null;
 
+        if (!array_key_exists("hash", $result)) return null;
         $sessionHash = $result["hash"];
         if (isset($result["data"]) && is_array($result["data"])) {
             if (isset($result["data"]["protectedFilesAccess"]) && $result["data"]["protectedFilesAccess"] === true) $protectedFilesAccess = true;
@@ -420,7 +421,7 @@ class TestRunnerController
                 "expiry" => time() + intval($this->testRunnerSettings["session_token_expiry_time"])
             ]);
         } catch (JWTEncodeFailureException $e) {
-            return false;
+            return null;
         }
 
         return $token;

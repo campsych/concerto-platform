@@ -9,6 +9,7 @@ concerto.test.getPorts = function(testId){
   node_id,
   variable_id,
   TestNodePort.value AS value,
+  TestNodePort.value AS defaultValue,
   TestNodePort.type AS type,
   TestNodePort.name AS name,
   string,

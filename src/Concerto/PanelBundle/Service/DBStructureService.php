@@ -23,6 +23,9 @@ class DBStructureService
         if ($this->dbStructureDao->tableExists($table_new_name) && $table_old_name != $table_new_name) {
             $errors[] = "validate.table.name.unique";
         }
+        if (!preg_match("/^[a-zA-Z][a-zA-Z0-9_]*(?<!_)$/", $table_new_name)) {
+            $errors[] = "validate.table.name.incorrect";
+        }
         return $errors;
     }
 

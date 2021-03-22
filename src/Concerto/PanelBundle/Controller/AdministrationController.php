@@ -336,7 +336,7 @@ class AdministrationController
     {
         $file = $request->get("file");
         if ($file) {
-            $file = realpath($this->fileService->getPrivateUploadDirectory()) . "/" . $file;
+            $file = realpath($this->fileService->getPrivateUploadDirectory()) . "/" . $this->fileService->canonicalizePath(basename($file));
         }
         $url = $request->get("url");
         $input = $file ? $file : $url;
@@ -345,7 +345,7 @@ class AdministrationController
         $instructions = $request->get("instructions");
         if ($instructions === null) $instructions = $this->service->getContentTransferOptions();
 
-        $success = $this->importService->scheduleTaskImportContent($input, $instructions, true,$output, $errors);
+        $success = $this->importService->scheduleTaskImportContent($input, $instructions, true, $output, $errors);
         $response = new Response(json_encode([
             "result" => $success ? 0 : 1,
             "output" => $output,

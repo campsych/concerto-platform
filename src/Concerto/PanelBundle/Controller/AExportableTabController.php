@@ -31,8 +31,9 @@ abstract class AExportableTabController extends ASectionController
 
     public function preImportStatusAction(Request $request)
     {
+        $filePath = realpath($this->fileService->getPrivateUploadDirectory()) . "/" . $this->fileService->canonicalizePath(basename($request->get("file")));
         $instructions = $this->importService->getPreImportStatusFromFile(
-            $this->fileService->getPrivateUploadDirectory() . $request->get("file"),
+            $filePath,
             $errorMessages
         );
 

@@ -455,10 +455,11 @@ class DataTableController extends AExportableTabController
             return $response;
         }
 
+        $filePath = realpath($this->fileService->getPrivateUploadDirectory()) . "/" . $this->fileService->canonicalizePath(basename($request->get("file")));
         try {
             $this->service->importFromCsv(
                 $table_id,
-                $this->fileService->getPrivateUploadDirectory() . $request->get("file"),
+                $filePath,
                 $restructure === "1",
                 $header === "1",
                 $delimiter,

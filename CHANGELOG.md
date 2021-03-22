@@ -13,7 +13,14 @@
 * added CONCERTO_R_SERVICES_NUM env var
 * added file lock to forker and service guard
 
-## 5.0.22 (in progress)
+## 5.0.23 (in progress)
+
+#### Fixes
+
+* fixed port default values
+* security improvements
+
+## 5.0.22 (2021-02-19)
 
 #### Fixes
 
@@ -27,6 +34,7 @@
 
 * configurable R long running processes forced GC interval (r_forced_gc_interval)
 * replaced RSA key pair for JWT with HMAC key (CONCERTO_JWT_SECRET env)
+* exposed testRunner.getControlValues()
 
 #### Starter content
 

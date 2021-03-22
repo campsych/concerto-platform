@@ -180,24 +180,40 @@ class DataTableService extends AExportableSectionService
     {
         $object = $this->get($object_id, false, $secure);
         if ($object != null) {
+            if (!$this->validateFilters($object->getName(), $filters)) return array();
+
             $data = $this->dbDataDao->fetchMatchingData($object->getName(), $filters);
             if ($prefixed) {
                 self::prefixData($data);
             }
             return $data;
-        } else {
-            return array();
         }
+        return array();
     }
 
     public function countFilteredData($object_id, $filters)
     {
         $object = $this->get($object_id);
         if ($object != null) {
+            if (!$this->validateFilters($object->getName(), $filters)) return 0;
+
             return $this->dbDataDao->countMatchingData($object->getName(), $filters);
-        } else {
-            return 0;
         }
+        return 0;
+    }
+
+    private function validateFilters($tableName, $filters)
+    {
+        $decodedFilters = $filters !== null ? json_decode($filters, true) : null;
+        if ($decodedFilters !== null) {
+            foreach (array_keys($decodedFilters["filters"]) as $filterElem) {
+                if (empty($this->dbStructureService->getColumn($tableName, $filterElem))) return false;
+            }
+            foreach (array_keys($decodedFilters["sorting"]) as $sortingElem) {
+                if (empty($this->dbStructureService->getColumn($tableName, $sortingElem))) return false;
+            }
+        }
+        return true;
     }
 
     public function streamJsonData($object_id, $prefixed = false)
@@ -477,6 +493,8 @@ class DataTableService extends AExportableSectionService
             $result = array("errors" => null, "entity" => $src_ent);
         } else
             $result = $this->importNew($new_name, $obj, $map, $queue);
+
+        if ($result["errors"] !== null && count($result["errors"]) > 0) return $result;
 
         if ($instruction["action"] != 2 && isset($instruction["data"]) && $instruction["data"] == 2) {
             $this->dbDataDao->truncate($new_name);

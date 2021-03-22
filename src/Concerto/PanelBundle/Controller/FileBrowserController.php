@@ -78,7 +78,8 @@ class FileBrowserController
     {
         $items = $request->get("items");
         $newPath = $request->get("newPath");
-        $result = $this->fileService->copyFiles($items, $newPath, $error);
+        $singleDstFileName = $request->get("singleFilename");
+        $result = $this->fileService->copyFiles($items, $newPath, $singleDstFileName, $error);
         if ($result === true) return $this->successPostResponse();
         else return $this->errorResponse($error);
     }
@@ -158,8 +159,8 @@ class FileBrowserController
     public function downloadAction(Request $request)
     {
         $path = $request->get("path");
-        $file_name = basename($path);
-        $path = $this->fileService->canonicalizePath($this->fileService->getPublicUploadDirectory() . $path);
+        $fileName = $this->fileService->canonicalizePath(basename($path));
+        $path = realpath($this->fileService->getPublicUploadDirectory()) . "/" . $this->fileService->canonicalizePath($path);
         if (!file_exists($path)) {
             return $this->errorResponse("file_not_found");
         }
@@ -168,7 +169,7 @@ class FileBrowserController
         finfo_close($finfo);
 
         $response = new Response(file_get_contents($path));
-        $response->headers->set("Content-Disposition", "attachment; filename=\"$file_name\"");
+        $response->headers->set("Content-Disposition", "attachment; filename=\"$fileName\"");
         $response->headers->set("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
         $response->headers->set("Content-Type", $mime_type);
         $response->headers->set("Pragma", "public");
