@@ -72,7 +72,7 @@ repeat {
   }, error = function(ex) {
     list(
       success=F,
-      errorMessage=ex
+      errorMessage=ex$message
     )
   })
   rm(env)
