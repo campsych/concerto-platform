@@ -1,3 +1,9 @@
+## 5.0.24 (in progress)
+
+#### Starter content
+
+* added Item Exclusion Module to **assessment** node
+
 ## 5.0.23 (2021-03-25)
 
 #### Fixes

@@ -133,13 +133,11 @@ itemsPerPage = as.numeric(settings$itemsPerPage)
 nextPage = as.numeric(prevPage) + as.numeric(direction)
 
 if(length(nextItemsIndices) == 0) {
-  itemsExcluded = NULL
 
   cbGroup = NULL
   cbControl = NULL
 
   if(settings$order == "cat") {
-    itemsExcluded = unique(c(itemsExcluded, which(items$fixedIndex > 0)))
 
     #content balancing
     cbProps = fromJSON(settings$contentBalancing)
@@ -161,17 +159,17 @@ if(length(nextItemsIndices) == 0) {
       #fixed indices
       inTestIndex = length(itemsAdministered) + onPageIndex
       fixedItemIndex = which(items$fixedIndex == inTestIndex)[1]
-      if(!is.na(fixedItemIndex)) {
+      if(!is.na(fixedItemIndex) && !(fixedItemIndex %in% excludedItems)) {
         nextItemsIndices = c(nextItemsIndices, fixedItemIndex)
         next
       }
 
-      isAnyItemLeft = itemsNum > length(itemsAdministered)
+      isAnyItemLeft = itemsNum - length(excludedItems) > length(itemsAdministered)
       if(isAnyItemLeft) {
         nAvailable = NULL
         for(i in 1:dim(items)[1]) {
           item = items[i,]
-          available = if(!is.null(item$fixedIndex) && !is.na(item$fixedIndex) && item$fixedIndex > 0) { 
+          available = if((!is.null(item$fixedIndex) && !is.na(item$fixedIndex) && item$fixedIndex > 0) || i %in% excludedItems) { 
             0 
           } else { 
             1 
@@ -192,14 +190,28 @@ if(length(nextItemsIndices) == 0) {
           }
         })
         nextItemsIndices = c(nextItemsIndices, result$item)
-        itemsExcluded = c(itemsExcluded, result$item)
       }
     }
   } else {
     #linear
-    pageFirstItemIndex = (nextPage - 1) * as.numeric(settings$itemsPerPage) + 1
-    pageLastItemIndex = min(nextPage * as.numeric(settings$itemsPerPage), dim(items)[1])
-    nextItemsIndices = pageFirstItemIndex:pageLastItemIndex
+    foundNonEmptyPage = F
+    while(!foundNonEmptyPage) {
+      pageFirstItemIndex = (nextPage - 1) * as.numeric(settings$itemsPerPage) + 1
+      pageLastItemIndex = min(nextPage * as.numeric(settings$itemsPerPage), dim(items)[1])
+      if(pageLastItemIndex < pageFirstItemIndex) { break }
+
+      nextItemsIndices = pageFirstItemIndex:pageLastItemIndex
+      if(length(nextItemsIndices) > 1) {
+        nextItemsIndices = nextItemsIndices[-which(nextItemsIndices %in% excludedItems)]
+      } else {
+        if(length(nextItemsIndices) == 1 && nextItemsIndices %in% excludedItems) { nextItemsIndices = NULL }
+      }
+      if(length(nextItemsIndices) == 0) { 
+        nextPage = nextPage + 1 
+      } else {
+        foundNonEmptyPage = T
+      }
+    }      
   }
 
   if(!is.na(settings$nextItemModule) && settings$nextItemModule != "") {
@@ -209,7 +221,7 @@ if(length(nextItemsIndices) == 0) {
       theta = theta,
       traitScores = traitScores,
       itemsAdministered=itemsAdministered,
-      itemsExcluded=itemsExcluded,
+      excludedItems=excludedItems,
       cbGroup=cbGroup,
       cbControl=cbControl,
       session=session,

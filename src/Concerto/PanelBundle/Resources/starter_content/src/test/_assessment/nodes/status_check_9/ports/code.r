@@ -6,7 +6,7 @@ isOutOfTime = function(testTimeLimit, testTimeLeft, itemTimeLimit, itemTimeFullR
   return(F)
 }
 
-getStopReason = function(testTimeLimit, itemTimeLimit, itemTimeFullRequired, itemNumLimit, minAccuracy, minAccuracyMinItems, itemsNum) {
+getStopReason = function(testTimeLimit, itemTimeLimit, itemTimeFullRequired, itemNumLimit, minAccuracy, minAccuracyMinItems, itemsNum, excludedItems) {
   outOfTime = isOutOfTime(
     testTimeLimit, 
     testTimeLeft,
@@ -23,7 +23,7 @@ getStopReason = function(testTimeLimit, itemTimeLimit, itemTimeFullRequired, ite
   if(itemNumLimit > 0) { maxItems = min(maxItems, itemNumLimit) }
   totalPages = ceiling(maxItems / as.numeric(settings$itemsPerPage))
 
-  if(itemNumLimit > 0 && length(itemsAdministered) >= itemNumLimit || length(itemsAdministered) >= itemsNum) {
+  if(itemNumLimit > 0 && length(itemsAdministered) >= itemNumLimit || length(itemsAdministered) - length(excludedItems) >= itemsNum) {
     if(direction > 0 && totalPages == page) {
       return("maxItems")
     }
@@ -43,7 +43,8 @@ stopReason = getStopReason(
   as.numeric(settings$itemNumLimit), 
   as.numeric(settings$minAccuracy), 
   as.numeric(settings$minAccuracyMinItems),
-  dim(items)[1]
+  dim(items)[1],
+  excludedItems
 )
 if(!is.na(settings$stopCheckModule) && settings$stopCheckModule != "") {
   stopReason = concerto.test.run(settings$stopCheckModule, params=list(
@@ -56,7 +57,8 @@ if(!is.na(settings$stopCheckModule) && settings$stopCheckModule != "") {
     responses = responses,
     scores = scores,
     items = items,
-    templateResponse = templateResponse
+    templateResponse = templateResponse,
+    excludedItems = excludedItems
   ))$stopReason
 }
 
