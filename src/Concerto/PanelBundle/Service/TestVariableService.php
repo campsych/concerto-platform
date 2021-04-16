@@ -176,10 +176,12 @@ class TestVariableService extends ASectionService
                     if ($variable->getParentVariable() && $variable->getParentVariable()->getId() == $parentVariable->getId()) {
                         $found = true;
                         $variable->setName($name);
-                        $variable->setPassableThroughUrl($url);
 
                         $hasWizardParam = $wizard->getParamByName($variable->getName()) !== null;
-                        if (!$hasWizardParam) $variable->setValue($value);
+                        if (!$hasWizardParam) {
+                            $variable->setValue($value);
+                            $variable->setPassableThroughUrl($url);
+                        }
 
                         $this->update($variable, $flush);
                         break;

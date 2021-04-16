@@ -116,7 +116,7 @@ class TestWizardParamService extends ASectionService
     {
         $isNew = $object->getId() === null;
         $changeSet = $this->repository->getChangeSet($object);
-        if($isNew || !empty($changeSet)) {
+        if ($isNew || !empty($changeSet)) {
             $this->repository->save($object);
             $this->onObjectSaved($object, $originalObject, $flush);
         }
@@ -340,10 +340,16 @@ class TestWizardParamService extends ASectionService
                     if (!in_array($newType, self::$simpleTypes)) {
                         $val = json_encode($val);
                     }
+                    $update = false;
+                    if ($newParam->isPassableThroughUrl() !== $var->isPassableThroughUrl()) {
+                        $var->setPassableThroughUrl($newParam->isPassableThroughUrl());
+                        $update = true;
+                    }
                     if ($val !== $var->getValue()) {
                         $var->setValue($val);
-                        $this->testVariableService->update($var, $flush);
+                        $update = true;
                     }
+                    if ($update) $this->testVariableService->update($var, $flush);
 
                     // ports update
                     $nodes = $var->getTest()->getSourceForNodes();
