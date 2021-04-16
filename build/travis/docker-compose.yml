@@ -16,6 +16,6 @@ services:
         - PHP_FPM_PM_MAX_SPARE_SERVERS=15
         - PHP_FPM_PM_PROCESS_IDLE_TIMEOUT=10s
         - PHP_FPM_PM_MAX_REQUESTS=300
-        - TZ=Europe/London
+        - TZ=UTC
         - TRAVIS_BRANCH=${TRAVIS_BRANCH}
       network_mode: host

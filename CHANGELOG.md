@@ -5,6 +5,10 @@
 * added Item Exclusion Module to **assessment** node
 * fixed URL flag value propagation for variables
 
+#### Docker
+
+* UTC is now default timezone for containers
+
 ## 5.0.23 (2021-03-25)
 
 #### Fixes

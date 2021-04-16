@@ -60,7 +60,7 @@ ENV PHP_FPM_PM_MAX_SPARE_SERVERS=15
 ENV PHP_FPM_PM_PROCESS_IDLE_TIMEOUT=10s
 ENV PHP_FPM_PM_MAX_REQUESTS=300
 ENV WEB_USER=www-data
-ENV TZ=Europe/London
+ENV TZ=UTC
 
 COPY . /app/concerto/
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /
