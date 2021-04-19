@@ -482,7 +482,7 @@ class TestRunnerController
                     $cookie = new Cookie(
                         $k,
                         $v,
-                        0,
+                        time() + (30 * 24 * 60 * 60), //30 days
                         '/',
                         null,
                         $this->testRunnerSettings["cookies_secure"] === "true",

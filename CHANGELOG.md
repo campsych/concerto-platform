@@ -1,5 +1,9 @@
 ## 5.0.24 (in progress)
 
+#### Improvements
+
+* test based cookies now expire after 30 days
+
 #### Starter content
 
 * added Item Exclusion Module to **assessment** node
