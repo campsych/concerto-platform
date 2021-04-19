@@ -13,7 +13,22 @@
 * added CONCERTO_R_SERVICES_NUM env var
 * added file lock to forker and service guard
 
-## 5.0.23 (in progress)
+## 5.0.24 (2021-04-19)
+
+#### Improvements
+
+* test based cookies now expire after 30 days
+
+#### Starter content
+
+* added Item Exclusion Module to **assessment** node
+* fixed URL flag value propagation for variables
+
+#### Docker
+
+* UTC is now default timezone for containers
+
+## 5.0.23 (2021-03-25)
 
 #### Fixes
 

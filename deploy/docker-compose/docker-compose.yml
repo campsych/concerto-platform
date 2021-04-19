@@ -9,7 +9,7 @@ services:
       - MYSQL_USER=concerto
       - MYSQL_PASSWORD=changeme
       - MYSQL_ROOT_PASSWORD=changeme
-      - TZ=Europe/London
+      - TZ=UTC
     volumes:
       - ./data/mysql:/var/lib/mysql
 
@@ -26,6 +26,6 @@ services:
       - CONCERTO_GIT_REPOSITORY_PATH=/data/git
       - DB_HOST=database
       - DB_PASSWORD=changeme
-      - TZ=Europe/London
+      - TZ=UTC
     ports:
       - "80:80"

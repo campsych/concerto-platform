@@ -71,7 +71,7 @@ Parameters:
   ConcertoTimezone:
     Description: Timezone to use, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
     Type: String
-    Default: Europe/London
+    Default: UTC
   ConcertoStorage:
     Default: 8
     Description: The size of the storage volume (Gb)
