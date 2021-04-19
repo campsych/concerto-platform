@@ -1,4 +1,4 @@
-## 5.0.24 (in progress)
+## 5.0.24 (2021-04-19)
 
 #### Improvements
 
