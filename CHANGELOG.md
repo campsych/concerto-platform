@@ -1,3 +1,9 @@
+## 5.0.25 (in progress)
+
+#### Starter content
+
+* added **columnPrefix** input to **translationDictionary** node 
+
 ## 5.0.24 (2021-04-19)
 
 #### Improvements

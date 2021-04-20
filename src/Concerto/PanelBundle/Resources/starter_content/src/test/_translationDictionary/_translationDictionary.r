@@ -1,3 +1,4 @@
+if(is.na(columnPrefix)) { columnPrefix = "" }
 selectedLanguage = language
 if(is.na(language)) { selectedLanguage = defaultLanguage }
 
@@ -15,10 +16,13 @@ if(type == "multiTable") {
   dictionaryTable$defaultTable = paste0(substr(table, 1, suffixStartIndex), defaultLanguage)
 }
 
+languageColumn = paste0(columnPrefix, selectedLanguage)
+defaultLanguageColumn = paste0(columnPrefix, defaultLanguage)
+
 params=list(
   keyColumn = dictionaryTable$columns$entryKey,
-  language = selectedLanguage,
-  defaultLanguage = defaultLanguage,
+  languageColumn = languageColumn,
+  defaultLanguageColumn = defaultLanguageColumn,
   table = dictionaryTable$table,
   defaultTable = dictionaryTable$defaultTable
 )
@@ -28,14 +32,14 @@ if(type == "multiTable") {
   entries = concerto.table.query("
 SELECT 
 t1.{{keyColumn}} AS entryKey, 
-IF(t1.{{language}} IS NULL, t2.{{defaultLanguage}}, t1.{{language}}) AS trans 
+IF(t1.{{languageColumn}} IS NULL, t2.{{defaultLanguageColumn}}, t1.{{languageColumn}}) AS trans 
 FROM {{table}} AS t1
 LEFT JOIN {{defaultTable}} AS t2 ON t2.{{keyColumn}}=t1.{{keyColumn}}", params=params)
 } else {
   entries = concerto.table.query("
 SELECT 
 {{keyColumn}} AS entryKey, 
-IF({{language}} IS NULL, {{defaultLanguage}}, {{language}}) AS trans 
+IF({{languageColumn}} IS NULL, {{defaultLanguageColumn}}, {{languageColumn}}) AS trans 
 FROM {{table}}", params=params)
 }
 
