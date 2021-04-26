@@ -20,6 +20,9 @@ security:
           logout:
             path: /admin/logout
             target: /admin
+          two_factor:
+            auth_form_path: 2fa_login
+            check_path: 2fa_login_check
             
         oauth_token:
           pattern:    ^/oauth/v2/token
@@ -41,5 +44,6 @@ security:
           anonymous:  true
 
     access_control:
+        - { path: ^/admin/2fa, role: IS_AUTHENTICATED_2FA_IN_PROGRESS }
         - { path: ^/admin, roles: [ IS_AUTHENTICATED_FULLY ] }
         - { path: ^/api(/data|/runner), roles: [ IS_AUTHENTICATED_FULLY ] }

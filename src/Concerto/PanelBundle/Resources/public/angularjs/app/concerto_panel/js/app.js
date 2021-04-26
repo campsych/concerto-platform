@@ -21,7 +21,8 @@ var concertoPanel = angular.module('concertoPanel', [
     "ng-html",
     'ng-context-menu',
     "chart.js",
-    "FileManagerApp"
+    "FileManagerApp",
+    "ja.qr"
 ]);
 
 concertoPanel.config(function ($interpolateProvider) {

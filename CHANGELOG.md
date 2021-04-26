@@ -1,5 +1,9 @@
 ## 5.0.25 (in progress)
 
+#### Features
+
+* Google Authenticator MFA for panel users
+
 #### Starter content
 
 * added **columnPrefix** input to **translationDictionary** node 

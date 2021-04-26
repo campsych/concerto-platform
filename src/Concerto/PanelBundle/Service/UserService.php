@@ -6,6 +6,7 @@ use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\UserRepository;
 use Concerto\PanelBundle\Repository\RoleRepository;
 use Psr\Log\LoggerInterface;
+use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Google\GoogleAuthenticatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
@@ -25,6 +26,7 @@ class UserService extends ASectionService
     private $uio;
     private $importService;
     private $validator;
+    private $googleAuthenticatorService;
 
     public function __construct(
         UserRepository $repository,
@@ -36,7 +38,9 @@ class UserService extends ASectionService
         ImportService $importService,
         TokenStorageInterface $securityTokenStorage,
         AdministrationService $administrationService,
-        LoggerInterface $logger)
+        LoggerInterface $logger,
+        GoogleAuthenticatorInterface $googleAuthenticatorService
+    )
     {
         parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService, $logger);
 
@@ -45,6 +49,7 @@ class UserService extends ASectionService
         $this->encoderFactory = $encoderFactory;
         $this->uio = $uio;
         $this->importService = $importService;
+        $this->googleAuthenticatorService = $googleAuthenticatorService;
     }
 
     public function get($object_id, $createNew = false, $secure = true)
@@ -69,6 +74,7 @@ class UserService extends ASectionService
         }
         $object->setEmail($email);
         $object->setUsername($username);
+        if ($new) $object->setGoogleAuthenticatorSecret($this->googleAuthenticatorService->generateSecret());
 
         if (!self::$securityOn || $this->securityAuthorizationChecker->isGranted(User::ROLE_SUPER_ADMIN)) {
             $object->setAccessibility($accessibility);
@@ -212,4 +218,21 @@ class UserService extends ASectionService
         return true;
     }
 
+    public function disableMFA(User $user)
+    {
+        $user->setGoogleAuthenticatorEnabled(false);
+        $this->update($user);
+    }
+
+    public function enableMFA(User $user)
+    {
+        $user->setGoogleAuthenticatorSecret($this->googleAuthenticatorService->generateSecret());
+        $user->setGoogleAuthenticatorEnabled(true);
+        $this->update($user);
+
+        return [
+            "qrCode" => $this->googleAuthenticatorService->getQRContent($user),
+            "secret" => $user->getGoogleAuthenticatorSecret()
+        ];
+    }
 }

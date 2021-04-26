@@ -87,3 +87,14 @@ lexik_jwt_authentication:
     token_ttl: 3600
     encoder:
         signature_algorithm: HS512
+
+scheb_two_factor:
+    security_tokens:
+        - Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken
+    google:
+        enabled: true
+        digits: 6
+        window: 1
+        #server_name: Server Name
+        #issuer: Issuer Name
+        template: ConcertoPanelBundle:Panel:login_mfa.html.twig

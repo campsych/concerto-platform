@@ -1,0 +1,41 @@
+{% extends "ConcertoPanelBundle::base_panel.html.twig" %}
+{% trans_default_domain "login" %}
+{% block body %}
+    {{ parent() }}
+    <div class="loginContainer">
+        {% embed "ConcertoPanelBundle::form_v_panel.html.twig" %}
+            {% trans_default_domain "login" %}
+            {% block legend %}{{ 'mfa.form.legend'|trans }}{% endblock %}
+            {% block legend_tooltip %}{{ 'mfa.form.legend.tooltip'|trans }}{% endblock %}
+            {% block description %}
+                <div class="loginPageLogo">
+                    <img src="{{ asset("bundles/concertopanel/images/symbol.png") }}">
+                    <div class="logoTxt">v{{ version }}</div>
+                </div>
+            {% endblock %}
+            {% block elements %}
+                <form action="{{ checkPathUrl ? checkPathUrl: path(checkPathRoute) }}" method="post">
+                    <table>
+                        {% embed "ConcertoPanelBundle::form_v_element.html.twig" %}
+                            {% trans_default_domain "login" %}
+                            {% block label %}{{ 'mfa.form.field.code'|trans }}{% endblock %}
+                            {% block tooltip %}{{ 'mfa.form.field.code.tooltip'|trans }}{% endblock %}
+                            {% block control %}
+                                <input type="text" name="{{ authCodeParameterName }}" autocomplete="one-time-code" autofocus style="width:100%;" class='form-control'/>
+                            {% endblock %}
+                        {% endembed %}
+                    </table>
+                    <div class="loginButton center">
+                        <button id="btn-login" class="btn btn-primary">{{ 'mfa.form.button.login'|trans }}</button>
+                    </div>
+                </form>
+
+                <p class="cancel"><a href="{{ logoutPath }}">{{ "mfa.form.button.cancel"|trans }}</a></p>
+            {% endblock %}
+        {% endembed %}
+
+        {% if authenticationError %}
+            <uib-alert type="danger">{{ authenticationError|trans(authenticationErrorData) }}</uib-alert>
+        {% endif %}
+    </div>
+{% endblock %}

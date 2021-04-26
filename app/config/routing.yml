@@ -19,3 +19,11 @@ remove_trailing_slash:
     requirements:
         url: .*/$
     methods: [GET]
+
+2fa_login:
+    path: /admin/2fa
+    defaults:
+        _controller: "scheb_two_factor.form_controller:form"
+
+2fa_login_check:
+    path: /admin/2fa_check

@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface;
 
 /**
  * @ORM\Table(name="ConcertoUser")
@@ -16,7 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(fields="username", message="validate.user.username.unique")
  * @UniqueEntity(fields="email", message="validate.user.email.unique")
  */
-class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \JsonSerializable, EquatableInterface
+class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \JsonSerializable, EquatableInterface, TwoFactorInterface
 {
     const ROLE_SUPER_ADMIN = "ROLE_SUPER_ADMIN";
     const ROLE_TEST = "ROLE_TEST";
@@ -85,6 +86,16 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
     private $lockedUntil;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $googleAuthenticatorEnabled;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $googleAuthenticatorSecret;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -94,6 +105,7 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
         $this->roles = new ArrayCollection();
         $this->salt = md5(uniqid(null, true));
         $this->failedAuthenticationStreak = 0;
+        $this->googleAuthenticatorEnabled = false;
     }
 
     /**
@@ -353,6 +365,32 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
         return $this;
     }
 
+    public function isGoogleAuthenticatorEnabled(): bool
+    {
+        return $this->googleAuthenticatorEnabled;
+    }
+
+    public function setGoogleAuthenticatorEnabled($enabled)
+    {
+        $this->googleAuthenticatorEnabled = $enabled;
+        return $this;
+    }
+
+    public function getGoogleAuthenticatorUsername(): string
+    {
+        return $this->username;
+    }
+
+    public function getGoogleAuthenticatorSecret(): ?string
+    {
+        return $this->googleAuthenticatorSecret;
+    }
+
+    public function setGoogleAuthenticatorSecret(?string $googleAuthenticatorSecret): void
+    {
+        $this->googleAuthenticatorSecret = $googleAuthenticatorSecret;
+    }
+
     public function __toString()
     {
         return "User (id: " . $this->getId() . ", username:" . $this->getUsername() . ")";
@@ -404,6 +442,7 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
             "role_table" => $this->hasRoleName(self::ROLE_TABLE) ? "1" : "0",
             "role_file" => $this->hasRoleName(self::ROLE_FILE) ? "1" : "0",
             "role_wizard" => $this->hasRoleName(self::ROLE_WIZARD) ? "1" : "0",
+            "googleAuthenticatorEnabled" => $this->isGoogleAuthenticatorEnabled() ? "1" : "0",
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "starterContent" => $this->starterContent,
             "groups" => $this->groups

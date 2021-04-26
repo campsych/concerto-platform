@@ -11,3 +11,15 @@ form:
 'Bad credentials.': Wrong login or password.
 'User account is disabled.': User is archived.
 'User account is locked.': Too many failed login attempts. User account is temporary locked.
+
+mfa:
+  form:
+    legend: Please enter your security code
+    legend.tooltip: Enter your Google Authenticator security code
+    field:
+      code: Security code
+      code.tooltip: Enter your Google Authenticator security code
+    button.login: Log in
+    button.cancel: Cancel
+
+code_invalid: The secruity code is not valid.

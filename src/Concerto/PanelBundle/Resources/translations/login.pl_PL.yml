@@ -11,3 +11,15 @@ form:
 'Bad credentials.': Zły login lub hasło.
 'User account is disabled.': Użytkownik jest zarchiwizowany.
 'User account is locked.': Zbyt dużo nie udanych prób logowania. Użytkownik został tymczosowo zablokowany.
+
+mfa:
+  form:
+    legend: Podaj swój kod bezpieczeństwa
+    legend.tooltip: Podaj swój kod bezpieczeństwa z Google Authentiactor
+    field:
+      code: Kod bezpieczeństwa
+      code.tooltip: Podaj swój kod bezpieczeństwa z Google Authentiactor
+    button.login: Zaloguj
+    button.cancel: Anuluj
+
+code_invalid: Kod bezpieczeństwa jest niepoprawny.
