@@ -14,12 +14,13 @@ form:
 
 mfa:
   form:
-    legend: Please enter your security code
-    legend.tooltip: Enter your Google Authenticator security code
+    legend: Continue with two-step verification
+    legend.tooltip: Enter your verification code to continue
     field:
-      code: Security code
-      code.tooltip: Enter your Google Authenticator security code
+      code: Verification code
+      code.tooltip: Open your Google Authenticator app on your phone to get your verification code
+      code.placeholder: 6-digit verification code
     button.login: Log in
     button.cancel: Cancel
 
-code_invalid: The secruity code is not valid.
+code_invalid: The verification code is not valid.

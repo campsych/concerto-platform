@@ -14,12 +14,13 @@ form:
 
 mfa:
   form:
-    legend: Podaj swój kod bezpieczeństwa
-    legend.tooltip: Podaj swój kod bezpieczeństwa z Google Authentiactor
+    legend: Kontynuuj z dwu-stopniową weryfikacją
+    legend.tooltip: Podaj swój kod weryfikacyjny aby kontynuować
     field:
-      code: Kod bezpieczeństwa
-      code.tooltip: Podaj swój kod bezpieczeństwa z Google Authentiactor
+      code: Kod weryfikacyjny
+      code.tooltip: Otwórz swoją aplikację Google Authenticator na telefonie aby zdobyć kod weryfikacyjny
+      code.placeholder: 6-cyfrowy kod weryfikacyjny
     button.login: Zaloguj
     button.cancel: Anuluj
 
-code_invalid: Kod bezpieczeństwa jest niepoprawny.
+code_invalid: Kod weryfikacyjny jest niepoprawny.
