@@ -8,6 +8,10 @@
 
 * added **columnPrefix** input to **translationDictionary** node 
 
+#### Fixes
+
+* disabled default time limits for potentially long running commands
+
 ## 5.0.24 (2021-04-19)
 
 #### Improvements

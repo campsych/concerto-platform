@@ -38,6 +38,7 @@ class ConcertoGitHistoryCommand extends Command
     {
         $command = $this->getHistoryCommand();
         $process = new Process($command);
+        $process->setTimeout(null);
         $process->start();
         $process->wait();
 

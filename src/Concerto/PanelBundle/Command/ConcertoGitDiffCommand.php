@@ -46,6 +46,7 @@ class ConcertoGitDiffCommand extends Command
     {
         $command = $this->getDiffCommand();
         $process = new Process($command);
+        $process->setTimeout(null);
         $process->start();
         $process->wait();
 

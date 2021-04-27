@@ -37,6 +37,7 @@ class ConcertoGitPushCommand extends Command
     {
         $command = $this->getPushCommand();
         $process = new Process($command);
+        $process->setTimeout(null);
         $process->start();
         $process->wait();
 

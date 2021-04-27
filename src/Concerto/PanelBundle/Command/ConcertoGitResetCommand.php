@@ -37,6 +37,7 @@ class ConcertoGitResetCommand extends Command
     {
         $command = $this->getResetCommand();
         $process = new Process($command);
+        $process->setTimeout(null);
         $process->start();
         $process->wait();
 
