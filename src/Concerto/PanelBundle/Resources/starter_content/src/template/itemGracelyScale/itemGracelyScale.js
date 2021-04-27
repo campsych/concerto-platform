@@ -20,13 +20,15 @@ testRunner.compileProvider.component('itemGracelyScale', {
       $scope.item = this.item;
       $scope.response = this.response;
       $scope.responseRequired = this.responseRequired;
-      
-      $scope.response.isValid = function() {
-        return $scope.intensity != null || $scope.unpleasantness != null;
-      }
 
       $scope.unpleasantnessVisible = typeof($scope.item.responseOptions.gracelyScaleShow) === 'undefined' || $scope.item.responseOptions.gracelyScaleShow === 'both' || $scope.item.responseOptions.gracelyScaleShow === 'unpleasantness';
       $scope.intensityVisible = typeof($scope.item.responseOptions.gracelyScaleShow) === 'undefined' || $scope.item.responseOptions.gracelyScaleShow === 'both' || $scope.item.responseOptions.gracelyScaleShow === 'intensity';
+
+      $scope.response.isValid = function() {
+        if($scope.unpleasantnessVisible && !$scope.unpleasantness) return false;
+        if($scope.intensityVisible && !$scope.intensity) return false;
+        return true;
+      }
 
       if($scope.response.value) {
         let pastResponse = JSON.parse($scope.response.value);

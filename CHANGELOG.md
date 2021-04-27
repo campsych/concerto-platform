@@ -6,7 +6,8 @@
 
 #### Starter content
 
-* added **columnPrefix** input to **translationDictionary** node 
+* added **columnPrefix** input to **translationDictionary** node
+* gracely scale item type validation requirements now depends on visibility mode 
 
 #### Fixes
 
