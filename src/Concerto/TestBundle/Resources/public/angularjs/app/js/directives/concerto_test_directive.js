@@ -52,6 +52,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             var SOURCE_TEST_NODE = 2;
             var internalSettings = angular.extend({
                 debug: false,
+                admin: false,
                 params: null,
                 platformUrl: "",
                 appUrl: "",
@@ -192,21 +193,16 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 let path = "";
                 let params = {};
                 if (internalSettings.debug) {
-                    if (internalSettings.existingSessionHash !== null) {
-                        path = internalSettings.appUrl + "/admin/test/session/" + internalSettings.existingSessionHash + "/resume/debug";
-                        params.token = getToken();
-                    } else {
-                        path = internalSettings.appUrl + "/admin/test/" + internalSettings.testSlug + "/start_session/debug/" + encodeURIComponent(internalSettings.params);
-                    }
+                    path = internalSettings.appUrl + "/admin/test/" + internalSettings.testSlug + "/start_session/debug/" + encodeURIComponent(internalSettings.params);
                 } else {
                     if (internalSettings.existingSessionHash !== null) {
                         path = internalSettings.appUrl + "/test/session/" + internalSettings.existingSessionHash + "/resume";
                         params.token = getToken();
                     } else {
                         if (internalSettings.testName !== null) {
-                            path = internalSettings.appUrl + "/test_n/" + internalSettings.testName + "/start_session/" + encodeURIComponent(internalSettings.params);
+                            path = internalSettings.appUrl + (internalSettings.admin ? "/admin" : "") + "/test_n/" + internalSettings.testName + "/start_session/" + encodeURIComponent(internalSettings.params);
                         } else {
-                            path = internalSettings.appUrl + "/test/" + internalSettings.testSlug + "/start_session/" + encodeURIComponent(internalSettings.params);
+                            path = internalSettings.appUrl + (internalSettings.admin ? "/admin" : "") + "/test/" + internalSettings.testSlug + "/start_session/" + encodeURIComponent(internalSettings.params);
                         }
                     }
                 }

@@ -38,7 +38,7 @@ abstract class ASessionRunnerService
 
     abstract public function startNew(TestSession $session, $params, $cookies, $headers, $client_ip, $client_browser, $debug = false, $max_exec_time = null);
 
-    abstract public function resume(TestSession $session, $cookies, $client_ip, $client_browser, $debug = false, $max_exec_time = null);
+    abstract public function resume(TestSession $session, $cookies, $client_ip, $client_browser, $max_exec_time = null);
 
     abstract public function submit(TestSession $session, $values, $cookies, $client_ip, $client_browser);
 

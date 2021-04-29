@@ -76,7 +76,7 @@ class TestService extends AExportableSectionService
         return $object;
     }
 
-    public function save($object_id, $name, $description, $accessibility, $archived, $owner, $groups, $visibility, $type, $code, $sourceWizard, $urlslug, $serializedVariables, $baseTemplate)
+    public function save($object_id, $name, $description, $accessibility, $archived, $owner, $groups, $visibility, $type, $code, $sourceWizard, $urlslug, $serializedVariables, $baseTemplate, $protected)
     {
         $user = null;
         $token = $this->securityTokenStorage->getToken();
@@ -84,7 +84,6 @@ class TestService extends AExportableSectionService
 
         $errors = array();
         $object = $this->get($object_id);
-        $old_name = null;
         if ($object === null) {
             $object = new Test();
             $object->setOwner($user);
@@ -94,6 +93,7 @@ class TestService extends AExportableSectionService
             $object->setDescription($description);
         }
         $object->setVisibility($visibility);
+        $object->setProtected($protected);
 
         if (!self::$securityOn || $this->securityAuthorizationChecker->isGranted(User::ROLE_SUPER_ADMIN)) {
             $object->setAccessibility($accessibility);
@@ -160,7 +160,7 @@ class TestService extends AExportableSectionService
             }
         }
         if ($isNew && count($this->testVariableService->getBranches($test->getId())) == 0) {
-            $result = $this->testVariableService->save(0, "out", 2, "", false, 0, $test, null, $flush);
+            $this->testVariableService->save(0, "out", 2, "", false, 0, $test, null, $flush);
         }
         $this->updateDependentTests($test, $flush);
 
@@ -323,6 +323,7 @@ class TestService extends AExportableSectionService
         $ent->setStarterContent($starter_content);
         $ent->setAccessibility($obj["accessibility"]);
         $ent->setBaseTemplate($baseTemplate);
+        if (array_key_exists("protected", $obj)) $ent->setProtected($obj["protected"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {
@@ -361,6 +362,7 @@ class TestService extends AExportableSectionService
         $ent->setStarterContent($obj["starterContent"]);
         $ent->setAccessibility($obj["accessibility"]);
         $ent->setBaseTemplate($baseTemplate);
+        if (array_key_exists("protected", $obj)) $ent->setProtected($obj["protected"]);
         $ent_errors = $this->validator->validate($ent);
         $ent_errors_msg = array();
         foreach ($ent_errors as $err) {

@@ -11,7 +11,8 @@ use DateTime;
  * @ORM\Entity(repositoryClass="Concerto\PanelBundle\Repository\TestSessionRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class TestSession {
+class TestSession
+{
 
     const STATUS_RUNNING = 0;
 
@@ -96,7 +97,8 @@ class TestSession {
      */
     private $debug;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->created = new DateTime("now");
         $this->updated = new DateTime("now");
         $this->status = self::STATUS_RUNNING;
@@ -146,7 +148,8 @@ class TestSession {
         return $this->created;
     }
 
-    public function getOwner() {
+    public function getOwner()
+    {
         return $this->getTest()->getOwner();
     }
 
@@ -156,7 +159,8 @@ class TestSession {
      * @param integer $submitterPort
      * @return TestSession
      */
-    public function setSubmitterPort($submitterPort) {
+    public function setSubmitterPort($submitterPort)
+    {
         $this->submitterPort = $submitterPort;
 
         return $this;
@@ -167,7 +171,8 @@ class TestSession {
      *
      * @return integer
      */
-    public function getSubmitterPort() {
+    public function getSubmitterPort()
+    {
         return $this->submitterPort;
     }
 
@@ -177,7 +182,8 @@ class TestSession {
      * @param integer $status
      * @return TestSession
      */
-    public function setStatus($status) {
+    public function setStatus($status)
+    {
         $this->status = $status;
 
         return $this;
@@ -186,9 +192,10 @@ class TestSession {
     /**
      * Get status
      *
-     * @return integer 
+     * @return integer
      */
-    public function getStatus() {
+    public function getStatus()
+    {
         return $this->status;
     }
 
@@ -198,7 +205,8 @@ class TestSession {
      * @param Test $test
      * @return TestSession
      */
-    public function setTest(Test $test = null) {
+    public function setTest(Test $test = null)
+    {
         $this->test = $test;
 
         return $this;
@@ -207,9 +215,10 @@ class TestSession {
     /**
      * Get test
      *
-     * @return Test 
+     * @return Test
      */
-    public function getTest() {
+    public function getTest()
+    {
         return $this->test;
     }
 
@@ -219,7 +228,8 @@ class TestSession {
      * @param integer $timeLimit
      * @return TestSession
      */
-    public function setTimeLimit($timeLimit) {
+    public function setTimeLimit($timeLimit)
+    {
         $this->timeLimit = $timeLimit;
 
         return $this;
@@ -228,9 +238,10 @@ class TestSession {
     /**
      * Get time limit (in seconds)
      *
-     * @return integer 
+     * @return integer
      */
-    public function getTimeLimit() {
+    public function getTimeLimit()
+    {
         return $this->timeLimit;
     }
 
@@ -240,7 +251,8 @@ class TestSession {
      * @param string $params
      * @return TestSession
      */
-    public function setParams($params) {
+    public function setParams($params)
+    {
         $this->params = $params;
 
         return $this;
@@ -249,9 +261,10 @@ class TestSession {
     /**
      * Get params
      *
-     * @return string 
+     * @return string
      */
-    public function getParams() {
+    public function getParams()
+    {
         return $this->params;
     }
 
@@ -261,7 +274,8 @@ class TestSession {
      * @param string $error
      * @return TestSession
      */
-    public function setError($error) {
+    public function setError($error)
+    {
         $this->error = $error;
 
         return $this;
@@ -270,9 +284,10 @@ class TestSession {
     /**
      * Get error
      *
-     * @return string 
+     * @return string
      */
-    public function getError() {
+    public function getError()
+    {
         return $this->error;
     }
 
@@ -282,7 +297,8 @@ class TestSession {
      * @param string $clientIp
      * @return TestSession
      */
-    public function setClientIp($clientIp) {
+    public function setClientIp($clientIp)
+    {
         $this->clientIp = $clientIp;
 
         return $this;
@@ -291,9 +307,10 @@ class TestSession {
     /**
      * Get client ip
      *
-     * @return string 
+     * @return string
      */
-    public function getClientIp() {
+    public function getClientIp()
+    {
         return $this->clientIp;
     }
 
@@ -303,7 +320,8 @@ class TestSession {
      * @param string $clientBrowser
      * @return TestSession
      */
-    public function setClientBrowser($clientBrowser) {
+    public function setClientBrowser($clientBrowser)
+    {
         $this->clientBrowser = $clientBrowser;
 
         return $this;
@@ -312,9 +330,10 @@ class TestSession {
     /**
      * Get client browser
      *
-     * @return string 
+     * @return string
      */
-    public function getClientBrowser() {
+    public function getClientBrowser()
+    {
         return $this->clientBrowser;
     }
 
@@ -324,7 +343,8 @@ class TestSession {
      * @param string $hash
      * @return TestSession
      */
-    public function setHash($hash) {
+    public function setHash($hash)
+    {
         $this->hash = $hash;
 
         return $this;
@@ -333,9 +353,10 @@ class TestSession {
     /**
      * Get hash
      *
-     * @return string 
+     * @return string
      */
-    public function getHash() {
+    public function getHash()
+    {
         return $this->hash;
     }
 
@@ -345,7 +366,8 @@ class TestSession {
      * @param boolean $debug
      * @return TestSession
      */
-    public function setDebug($debug) {
+    public function setDebug($debug)
+    {
         $this->debug = $debug;
 
         return $this;
@@ -354,17 +376,20 @@ class TestSession {
     /**
      * Get debug
      *
-     * @return boolean 
+     * @return boolean
      */
-    public function isDebug() {
+    public function isDebug()
+    {
         return $this->debug;
     }
 
-    public function getAccessibility() {
+    public function getAccessibility()
+    {
         return $this->getTest()->getAccessibility();
     }
 
-    public function hasAnyFromGroup($other_groups) {
+    public function hasAnyFromGroup($other_groups)
+    {
         $groups = $this->getTest()->getGroupsArray();
         foreach ($groups as $group) {
             foreach ($other_groups as $other_group) {

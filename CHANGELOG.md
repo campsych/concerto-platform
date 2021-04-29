@@ -3,6 +3,7 @@
 #### Features
 
 * Google Authenticator MFA for panel users
+* protected tests
 
 #### Starter content
 

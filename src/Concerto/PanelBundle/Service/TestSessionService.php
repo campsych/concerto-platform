@@ -4,12 +4,14 @@ namespace Concerto\PanelBundle\Service;
 
 use Concerto\PanelBundle\Entity\Test;
 use Concerto\PanelBundle\Entity\TestSession;
+use Concerto\PanelBundle\Entity\User;
 use Concerto\PanelBundle\Repository\TestSessionRepository;
 use Concerto\PanelBundle\Repository\TestSessionLogRepository;
 use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\TestBundle\Service\ASessionRunnerService;
 use Psr\Log\LoggerInterface;
 use Concerto\PanelBundle\Entity\TestSessionLog;
+use Symfony\Component\Security\Core\Security;
 
 class TestSessionService
 {
@@ -37,7 +39,7 @@ class TestSessionService
     const STATUS_ERROR = 3;
     const STATUS_REJECTED = 4;
 
-    private $testSessionRepository;
+    public $testSessionRepository;
     private $testRepository;
     private $testSessionLogRepository;
     private $logger;
@@ -46,8 +48,9 @@ class TestSessionService
     private $fileService;
     private $testRunnerSettings;
     private $sessionRunnerService;
+    private $security;
 
-    public function __construct($environment, TestSessionRepository $testSessionRepository, TestRepository $testRepository, TestSessionLogRepository $testSessionLogRepository, $secret, LoggerInterface $logger, FileService $fileService, $testRunnerSettings, ASessionRunnerService $sessionRunnerService)
+    public function __construct($environment, TestSessionRepository $testSessionRepository, TestRepository $testRepository, TestSessionLogRepository $testSessionLogRepository, $secret, LoggerInterface $logger, FileService $fileService, $testRunnerSettings, ASessionRunnerService $sessionRunnerService, Security $security)
     {
         $this->environment = $environment;
         $this->testSessionRepository = $testSessionRepository;
@@ -58,6 +61,21 @@ class TestSessionService
         $this->fileService = $fileService;
         $this->testRunnerSettings = $testRunnerSettings;
         $this->sessionRunnerService = $sessionRunnerService;
+        $this->security = $security;
+    }
+
+    /**
+     * @param Test|null $test
+     * @return bool
+     */
+    private function authorizeTest(?Test $test): bool
+    {
+        if ($test->isProtected()) {
+            /* @var User $user */
+            $user = $this->security->getUser();
+            if (!$user) return false;
+        }
+        return true;
     }
 
     private function generateSessionHash($session_id)
@@ -65,7 +83,7 @@ class TestSessionService
         return sha1(time() . "_" . $this->secret . "_" . $session_id);
     }
 
-    public function startNewSession($test_slug, $test_name, $params, $cookies, $headers, $client_ip, $client_browser, $debug, $mustBeRunnable = true, $max_exec_time = null)
+    public function startNewSession($test_slug, $test_name, $params, $cookies, $headers, $client_ip, $client_browser, $debug, $mustBeRunnable = true, $max_exec_time = null, $authorizationCheck = true)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params, $client_ip, $client_browser, $debug, $mustBeRunnable, $max_exec_time");
 
@@ -75,7 +93,7 @@ class TestSessionService
         } else {
             $test = $mustBeRunnable ? $this->testRepository->findRunnableBySlug($test_slug) : $this->testRepository->findOneBySlug($test_slug);
         }
-        if (!$test) {
+        if (!$test || ($authorizationCheck && !$this->authorizeTest($test))) {
             return $this->prepareResponse(null, array(
                 "source" => self::SOURCE_PANEL_NODE,
                 "code" => self::RESPONSE_TEST_NOT_FOUND
@@ -97,9 +115,9 @@ class TestSessionService
         return $this->prepareResponse($hash, $response);
     }
 
-    public function resumeSession($session_hash, $cookies, $client_ip, $client_browser, $debug, $max_exec_time = null)
+    public function resumeSession($session_hash, $cookies, $client_ip, $client_browser, $max_exec_time = null)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser, $debug");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");
 
         /** @var TestSession $session */
         $session = $this->testSessionRepository->findOneBy(array("hash" => $session_hash));
@@ -110,7 +128,7 @@ class TestSessionService
             ));
         }
 
-        $response = $this->sessionRunnerService->resume($session, $cookies, $client_ip, $client_browser, $debug, $max_exec_time);
+        $response = $this->sessionRunnerService->resume($session, $cookies, $client_ip, $client_browser, $max_exec_time);
         return $this->prepareResponse($session_hash, $response);
     }
 
