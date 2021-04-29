@@ -378,7 +378,7 @@ class User extends ATopEntity implements AdvancedUserInterface, \Serializable, \
 
     public function getGoogleAuthenticatorUsername(): string
     {
-        return $this->username;
+        return "Concerto Platform (" . $this->username . "@" . $_SERVER["HTTP_HOST"] . ")";
     }
 
     public function getGoogleAuthenticatorSecret(): ?string
