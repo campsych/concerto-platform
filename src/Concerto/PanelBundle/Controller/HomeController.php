@@ -36,7 +36,7 @@ class HomeController extends AbstractController
             $params[$k] = $request->query->get($k);
         }
 
-        return $this->forward("startTestAction", [
+        return $this->forward("Concerto\TestBundle\Controller\TestRunnerController::startTestAction", [
             "test_slug" => $test->getSlug()
         ], $params);
     }

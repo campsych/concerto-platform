@@ -16,7 +16,7 @@
         {% block control %}
             <select ng-model="exposedSettingsMap.home_test_id" style="width:100%;" class='form-control'>
                 <option value="0">{{ 'none.choosen'|trans({}, "panel") }}</option>
-                <option value="{% verbatim %}{{ test.id }}{% endverbatim %}" ng-repeat="test in testCollectionService.collection">{% verbatim %}{{ test.name }}{% endverbatim %}</option>
+                <option value="{% verbatim %}{{ test.id }}{% endverbatim %}" ng-repeat="test in testCollectionService.collection | orderBy: 'name'">{% verbatim %}{{ test.name }}{% endverbatim %}</option>
             </select>
         {% endblock %}
     {% endembed %}
