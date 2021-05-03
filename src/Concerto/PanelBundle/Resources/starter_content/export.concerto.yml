@@ -870,6 +870,7 @@ collection:
     baseTemplate: null
     tags: ''
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -919,6 +920,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -968,6 +970,7 @@ collection:
     baseTemplate: null
     tags: ''
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: TestWizard
@@ -1054,6 +1057,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -6327,6 +6331,7 @@ collection:
     baseTemplate: null
     tags: ''
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -6446,6 +6451,7 @@ collection:
     baseTemplate: null
     tags: ''
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -6545,6 +6551,7 @@ collection:
     baseTemplate: null
     tags: ''
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -6684,6 +6691,7 @@ collection:
     baseTemplate: null
     tags: ''
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -6763,6 +6771,7 @@ collection:
     baseTemplate: null
     tags: ''
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -6822,6 +6831,7 @@ collection:
     baseTemplate: null
     tags: ''
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -6881,6 +6891,7 @@ collection:
     baseTemplate: null
     tags: ''
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -7070,6 +7081,7 @@ collection:
     baseTemplate: null
     tags: ''
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -7189,6 +7201,7 @@ collection:
     baseTemplate: null
     tags: ''
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -7268,6 +7281,7 @@ collection:
     baseTemplate: null
     tags: ''
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: TestWizard
@@ -7597,6 +7611,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: TestWizard
@@ -9979,6 +9994,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: TestWizard
@@ -10221,6 +10237,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: TestWizard
@@ -10582,6 +10599,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: TestWizard
@@ -11032,6 +11050,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -11071,6 +11090,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -11130,6 +11150,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: TestWizard
@@ -11333,6 +11354,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: TestWizard
@@ -11430,6 +11452,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -11469,6 +11492,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: TestWizard
@@ -11584,6 +11608,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: TestWizard
@@ -11987,6 +12012,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: TestWizard
@@ -12244,6 +12270,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: TestWizard
@@ -12439,6 +12466,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -12468,6 +12496,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -12617,6 +12646,7 @@ collection:
     baseTemplate: null
     tags: ''
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: TestWizard
@@ -13074,6 +13104,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -13133,6 +13164,7 @@ collection:
     baseTemplate: null
     tags: ''
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: TestWizard
@@ -13242,6 +13274,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -13311,6 +13344,7 @@ collection:
     baseTemplate: null
     tags: ''
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: TestWizard
@@ -13426,6 +13460,7 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: Test
@@ -13555,6 +13590,7 @@ collection:
     baseTemplate: null
     tags: ''
     groups: ''
+    protected: '0'
     starterContent: true
   -
     class_name: TestWizard
@@ -13787,4 +13823,5 @@ collection:
     baseTemplate: null
     tags: _concerto_core
     groups: ''
+    protected: '0'
     starterContent: true
