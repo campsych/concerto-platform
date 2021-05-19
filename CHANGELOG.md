@@ -14,6 +14,10 @@
 
 * disabled default time limits for potentially long running commands
 
+### Docker
+
+* moved default PHP session path out of docker volume
+
 ## 5.0.24 (2021-04-19)
 
 #### Improvements
