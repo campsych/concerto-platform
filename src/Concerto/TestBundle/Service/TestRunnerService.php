@@ -85,8 +85,8 @@ class TestRunnerService
         return $this->sessionService->logError($session_hash, $error, $type);
     }
 
-    public function getBaseTemplateContent($test_slug = null, $test_name = null)
+    public function getBaseTemplateContent($test_slug = null, $test_name = null, $existing_session_hash = null)
     {
-        return $this->testService->getBaseTemplateContent($test_slug, $test_name);
+        return $this->testService->getBaseTemplateContent($test_slug, $test_name, $existing_session_hash);
     }
 }

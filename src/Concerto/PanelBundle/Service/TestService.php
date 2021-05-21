@@ -9,6 +9,7 @@ use Concerto\PanelBundle\Entity\TestNodePort;
 use Concerto\PanelBundle\Repository\TestRepository;
 use Concerto\PanelBundle\Entity\User;
 use Cocur\Slugify\Slugify;
+use Concerto\PanelBundle\Repository\TestSessionRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -23,6 +24,7 @@ class TestService extends AExportableSectionService
     private $testNodePortService;
     private $slugifier;
     private $testWizardParamService;
+    private $testSessionRepository;
 
     public function __construct(
         TestRepository $repository,
@@ -36,7 +38,8 @@ class TestService extends AExportableSectionService
         TestWizardParamService $testWizardParamService,
         TokenStorageInterface $securityTokenStorage,
         AdministrationService $administrationService,
-        LoggerInterface $logger)
+        LoggerInterface $logger,
+        TestSessionRepository $testSessionRepository)
     {
         parent::__construct($repository, $validator, $securityAuthorizationChecker, $securityTokenStorage, $administrationService, $logger);
 
@@ -46,6 +49,7 @@ class TestService extends AExportableSectionService
         $this->testNodePortService = $testNodePortService;
         $this->slugifier = $slugifier;
         $this->testWizardParamService = $testWizardParamService;
+        $this->testSessionRepository = $testSessionRepository;
     }
 
     public function get($object_id, $createNew = false, $secure = true)
@@ -544,16 +548,23 @@ class TestService extends AExportableSectionService
         return $result;
     }
 
-    public function getBaseTemplateContent($test_slug = null, $test_name = null)
+    public function getBaseTemplateContent($test_slug = null, $test_name = null, $existing_session_hash = null)
     {
         /** @var Test $test */
         /** @var ViewTemplate $template */
 
         $test = null;
-        if ($test_name !== null) {
-            $test = $this->repository->findRunnableByName($test_name);
+        if ($existing_session_hash !== null) {
+            $session = $this->testSessionRepository->findOneBy(array("hash" => $existing_session_hash));
+            if ($session) {
+                $test = $session->getTest();
+            }
         } else {
-            $test = $this->repository->findRunnableBySlug($test_slug);
+            if ($test_name !== null) {
+                $test = $this->repository->findRunnableByName($test_name);
+            } else {
+                $test = $this->repository->findRunnableBySlug($test_slug);
+            }
         }
         if (!$test) return null;
 

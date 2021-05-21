@@ -13,6 +13,7 @@
 #### Fixes
 
 * disabled default time limits for potentially long running commands
+* fixed base template usage when resuming session
 
 ### Docker
 

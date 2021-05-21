@@ -88,7 +88,7 @@ class TestRunnerController
         $params = json_encode($params);
 
         $browser_valid = $this->testRunnerService->isBrowserValid($request->headers->get('User-Agent'));
-        $baseTemplate = $this->testRunnerService->getBaseTemplateContent($test_slug, $test_name);
+        $baseTemplate = $this->testRunnerService->getBaseTemplateContent($test_slug, $test_name, $existing_session_hash);
 
         $platformUrl = $this->sessionRunnerService->getPlatformUrl();
         $appUrl = $this->sessionRunnerService->getAppUrl();
