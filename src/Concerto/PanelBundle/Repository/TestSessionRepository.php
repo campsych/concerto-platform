@@ -22,4 +22,12 @@ class TestSessionRepository extends AEntityRepository
 
         return (int)$builder->execute()->fetchColumn(0);
     }
+
+    public function getUpdatedAgo($id)
+    {
+        $builder = $this->getEntityManager()->getConnection()->createQueryBuilder()->select('TIME_TO_SEC(TIMEDIFF(CURRENT_TIMESTAMP, ts.updated))')->from("TestSession", "ts");
+        $builder->where("ts.id = :id")->setParameter('id', $id);
+
+        return (int)$builder->execute()->fetchOne();
+    }
 }

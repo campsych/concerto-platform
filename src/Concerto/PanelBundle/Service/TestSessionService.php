@@ -168,7 +168,7 @@ class TestSessionService
             $isTimeout = $values["isTimeout"];
         }
         if ($this->testRunnerSettings["timer_type"] == "server") {
-            $timeTaken = $time - $session->getUpdated()->getTimestamp();
+            $timeTaken = $this->testSessionRepository->getUpdatedAgo($session->getId());
             if ($timeLimit > 0 && $timeTaken >= $timeLimit) {
                 $isTimeout = 1;
             }
