@@ -36,7 +36,7 @@ services:
       $behindProxy: "%behind_proxy%"
 
   #controller
-  Concerto\TestBundle\Controller\TestRunnerController:
+  Concerto\APIBundle\Controller\SamlController:
      arguments:
        $testRunnerSettings: "%test_runner_settings%"
 
