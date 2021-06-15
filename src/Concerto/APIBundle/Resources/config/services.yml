@@ -39,6 +39,7 @@ services:
   Concerto\APIBundle\Controller\SamlController:
      arguments:
        $testRunnerSettings: "%test_runner_settings%"
+     public: true
 
   #aliases
   FOS\OAuthServerBundle\Model\ClientManagerInterface: '@fos_oauth_server.client_manager.default'
