@@ -35,5 +35,10 @@ services:
       $settings: "%saml%"
       $behindProxy: "%behind_proxy%"
 
+  #controller
+  Concerto\TestBundle\Controller\TestRunnerController:
+     arguments:
+       $testRunnerSettings: "%test_runner_settings%"
+
   #aliases
   FOS\OAuthServerBundle\Model\ClientManagerInterface: '@fos_oauth_server.client_manager.default'
