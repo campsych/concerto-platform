@@ -31,6 +31,8 @@ concerto.session.unserialize <- function(response = NULL, hash = NULL){
     concerto$templateParams <<- prevConcerto$templateParams
     concerto$flow <<- prevConcerto$flow
     concerto$lastSubmitTime <<- prevConcerto$lastSubmitTime
+    concerto$lastSubmitResult <<- prevConcerto$lastSubmitResult
+    concerto$lastSubmitId <<- prevConcerto$lastSubmitId
     concerto$lastKeepAliveTime <<- prevConcerto$lastKeepAliveTime
     concerto$bgWorkers <<- prevConcerto$bgWorkers
     concerto$headers <<- prevConcerto$headers
@@ -55,6 +57,12 @@ concerto.session.unserialize <- function(response = NULL, hash = NULL){
     if (!is.null(response$code) && response$code == RESPONSE_SUBMIT) {
         concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
         concerto$lastSubmitTime <<- as.numeric(Sys.time())
+
+        if(!is.null(concerto$lastSubmitId) && concerto$lastSubmitId == response$values$submitId) {
+            concerto5:::concerto.server.respond(RESPONSE_VIEW_TEMPLATE, concerto$lastSubmitResult)
+            concerto5:::concerto.session.stop(STATUS_RUNNING)
+        }
+
         concerto.event.fire("onTemplateSubmit", list(response=response$values))
         concerto$queuedResponse <<- response$values
     } else if(!is.null(response$code) && response$code == RESPONSE_WORKER) {

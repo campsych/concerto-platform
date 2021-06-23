@@ -77,6 +77,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             var lastResponseTime = 0;
             var lastResponse = null;
             var stopped = false;
+            var submitId = 0;
             scope.timeLeft = "";
             scope.timerStarted = null;
             scope.retryTimeLeft = "";
@@ -221,6 +222,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                                 testRunner.sessionHash = httpResponse.data.hash;
                                 setToken(httpResponse.data.token);
                                 timeLimit = httpResponse.data.timeLimit;
+                                if(httpResponse.data.data.lastSubmitId) submitId = httpResponse.data.data.lastSubmitId;
                                 updateLoader(httpResponse.data.data);
                                 break;
                             }
@@ -291,6 +293,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             };
 
             scope.submitView = function (btnName, isTimeout, passedVals) {
+                submitId++;
                 if (displayState !== DISPLAY_VIEW_SHOWN) {
                     return;
                 }
@@ -341,6 +344,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             function submitViewPostValueGetter(btnName, isTimeout, passedVals, values) {
                 values["buttonPressed"] = btnName ? btnName : "";
                 values["isTimeout"] = isTimeout ? 1 : 0;
+                values["submitId"] = submitId;
                 values["retryTimeTaken"] = scope.retryTimeStarted === null ? 0 : (((new Date()).getTime() - scope.retryTimeStarted.getTime()) / 1000);
                 if (passedVals) {
                     angular.merge(values, passedVals);

@@ -15,6 +15,7 @@
 * disabled default time limits for potentially long running commands
 * fixed base template usage when resuming session
 * server timer check now uses db times only
+* fixed out of sync issue on submission retry
 
 ### Docker
 
