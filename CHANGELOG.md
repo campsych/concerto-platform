@@ -9,6 +9,7 @@
 
 * added **columnPrefix** input to **translationDictionary** node
 * gracely scale item type validation requirements now depends on visibility mode 
+* params and directives are applied consistently to assessment's item bank
 
 #### Fixes
 
