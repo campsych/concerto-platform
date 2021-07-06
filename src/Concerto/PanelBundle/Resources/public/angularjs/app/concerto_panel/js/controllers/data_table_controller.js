@@ -48,6 +48,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
 
     $scope.getDefaultColumnValue = function (fieldName) {
         //no nulls
+        console.log(fieldName);
 
         let col = null;
         for (let i = 0; i < $scope.columns.length; i++) {
@@ -474,11 +475,8 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                 if (col.type == "date") {
                     for (var j = 0; j < httpResponse.data.content.length; j++) {
                         var row = httpResponse.data.content[j];
-                        if (!(row[col.name] instanceof Date)) {
+                        if (row[col.name] !== null && !(row[col.name] instanceof Date)) {
                             row[col.name] = new Date(row[col.name]);
-                        }
-                        if (isNaN(row[col.name].getTime())) {
-                            row[col.name] = new Date(0);
                         }
                     }
                 }

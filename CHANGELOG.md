@@ -17,6 +17,7 @@
 * fixed base template usage when resuming session
 * server timer check now uses db times only
 * fixed out of sync issue on submission retry
+* fixed displaying of null values for date type column
 
 ### Docker
 
