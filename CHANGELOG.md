@@ -5,6 +5,11 @@
 * Google Authenticator MFA for panel users
 * protected tests
 
+#### Improvements
+
+* updated js dependencies
+* removed jquery-migrate dependency
+
 #### Starter content
 
 * added **columnPrefix** input to **translationDictionary** node
@@ -18,10 +23,12 @@
 * server timer check now uses db times only
 * fixed out of sync issue on submission retry
 * fixed displaying of null values for date type column
+* fixed potential CSTI on login form
 
 ### Docker
 
 * moved default PHP session path out of docker volume
+* added CONCERTO_COOKIE_LIFETIME env
 
 ## 5.0.24 (2021-04-19)
 
