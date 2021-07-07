@@ -24,6 +24,7 @@
 * fixed out of sync issue on submission retry
 * fixed displaying of null values for date type column
 * fixed potential CSTI on login form
+* standalone (not forked) run fix
 
 ### Docker
 

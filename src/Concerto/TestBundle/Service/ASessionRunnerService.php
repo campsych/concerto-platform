@@ -424,7 +424,7 @@ abstract class ASessionRunnerService
         $client = json_encode($client);
         $request = json_encode($request ? $request : array());
         $sessionStorage = $this->testRunnerSettings["session_storage"];
-        $redisConnection = json_encode($this->sessionRunnerService->getRedisConnectionParams());
+        $redisConnection = json_encode($this->getRedisConnectionParams());
         $sessionFilesExpiration = $this->administrationService->getSettingValue("session_files_expiration");
 
         $process = new Process($cmd);
