@@ -1,6 +1,7 @@
 parameters:
     env(CONCERTO_PLATFORM_URL): /
     env(CONCERTO_SESSION_STORAGE): filesystem
+    env(CONCERTO_SESSION_FORKING): true
     env(CONCERTO_COOKIES_SAME_SITE): ""
     env(CONCERTO_COOKIES_SECURE): false
     env(REDIS_HOST): redis
@@ -20,7 +21,7 @@ parameters:
         php_exec: php
         rscript_exec: Rscript
         timer_type: server #client or server
-        session_forking: true #only Linux
+        session_forking: "%env(CONCERTO_SESSION_FORKING)%" #only Linux
         connection: local
         platform_url: "%env(CONCERTO_PLATFORM_URL)%"
         session_storage: "%env(CONCERTO_SESSION_STORAGE)%"

@@ -29,6 +29,7 @@
 
 * moved default PHP session path out of docker volume
 * added CONCERTO_COOKIE_LIFETIME env
+* added CONCERTO_SESSION_FORKING env
 
 ## 5.0.24 (2021-04-19)
 
