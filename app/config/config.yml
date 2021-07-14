@@ -84,7 +84,7 @@ fos_oauth_server:
 
 lexik_jwt_authentication:
     secret_key: "%env(CONCERTO_JWT_SECRET)%"
-    token_ttl: 3600
+    token_ttl: "%env(CONCERTO_SESSION_TOKEN_EXPIRY_TIME)%"
     encoder:
         signature_algorithm: HS512
 

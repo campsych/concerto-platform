@@ -9,6 +9,7 @@
 
 * updated js dependencies
 * removed jquery-migrate dependency
+* CONCERTO_KEEP_ALIVE_INTERVAL_TIME default is now 0
 
 #### Starter content
 
@@ -25,6 +26,7 @@
 * fixed displaying of null values for date type column
 * fixed potential CSTI on login form
 * standalone (not forked) run fix
+* fixed JWT token TTL
 
 ### Docker
 

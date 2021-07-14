@@ -389,8 +389,7 @@ class TestRunnerController
             $token = $this->jwtEncoder->encode([
                 "sessionHash" => $sessionHash,
                 "protectedFilesAccess" => $protectedFilesAccess,
-                "sessionFilesAccess" => $sessionFilesAccess,
-                "expiry" => time() + intval($this->testRunnerSettings["session_token_expiry_time"])
+                "sessionFilesAccess" => $sessionFilesAccess
             ]);
         } catch (JWTEncodeFailureException $e) {
             return null;
@@ -407,10 +406,12 @@ class TestRunnerController
             return false;
         }
 
-        $decodedToken["expiry"] = time() + intval($this->testRunnerSettings["session_token_expiry_time"]);
-
         try {
-            $token = $this->jwtEncoder->encode($decodedToken);
+            $token = $this->jwtEncoder->encode([
+                "sessionHash" => $decodedToken["sessionHash"],
+                "protectedFilesAccess" => $decodedToken["protectedFilesAccess"],
+                "sessionFilesAccess" => $decodedToken["sessionFilesAccess"]
+            ]);
         } catch (JWTEncodeFailureException $e) {
             return false;
         }
@@ -428,7 +429,6 @@ class TestRunnerController
         if ($sessionHash !== null && $token["sessionHash"] !== $sessionHash) return false;
         if ($protectedFilesAccess === true && $token["protectedFilesAccess"] !== true) return false;
         if ($sessionFilesAccess === true && $token["sessionFilesAccess"] !== true) return false;
-        if (time() > $token["expiry"]) return false;
         return true;
     }
 
