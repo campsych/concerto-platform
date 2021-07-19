@@ -129,7 +129,7 @@ CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
     then export CONCERTO_COOKIES_SECURE_PHP=1; \
     else export CONCERTO_COOKIES_SECURE_PHP=0; \
     fi \
- && printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.sh \
+ && printenv | sed 's/"/\\"/g' | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.sh
  && mkdir -p /data/files \
  && mkdir -p /data/sessions \
  && mkdir -p /data/git \
