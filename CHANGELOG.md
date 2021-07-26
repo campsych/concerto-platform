@@ -27,6 +27,7 @@
 * fixed potential CSTI on login form
 * standalone (not forked) run fix
 * fixed JWT token TTL
+* CKEditor image browser nested path fix
 
 ### Docker
 

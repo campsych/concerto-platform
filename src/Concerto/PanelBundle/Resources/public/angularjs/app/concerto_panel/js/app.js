@@ -256,8 +256,7 @@ angular.module('FileManagerApp').config(["fileManagerConfigProvider", function (
         //tplPath: '/bundles/concertopanel/js/angular-filemanager/templates',
 
         pickCallback: function (item) {
-            let regexp = new RegExp("/" + item.name + "$");
-            let url = item.url.replace(regexp, item.fullPath());
+            let url = "/files" + item.fullPath();
             window.opener.CKEDITOR.tools.callFunction(CKEditorFuncNum, url);
             window.close();
         }
