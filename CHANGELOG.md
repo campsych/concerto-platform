@@ -1,3 +1,9 @@
+## 5.0.26 (in progress)
+
+#### Fixes
+
+* end test node is now guaranteed to be executed at the end of the test
+
 ## 5.0.25 (2021-07-26)
 
 #### Features
