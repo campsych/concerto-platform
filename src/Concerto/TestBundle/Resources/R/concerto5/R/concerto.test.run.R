@@ -332,11 +332,12 @@ function(testId, params=list(), extraReturns=c()) {
 
             #find begin and finish nodes
             beginNode = NULL
-            finishNode = NULL
             if (dim(test$nodes)[1] > 0) {
                 for (i in 1 : (dim(test$nodes)[1])) {
-                    if (test$nodes[i, "type"] == 1) { beginNode = as.list(test$nodes[i,])}
-                    if (test$nodes[i, "type"] == 2) { finishNode = as.list(test$nodes[i,])}
+                    if (test$nodes[i, "type"] == 1) {
+                      beginNode = as.list(test$nodes[i,])
+                      break
+                    }
                 }
             }
 
@@ -361,6 +362,15 @@ function(testId, params=list(), extraReturns=c()) {
             if(node$type == 2) { finishNodeExecuted = T }
         }
         if(!finishNodeExecuted) {
+            finishNode = NULL
+            if (dim(test$nodes)[1] > 0) {
+                for (i in 1 : (dim(test$nodes)[1])) {
+                    if (test$nodes[i, "type"] == 2) {
+                      finishNode = as.list(test$nodes[i,])
+                      break
+                    }
+                }
+            }
             r = runNode(finishNode)
         }
 
