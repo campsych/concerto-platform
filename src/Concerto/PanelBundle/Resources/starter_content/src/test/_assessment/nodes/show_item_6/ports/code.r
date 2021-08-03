@@ -100,7 +100,8 @@ templateResponse = concerto.template.show(
   templateId=settings$itemTemplate, 
   html=settings$itemTemplateHtml,
   params=params, 
-  timeLimit=templateTimeLimit
+  timeLimit=templateTimeLimit,
+  bgWorkers=bgWorkers
 )
 
 if(!is.na(settings$templateResponseModule) && settings$templateResponseModule != "") {

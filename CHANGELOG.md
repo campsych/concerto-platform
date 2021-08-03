@@ -4,6 +4,10 @@
 
 * end test node is now guaranteed to be executed at the end of the test
 
+#### Starter content
+
+* exposed **bgWorkers** for **assessment** node template
+
 ## 5.0.25 (2021-07-26)
 
 #### Features
