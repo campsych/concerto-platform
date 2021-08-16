@@ -96,6 +96,9 @@ WHERE id={{id}}", params=list(
 ))
 }
 
+if(!is.list(bgWorkers)) {
+  bgWorkers = list()
+}
 templateResponse = concerto.template.show(
   templateId=settings$itemTemplate, 
   html=settings$itemTemplateHtml,
