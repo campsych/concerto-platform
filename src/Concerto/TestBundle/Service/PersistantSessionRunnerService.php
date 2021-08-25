@@ -106,7 +106,7 @@ class PersistantSessionRunnerService extends ASessionRunnerService
         return $response;
     }
 
-    public function resume(TestSession $session, $cookies, $client_ip, $client_browser, $debug = false, $max_exec_time = null)
+    public function resume(TestSession $session, $cookies, $client_ip, $client_browser, $max_exec_time = null)
     {
         $session_hash = $session->getHash();
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $client_ip, $client_browser");

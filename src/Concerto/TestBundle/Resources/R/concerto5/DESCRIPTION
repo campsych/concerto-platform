@@ -1,8 +1,8 @@
 Package: concerto5
 Type: Package
 Title: Package for Concerto platform test logic R code.
-Version: 0.32.0
-Date: 2021-01-28
+Version: 1.32.1
+Date: 2021-07-28
 Author: Przemyslaw Lis
 Maintainer: Przemyslaw Lis <pl362@cam.ac.uk>
 Description: Contains all required functions by Concerto platform. 

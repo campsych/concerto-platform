@@ -52,6 +52,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             var SOURCE_TEST_NODE = 2;
             var internalSettings = angular.extend({
                 debug: false,
+                admin: false,
                 params: null,
                 platformUrl: "",
                 appUrl: "",
@@ -76,6 +77,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             var lastResponseTime = 0;
             var lastResponse = null;
             var stopped = false;
+            var submitId = 0;
             scope.timeLeft = "";
             scope.timerStarted = null;
             scope.retryTimeLeft = "";
@@ -192,21 +194,16 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                 let path = "";
                 let params = {};
                 if (internalSettings.debug) {
-                    if (internalSettings.existingSessionHash !== null) {
-                        path = internalSettings.appUrl + "/admin/test/session/" + internalSettings.existingSessionHash + "/resume/debug";
-                        params.token = getToken();
-                    } else {
-                        path = internalSettings.appUrl + "/admin/test/" + internalSettings.testSlug + "/start_session/debug/" + encodeURIComponent(internalSettings.params);
-                    }
+                    path = internalSettings.appUrl + "/admin/test/" + internalSettings.testSlug + "/start_session/debug/" + encodeURIComponent(internalSettings.params);
                 } else {
                     if (internalSettings.existingSessionHash !== null) {
                         path = internalSettings.appUrl + "/test/session/" + internalSettings.existingSessionHash + "/resume";
                         params.token = getToken();
                     } else {
                         if (internalSettings.testName !== null) {
-                            path = internalSettings.appUrl + "/test_n/" + internalSettings.testName + "/start_session/" + encodeURIComponent(internalSettings.params);
+                            path = internalSettings.appUrl + (internalSettings.admin ? "/admin" : "") + "/test_n/" + internalSettings.testName + "/start_session/" + encodeURIComponent(internalSettings.params);
                         } else {
-                            path = internalSettings.appUrl + "/test/" + internalSettings.testSlug + "/start_session/" + encodeURIComponent(internalSettings.params);
+                            path = internalSettings.appUrl + (internalSettings.admin ? "/admin" : "") + "/test/" + internalSettings.testSlug + "/start_session/" + encodeURIComponent(internalSettings.params);
                         }
                     }
                 }
@@ -225,6 +222,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                                 testRunner.sessionHash = httpResponse.data.hash;
                                 setToken(httpResponse.data.token);
                                 timeLimit = httpResponse.data.timeLimit;
+                                if(httpResponse.data.data.lastSubmitId) submitId = httpResponse.data.data.lastSubmitId;
                                 updateLoader(httpResponse.data.data);
                                 break;
                             }
@@ -295,6 +293,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             };
 
             scope.submitView = function (btnName, isTimeout, passedVals) {
+                submitId++;
                 if (displayState !== DISPLAY_VIEW_SHOWN) {
                     return;
                 }
@@ -345,6 +344,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             function submitViewPostValueGetter(btnName, isTimeout, passedVals, values) {
                 values["buttonPressed"] = btnName ? btnName : "";
                 values["isTimeout"] = isTimeout ? 1 : 0;
+                values["submitId"] = submitId;
                 values["retryTimeTaken"] = scope.retryTimeStarted === null ? 0 : (((new Date()).getTime() - scope.retryTimeStarted.getTime()) / 1000);
                 if (passedVals) {
                     angular.merge(values, passedVals);

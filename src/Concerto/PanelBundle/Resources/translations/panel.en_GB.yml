@@ -1,6 +1,8 @@
 header:
   logged.user: 'Logged user: {0}'
   logout: Logout
+  enableMFA: Enable MFA
+  disableMFA: Disable MFA
 
 tab:
   wizards: Test wizards
@@ -179,4 +181,15 @@ code:
     documentation:
         error.info: Unable to load autocompletion data!
         error.solve: Solve
-    
+
+mfa:
+  disable_dialog:
+    title: Disabling MFA
+    content: Are you sure you want to disable MFA?
+
+  enable_dialog:
+    title: MFA enabled
+    tooltip: Register application in your Google Authenticator
+    paragraph: "To add application to Google Authenticator, you need to either:"
+    qr: "a) scan QR code:"
+    secret: "b) add secret code manually:"

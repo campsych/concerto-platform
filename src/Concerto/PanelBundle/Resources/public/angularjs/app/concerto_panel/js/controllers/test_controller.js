@@ -100,7 +100,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     };
 
     $scope.additionalListButtons = [
-        '<button ng-show="row.entity.visibility!=2" class="btn btn-primary btn-xs" ng-click="grid.appScope.startTest(row.entity.slug);">' + Trans.TEST_BUTTON_RUN + '</button>'
+        '<button ng-show="row.entity.visibility!=2" class="btn btn-primary btn-xs" ng-click="grid.appScope.startTest(row.entity.slug, row.entity.protected);">' + Trans.TEST_BUTTON_RUN + '</button>'
     ];
     $scope.testWizardCollectionService = TestWizardCollectionService;
 
@@ -619,10 +619,12 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     $scope.onDelete = function () {
     };
 
-    $scope.startTest = function (slug) {
+    $scope.startTest = function (slug, admin = null) {
+        if (admin === null) admin = $scope.object.protected;
         if (!slug)
             slug = $scope.object.slug;
-        window.open(Paths.TEST_RUN.pf(slug), '_blank');
+        let url = admin == 1 ? Paths.TEST_RUN_ADMIN : Paths.TEST_RUN;
+        window.open(url.pf(slug), '_blank');
     };
 
     $scope.debugTest = function () {

@@ -102,6 +102,12 @@ concerto.server.listen = function(skipOnResume=F){
         if (response$code == RESPONSE_SUBMIT) {
             concerto$lastKeepAliveTime <<- as.numeric(Sys.time())
             concerto$lastSubmitTime <<- as.numeric(Sys.time())
+
+            if(!is.null(concerto$lastSubmitId) && concerto$lastSubmitId == response$values$submitId) {
+                concerto5:::concerto.server.respond(RESPONSE_VIEW_TEMPLATE, concerto$lastSubmitResult)
+                next
+            }
+
             concerto.event.fire("onTemplateSubmit", list(response=response$values))
             return(response$values)
         } else if (response$code == RESPONSE_RESUME) {

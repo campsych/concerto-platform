@@ -37,6 +37,7 @@ class ConcertoGitFetchCommand extends Command
     {
         $command = $this->getFetchCommand();
         $process = new Process($command);
+        $process->setTimeout(null);
         $process->start();
         $process->wait();
 

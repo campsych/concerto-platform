@@ -12,6 +12,8 @@ form:
     accessibility.tooltip: Poziom dostępności testu
     archived: Zarchiwizowane
     archived.tooltip: Czy test jest zarchiwizowany?
+    protected: Chroniony
+    protected.tooltip: Czy uruchomienie test testu bezpośrednio wymaga autoryzacji użytkownika Concerto?
     slug: Nazwa w URLu
     slug.tooltip: Fragment URL danego testu, modyfikowalny dla każdego testu; może być użyty do uczynienia linków do testów bardziej opisowymi
     visibility: Widoczność

@@ -22,7 +22,8 @@ class AppKernel extends Kernel
 
             new Concerto\PanelBundle\ConcertoPanelBundle(),
             new Concerto\TestBundle\ConcertoTestBundle(),
-            new Concerto\APIBundle\ConcertoAPIBundle()
+            new Concerto\APIBundle\ConcertoAPIBundle(),
+            new Scheb\TwoFactorBundle\SchebTwoFactorBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

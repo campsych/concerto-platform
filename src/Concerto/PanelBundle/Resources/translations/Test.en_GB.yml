@@ -12,6 +12,8 @@ form:
     accessibility.tooltip: Accessibility level of test
     archived: Archived
     archived.tooltip: Is test archived?
+    protected: Protected
+    protected.tooltip: Does running this test directly requires Concerto user authorisation?
     slug: Url name
     slug.tooltip: Url name (also called "slug") is a customizable part of URL under which the test will be available; it can be used to make test URLs more descriptive
     visibility: Visibility

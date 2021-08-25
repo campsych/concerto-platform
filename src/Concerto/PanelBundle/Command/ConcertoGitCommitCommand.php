@@ -48,6 +48,7 @@ class ConcertoGitCommitCommand extends Command
     {
         $command = $this->getCommitCommand();
         $process = new Process($command);
+        $process->setTimeout(null);
         $process->start();
         $process->wait();
 

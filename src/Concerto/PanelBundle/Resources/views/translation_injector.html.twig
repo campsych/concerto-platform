@@ -25,6 +25,8 @@
     Paths.CSS_TEST_BUNDLE_1 = "{{ asset('bundles/concertotest/css/test.css?v=' ~ version) }}";
     Paths.CSS_TEST_BUNDLE_2 = "{{ asset('bundles/concertotest/angularjs/bower_components/jquery-ui/themes/base/jquery-ui.min.css?v=' ~ version) }}";
 
+    Paths.ENABLE_MFA = "{{ path("enable_mfa") }}";
+    Paths.DISABLE_MFA = "{{ path("disable_mfa") }}";
     Paths.LOGOUT = "{{ path("logout") }}";
     Paths.LOCALE = "{{ path("locale_change", {'locale':"{0}"}) }}";
     Paths.FILE_UPLOAD = "{{ path("FileBrowser_upload") }}";
@@ -105,6 +107,7 @@
     Paths.TEST_VARIABLE_DELETE = "{{ path("TestVariable_delete", {"object_ids":"{0}"}) }}";
     Paths.TEST_VARIABLE_SAVE = "{{ path("TestVariable_save", {"object_id":"{0}"}) }}";
     Paths.TEST_RUN = "{{ path("test_runner_test_start",{"test_slug": "{0}" }) }}";
+    Paths.TEST_RUN_ADMIN = "{{ path("test_runner_protected_test_start",{"test_slug": "{0}" }) }}";
     Paths.TEST_DEBUG = "{{ path("test_runner_test_start_debug",{"test_slug":"{0}"}) }}";
     Paths.TEST_LOCK = "{{ path("Test_toggleLock",{'object_id':"{0}"}) }}";
 
@@ -227,6 +230,8 @@
     Trans.IMPORT_ACTION_NEW = "{{ 'import.action.new'|trans }}";
     Trans.IMPORT_ACTION_CONVERT = "{{ 'import.action.convert'|trans }}";
     Trans.IMPORT_ACTION_IGNORE = "{{ 'import.action.ignore'|trans }}";
+    Trans.DIALOG_DISABLING_MFA_TITLE = "{{ 'mfa.disable_dialog.title'|trans }}";
+    Trans.DIALOG_DISABLING_MFA_CONTENT = "{{ 'mfa.disable_dialog.content'|trans }}";
 
     {% trans_default_domain "TestWizard" %}
     Trans.TEST_WIZARD_BREADCRUMB_LIST = "{{ "breadcrumb.list"|trans }}";

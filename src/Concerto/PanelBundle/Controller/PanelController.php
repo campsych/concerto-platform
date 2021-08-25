@@ -2,6 +2,7 @@
 
 namespace Concerto\PanelBundle\Controller;
 
+use Concerto\PanelBundle\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Concerto\PanelBundle\Service\PanelService;
 use Concerto\PanelBundle\Service\FileService;
@@ -17,12 +18,16 @@ class PanelController
     private $templating;
     private $service;
     private $fileService;
+    private $userService;
+    private $security;
 
-    public function __construct(EngineInterface $templating, PanelService $service, FileService $fileService)
+    public function __construct(EngineInterface $templating, PanelService $service, FileService $fileService, UserService $userService, Security $security)
     {
         $this->templating = $templating;
         $this->service = $service;
         $this->fileService = $fileService;
+        $this->userService = $userService;
+        $this->security = $security;
     }
 
     /**
@@ -68,5 +73,29 @@ class PanelController
         $request->getSession()->set("_locale", $locale);
 
         return new RedirectResponse($request->getUriForPath("/admin"));
+    }
+
+    /**
+     * @Route("/admin/disable_mfa", name="disable_mfa")
+     * @param Request $request
+     * @return Response
+     */
+    public function disableMFA(Request $request)
+    {
+        $user = $this->security->getUser();
+        $this->userService->disableMFA($user);
+        return new Response();
+    }
+
+    /**
+     * @Route("/admin/enable_mfa", name="enable_mfa")
+     * @param Request $request
+     * @return Response
+     */
+    public function enableMFA(Request $request)
+    {
+        $user = $this->security->getUser();
+        $content = $this->userService->enableMFA($user);
+        return new Response(json_encode($content), 200, ["Content-Type" => "application/json"]);
     }
 }

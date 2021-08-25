@@ -36,7 +36,8 @@ ENV CONCERTO_SESSION_LOG_LEVEL=1
 ENV CONCERTO_SESSION_STORAGE=filesystem
 ENV CONCERTO_COOKIES_SAME_SITE=strict
 ENV CONCERTO_COOKIES_SECURE=false
-ENV CONCERTO_KEEP_ALIVE_INTERVAL_TIME=900
+ENV CONCERTO_COOKIES_LIFETIME=0
+ENV CONCERTO_KEEP_ALIVE_INTERVAL_TIME=0
 ENV CONCERTO_KEEP_ALIVE_TOLERANCE_TIME=0
 ENV CONCERTO_SESSION_TOKEN_EXPIRY_TIME=7200
 ENV CONCERTO_R_ENVIRON_SESSION_PATH=null
@@ -44,9 +45,10 @@ ENV CONCERTO_R_PROFILE_SESSION_PATH=null
 ENV CONCERTO_R_ENVIRON_SERVICE_PATH=null
 ENV CONCERTO_R_PROFILE_SERVICE_PATH=null
 ENV CONCERTO_R_SERVICES_NUM=0
+ENV CONCERTO_SESSION_FORKING=true
 ENV CONCERTO_R_FORCED_GC_INTERVAL=30
 ENV CONCERTO_JWT_SECRET=changeme
-ENV CONCERTO_PHP_SESSION_SAVE_PATH=/data/php/sessions
+ENV CONCERTO_PHP_SESSION_SAVE_PATH=/app/concerto/var/sessions
 ENV REDIS_HOST=redis
 ENV REDIS_PORT=6379
 ENV REDIS_PASS=''
@@ -133,7 +135,7 @@ CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
     then export CONCERTO_COOKIES_SECURE_PHP=1; \
     else export CONCERTO_COOKIES_SECURE_PHP=0; \
     fi \
- && printenv | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.sh \
+ && printenv | sed 's/"/\\"/g' | sed 's/^\([a-zA-Z0-9_]*\)=\(.*\)$/export \1="\2"/g' > /root/env.sh \
  && mkdir -p /data/files \
  && mkdir -p /data/sessions \
  && mkdir -p /data/git \
@@ -162,7 +164,7 @@ CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
  && chown -R $WEB_USER var/git \
  && chown -R $WEB_USER src/Concerto/PanelBundle/Resources/export \
  && chown -R $WEB_USER /data/git \
- && cat /etc/nginx/sites-available/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" | sed "s/{{nginx_server_conf}}/$NGINX_SERVER_CONF/g" > /etc/nginx/sites-available/concerto.conf \
+ && cat /etc/nginx/sites-available/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" | sed "s|{{nginx_server_conf}}|$NGINX_SERVER_CONF|g" > /etc/nginx/sites-available/concerto.conf \
  && service nginx start \
  && . /app/concerto/cron/concerto.forker.guard.sh \
  && . /app/concerto/cron/concerto.service.guard.sh \

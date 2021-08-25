@@ -44,6 +44,7 @@ class ConcertoGitPullCommand extends Command
     {
         $command = $this->getPullCommand();
         $process = new Process($command);
+        $process->setTimeout(null);
         $process->start();
         $process->wait();
 

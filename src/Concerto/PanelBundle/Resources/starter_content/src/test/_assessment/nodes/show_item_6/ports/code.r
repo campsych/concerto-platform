@@ -4,8 +4,11 @@ getTemplateParams = function() {
   itemNumLimit = as.numeric(settings$itemNumLimit)
   if(itemNumLimit > 0) { maxItems = min(maxItems, itemNumLimit) }
   totalPages = ceiling(maxItems / as.numeric(settings$itemsPerPage))
-
-  templateParams$items = data.frame(itemsSafe)
+  
+  processedItems = toJSON(data.frame(itemsSafe))
+  processedItems = concerto.template.insertParams(processedItems, templateParams, F)
+  templateParams$items = fromJSON(processedItems)
+  
   templateParams$responseRequired = as.numeric(settings$responseRequired)
   templateParams$responseRequiredAlert = settings$responseRequiredAlert
   templateParams$footer = settings$footer
@@ -93,11 +96,15 @@ WHERE id={{id}}", params=list(
 ))
 }
 
+if(!is.list(bgWorkers)) {
+  bgWorkers = list()
+}
 templateResponse = concerto.template.show(
   templateId=settings$itemTemplate, 
   html=settings$itemTemplateHtml,
   params=params, 
-  timeLimit=templateTimeLimit
+  timeLimit=templateTimeLimit,
+  bgWorkers=bgWorkers
 )
 
 if(!is.na(settings$templateResponseModule) && settings$templateResponseModule != "") {

@@ -127,6 +127,13 @@ class Test extends ATopEntity implements \JsonSerializable
     private $baseTemplate;
 
     /**
+     *
+     * @var boolean
+     * @ORM\Column(type="boolean")
+     */
+    private $protected;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -142,6 +149,7 @@ class Test extends ATopEntity implements \JsonSerializable
         $this->description = "";
         $this->slug = md5(mt_rand() . uniqid(true));
         $this->sourceWizard = null;
+        $this->protected = false;
     }
 
     public function getDependantTests()
@@ -677,6 +685,24 @@ class Test extends ATopEntity implements \JsonSerializable
     }
 
     /**
+     * @return boolean
+     */
+    public function isProtected(): bool
+    {
+        return $this->protected;
+    }
+
+    /**
+     * @param boolean $protected
+     * @return Test
+     */
+    public function setProtected(bool $protected): Test
+    {
+        $this->protected = $protected;
+        return $this;
+    }
+
+    /**
      * Set owner
      * @param User $user
      * @return Test
@@ -705,6 +731,7 @@ class Test extends ATopEntity implements \JsonSerializable
             "description" => $this->getDescription(),
             "type" => $this->getType(),
             "code" => $this->getCode(),
+            "protected" => $this->isProtected(),
             "variables" => AEntity::getEntityCollectionHash($this->getVariables()),
             "nodes" => AEntity::getEntityCollectionHash($this->getNodes()),
             "nodesConnections" => AEntity::getEntityCollectionHash($this->getNodesConnections())
@@ -764,6 +791,7 @@ class Test extends ATopEntity implements \JsonSerializable
             "tags" => $this->tags,
             "owner" => $this->getOwner() ? $this->getOwner()->getId() : null,
             "groups" => $this->groups,
+            "protected" => $this->isProtected() ? "1" : "0",
             "starterContent" => $this->starterContent
         );
 

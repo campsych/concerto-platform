@@ -76,6 +76,15 @@
             {% endblock %}
         {% endembed %}
 
+        {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
+            {% trans_default_domain "Test" %}
+            {% block label %}{{ 'form.field.protected'|trans }}{% endblock %}
+            {% block tooltip %}{{'form.field.protected.tooltip'|trans}}{% endblock %}
+            {% block control %}
+                <input type="checkbox" ng-disabled="!isEditable()"  ng-model="object.protected" ng-true-value="'1'" ng-false-value="'0'" />
+            {% endblock %}
+        {% endembed %}
+
         {% if app.user and is_granted('ROLE_SUPER_ADMIN') %}
             {% embed "ConcertoPanelBundle::form_h_element.html.twig" %}
                 {% trans_default_domain "Test" %}

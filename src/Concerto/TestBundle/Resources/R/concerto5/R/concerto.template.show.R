@@ -62,12 +62,18 @@ concerto.template.show = function(
     data = concerto$response
     data$templateParams = concerto$templateParams
     data$cookies = cookies
+    if(!is.null(concerto$lastResponse$values$submitId)) {
+        data$lastSubmitId = as.numeric(concerto$lastResponse$values$submitId)
+    }
     if (finalize) {
         concerto5:::concerto.session.stop(STATUS_FINALIZED, RESPONSE_VIEW_FINAL_TEMPLATE, data)
     } else {
         repeat {
             concerto5:::concerto.session.update()
             concerto$templateParams <<- list()
+
+            concerto$lastSubmitResult <<- data
+            concerto$lastSubmitId <<- data$lastSubmitId
 
             if (concerto$runnerType == RUNNER_SERIALIZED) {
                 concerto5:::concerto.session.serialize()

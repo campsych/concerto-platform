@@ -7,7 +7,6 @@ use Concerto\TestBundle\Service\TestRunnerService;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTDecodeFailureException;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,10 +47,18 @@ class TestRunnerController
     /**
      * Returns start new test template.
      *
-     * @Route("/test/session/{existing_session_hash}", name="test_runner_test_resume", defaults={"test_slug":null,"test_name":null,"params":"{}","debug":false})
-     * @Route("/test/session/{existing_session_hash}", name="test_runner_test_resume_name", defaults={"test_slug":null,"test_name":null,"params":"{}","debug":false})
-     * @Route("/test/{test_slug}/{params}", name="test_runner_test_start", defaults={"test_name":null,"params":"{}","debug":false})
-     * @Route("/test_n/{test_name}/{params}", name="test_runner_test_start_name", defaults={"test_slug":null,"params":"{}"})
+     * @Route("/test/session/{existing_session_hash}", name="test_runner_test_resume")
+     * @Route("/test/{test_slug}/{params}", name="test_runner_test_start", defaults={"params":"{}"})
+     * @Route("/test_n/{test_name}/{params}", name="test_runner_test_start_name", defaults={"params":"{}"})
+     *
+     * @Route("/admin/test/session/{existing_session_hash}/debug", name="test_runner_test_resume_debug", defaults={"debug": true, "protected": true})
+     * @Route("/admin/test/{test_slug}/debug/{params}", name="test_runner_test_start_debug", defaults={"params":"{}", "debug": true, "protected": true})
+     * @Route("/admin/test/{test_slug}/session/{existing_session_hash}/debug/{params}", name="test_runner_resume_debug", defaults={"params":"{}", "debug": true, "protected": true})
+     *
+     * @Route("/admin/test/session/{existing_session_hash}", name="test_runner_protected_test_resume", defaults={"protected": true})
+     * @Route("/admin/test/{test_slug}/{params}", name="test_runner_protected_test_start", defaults={"params":"{}", "protected": true})
+     * @Route("/admin/test_n/{test_name}/{params}", name="test_runner_test_protected_start_name", defaults={"params":"{}", "protected": true})
+     *
      * @param Request $request
      * @param SessionInterface $session
      * @param string|null $test_slug
@@ -61,7 +68,7 @@ class TestRunnerController
      * @param string|null $existing_session_hash
      * @return Response
      */
-    public function startNewTestAction(Request $request, SessionInterface $session, $test_slug = null, $test_name = null, $params = "{}", $debug = false, $existing_session_hash = null)
+    public function startTestAction(Request $request, SessionInterface $session, $test_slug = null, $test_name = null, $params = "{}", $debug = false, $existing_session_hash = null, $protected = false)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params");
 
@@ -79,8 +86,9 @@ class TestRunnerController
             $params[$k] = $request->query->get($k);
         }
         $params = json_encode($params);
+
         $browser_valid = $this->testRunnerService->isBrowserValid($request->headers->get('User-Agent'));
-        $baseTemplate = $this->testRunnerService->getBaseTemplateContent($test_slug, $test_name);
+        $baseTemplate = $this->testRunnerService->getBaseTemplateContent($test_slug, $test_name, $existing_session_hash);
 
         $platformUrl = $this->sessionRunnerService->getPlatformUrl();
         $appUrl = $this->sessionRunnerService->getAppUrl();
@@ -94,6 +102,7 @@ class TestRunnerController
             "keep_alive_interval" => $this->testRunnerSettings["keep_alive_interval_time"],
             "keep_alive_tolerance" => $this->testRunnerSettings["keep_alive_tolerance_time"],
             "debug" => $debug,
+            "protected" => $protected,
             "browser_valid" => $browser_valid,
             "existing_session_hash" => $existing_session_hash
         );
@@ -117,23 +126,13 @@ class TestRunnerController
     }
 
     /**
-     * @Route("/admin/test/{test_slug}/debug/{params}", name="test_runner_test_start_debug", defaults={"params":"{}"})
-     * @Route("/admin/test/{test_slug}/session/{existing_session_hash}/debug/{params}", name="test_runner_resume_debug", defaults={"params":"{}"})
-     * @param Request $request
-     * @param SessionInterface $session
-     * @param string $test_slug
-     * @param string $params
-     * @param string|null $existing_session_hash
-     * @return Response
-     */
-    public function startNewDebugTestAction(Request $request, SessionInterface $session, $test_slug, $params = "{}", $existing_session_hash = null)
-    {
-        return $this->startNewTestAction($request, $session, $test_slug, null, $params, true, $existing_session_hash);
-    }
-
-    /**
-     * @Route("/test/{test_slug}/start_session/{params}", name="test_runner_session_start", defaults={"test_name":null,"params":"{}","debug":false}, methods={"POST"})
-     * @Route("/test_n/{test_name}/start_session/{params}", name="test_runner_session_start_name", defaults={"test_slug":null,"params":"{}","debug":false}, methods={"POST"})
+     * @Route("/test/{test_slug}/start_session/{params}", name="test_runner_session_start", methods={"POST"}, defaults={"params":"{}"})
+     * @Route("/test_n/{test_name}/start_session/{params}", name="test_runner_session_start_name", methods={"POST"}, defaults={"params":"{}"})
+     *
+     * @Route("/admin/test/{test_slug}/start_session/debug/{params}", name="test_runner_session_start_debug", defaults={"params":"{}", "debug": true}, methods={"POST"})
+     *
+     * @Route("/admin/test/{test_slug}/start_session/{params}", name="test_runner_protected_session_start", defaults={"params":"{}"}, methods={"POST"})
+     *
      * @param Request $request
      * @param $test_slug
      * @param $test_name
@@ -164,27 +163,14 @@ class TestRunnerController
     }
 
     /**
-     * @Route("/admin/test/{test_slug}/start_session/debug/{params}", name="test_runner_session_start_debug", defaults={"params":"{}"}, methods={"POST"})
-     * @param Request $request
-     * @param string $test_slug
-     * @param string $params
-     * @return RedirectResponse|Response
-     */
-    public function startNewDebugSessionAction(Request $request, $test_slug, $params = "{}")
-    {
-        return $this->startNewSessionAction($request, $test_slug, null, $params, true);
-    }
-
-    /**
-     * @Route("/test/session/{session_hash}/resume", name="test_runner_session_resume", defaults={"debug":false}, methods={"POST"})
+     * @Route("/test/session/{session_hash}/resume", name="test_runner_session_resume", methods={"POST"})
      * @param Request $request
      * @param string $session_hash
-     * @param bool $debug
      * @return RedirectResponse|Response
      */
-    public function resumeSessionAction(Request $request, $session_hash, $debug = false)
+    public function resumeSessionAction(Request $request, $session_hash)
     {
-        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash, $debug");
+        $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $session_hash");
 
         if (!$this->checkAuthorizationToken($request, $session_hash)) return new Response("", 403);
 
@@ -192,8 +178,7 @@ class TestRunnerController
             $session_hash,
             $request->cookies->all(),
             $request->getClientIp(),
-            $request->server->get('HTTP_USER_AGENT'),
-            $debug
+            $request->server->get('HTTP_USER_AGENT')
         );
         $result["token"] = $this->makeAuthorizationToken($result);
         $response = new Response(json_encode($result));
@@ -201,17 +186,6 @@ class TestRunnerController
         $this->setCookies($response, $result);
 
         return $response;
-    }
-
-    /**
-     * @Route("/admin/test/session/{session_hash}/resume/debug", name="test_runner_session_resume_debug", methods={"POST"})
-     * @param Request $request
-     * @param $session_hash
-     * @return RedirectResponse|Response
-     */
-    public function resumeDebugSessionAction(Request $request, $session_hash)
-    {
-        return $this->resumeSessionAction($request, $session_hash, true);
     }
 
     /**
@@ -403,7 +377,6 @@ class TestRunnerController
     {
         $protectedFilesAccess = false;
         $sessionFilesAccess = false;
-        $sessionHash = null;
 
         if (!array_key_exists("hash", $result)) return null;
         $sessionHash = $result["hash"];
@@ -412,13 +385,11 @@ class TestRunnerController
             if (isset($result["data"]["sessionFilesAccess"]) && $result["data"]["sessionFilesAccess"] === true) $sessionFilesAccess = true;
         }
 
-        $token = null;
         try {
             $token = $this->jwtEncoder->encode([
                 "sessionHash" => $sessionHash,
                 "protectedFilesAccess" => $protectedFilesAccess,
-                "sessionFilesAccess" => $sessionFilesAccess,
-                "expiry" => time() + intval($this->testRunnerSettings["session_token_expiry_time"])
+                "sessionFilesAccess" => $sessionFilesAccess
             ]);
         } catch (JWTEncodeFailureException $e) {
             return null;
@@ -429,17 +400,18 @@ class TestRunnerController
 
     private function extendAuthorizationToken(Request $request)
     {
-        $decodedToken = null;
         try {
             $decodedToken = $this->jwtEncoder->decode($request->get("token"));
         } catch (JWTDecodeFailureException $e) {
             return false;
         }
 
-        $decodedToken["expiry"] = time() + intval($this->testRunnerSettings["session_token_expiry_time"]);
-
         try {
-            $token = $this->jwtEncoder->encode($decodedToken);
+            $token = $this->jwtEncoder->encode([
+                "sessionHash" => $decodedToken["sessionHash"],
+                "protectedFilesAccess" => $decodedToken["protectedFilesAccess"],
+                "sessionFilesAccess" => $decodedToken["sessionFilesAccess"]
+            ]);
         } catch (JWTEncodeFailureException $e) {
             return false;
         }
@@ -449,7 +421,6 @@ class TestRunnerController
 
     private function checkAuthorizationToken(Request $request, $sessionHash = null, $protectedFilesAccess = false, $sessionFilesAccess = false)
     {
-        $token = null;
         try {
             $token = $this->jwtEncoder->decode($request->get("token"));
         } catch (JWTDecodeFailureException $e) {
@@ -458,13 +429,11 @@ class TestRunnerController
         if ($sessionHash !== null && $token["sessionHash"] !== $sessionHash) return false;
         if ($protectedFilesAccess === true && $token["protectedFilesAccess"] !== true) return false;
         if ($sessionFilesAccess === true && $token["sessionFilesAccess"] !== true) return false;
-        if (time() > $token["expiry"]) return false;
         return true;
     }
 
     private function getSessionHashFromAuthorizationToken(Request $request)
     {
-        $token = null;
         try {
             $token = $this->jwtEncoder->decode($request->get("token"));
         } catch (JWTDecodeFailureException $e) {

@@ -86,11 +86,13 @@ repeat {
     mcparallel({
         if(ENV_CONCERTO_R_SESSION_LOG_LEVEL > 0) {
             sinkFile <- file(response$rLogPath, open = "at")
+            #needs both types declared separately
             sink(file = sinkFile, append = TRUE, type = "output", split = FALSE)
             sink(file = sinkFile, append = TRUE, type = "message", split = FALSE)
             rm(sinkFile)
         } else {
             nullFile <- file("/dev/null", open = "at") #UNIX only
+            #needs both types declared separately
             sink(file = nullFile, append = TRUE, type = "output", split = FALSE)
             sink(file = nullFile, append = TRUE, type = "message", split = FALSE)
         }

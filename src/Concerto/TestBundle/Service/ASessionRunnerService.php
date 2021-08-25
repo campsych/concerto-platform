@@ -38,7 +38,7 @@ abstract class ASessionRunnerService
 
     abstract public function startNew(TestSession $session, $params, $cookies, $headers, $client_ip, $client_browser, $debug = false, $max_exec_time = null);
 
-    abstract public function resume(TestSession $session, $cookies, $client_ip, $client_browser, $debug = false, $max_exec_time = null);
+    abstract public function resume(TestSession $session, $cookies, $client_ip, $client_browser, $max_exec_time = null);
 
     abstract public function submit(TestSession $session, $values, $cookies, $client_ip, $client_browser);
 
@@ -429,7 +429,7 @@ abstract class ASessionRunnerService
         $client = json_encode($client);
         $request = json_encode($request ? $request : array());
         $sessionStorage = $this->testRunnerSettings["session_storage"];
-        $redisConnection = json_encode($this->sessionRunnerService->getRedisConnectionParams());
+        $redisConnection = json_encode($this->getRedisConnectionParams());
         $sessionFilesExpiration = $this->administrationService->getSettingValue("session_files_expiration");
         $serviceFifoPath = $this->getServiceFifoDir();
 

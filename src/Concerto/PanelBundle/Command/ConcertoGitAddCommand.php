@@ -37,6 +37,7 @@ class ConcertoGitAddCommand extends Command
     {
         $command = $this->getAddCommand();
         $process = new Process($command);
+        $process->setTimeout(null);
         $process->start();
         $process->wait();
 

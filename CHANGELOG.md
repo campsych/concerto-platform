@@ -13,6 +13,54 @@
 * added CONCERTO_R_SERVICES_NUM env var
 * added file lock to forker and service guard
 
+## 5.0.26 (in progress)
+
+#### Fixes
+
+* end test node is now guaranteed to be executed at the end of the test
+
+#### Starter content
+
+* exposed **bgWorkers** for **assessment** node template
+
+## 5.0.25 (2021-07-26)
+
+#### Features
+
+* Google Authenticator MFA for panel users
+* protected tests
+
+#### Improvements
+
+* updated js dependencies
+* removed jquery-migrate dependency
+* CONCERTO_KEEP_ALIVE_INTERVAL_TIME default is now 0
+
+#### Starter content
+
+* added **columnPrefix** input to **translationDictionary** node
+* gracely scale item type validation requirements now depends on visibility mode 
+* params and directives are applied consistently to assessment's item bank
+
+#### Fixes
+
+* disabled default time limits for potentially long running commands
+* fixed base template usage when resuming session
+* server timer check now uses db times only
+* fixed out of sync issue on submission retry
+* fixed displaying of null values for date type column
+* fixed potential CSTI on login form
+* standalone (not forked) run fix
+* fixed JWT token TTL
+* CKEditor image browser nested path fix
+
+### Docker
+
+* moved default PHP session path out of docker volume
+* added CONCERTO_COOKIE_LIFETIME env
+* added CONCERTO_SESSION_FORKING env
+* /root/env.sh double quote escaping
+
 ## 5.0.24 (2021-04-19)
 
 #### Improvements

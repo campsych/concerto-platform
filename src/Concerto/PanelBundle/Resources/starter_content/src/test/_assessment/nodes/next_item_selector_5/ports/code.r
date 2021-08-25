@@ -201,10 +201,15 @@ if(length(nextItemsIndices) == 0) {
       if(pageLastItemIndex < pageFirstItemIndex) { break }
 
       nextItemsIndices = pageFirstItemIndex:pageLastItemIndex
-      if(length(nextItemsIndices) > 1) {
-        nextItemsIndices = nextItemsIndices[-which(nextItemsIndices %in% excludedItems)]
-      } else {
-        if(length(nextItemsIndices) == 1 && nextItemsIndices %in% excludedItems) { nextItemsIndices = NULL }
+      if(!is.null(excludedItems)) {
+        if(length(nextItemsIndices) > 1) {
+          excludedIndices = which(nextItemsIndices %in% excludedItems)
+          if(length(excludedIndices) > 0) {
+            nextItemsIndices = nextItemsIndices[-excludedIndices]
+          }
+        } else {
+          if(length(nextItemsIndices) == 1 && nextItemsIndices %in% excludedItems) { nextItemsIndices = NULL }
+        }
       }
       if(length(nextItemsIndices) == 0) { 
         nextPage = nextPage + 1 

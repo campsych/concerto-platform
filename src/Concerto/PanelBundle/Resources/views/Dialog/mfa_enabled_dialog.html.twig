@@ -1,0 +1,20 @@
+{% trans_default_domain "panel" %}
+<div type="text/ng-template" id="mfa_enabled_dialog.html">
+    <div class="modal-body">
+        {% embed "ConcertoPanelBundle::form_v_single.html.twig" %}
+            {% trans_default_domain "panel" %}
+            {% block legend %}{{ "mfa.enable_dialog.title"|trans }}{% endblock %}
+            {% block legend_tooltip %}{{ "mfa.enable_dialog.tooltip"|trans }}{% endblock %}
+            {% block control %}
+                <p>{{ "mfa.enable_dialog.paragraph"|trans }}</p>
+                <p style="margin-top: 2em;">{{ "mfa.enable_dialog.qr"|trans }}</p>
+                <qr text="qrCode" style="display: block; text-align: center;"></qr>
+                <p style="margin-top: 2em;">{{ "mfa.enable_dialog.secret"|trans }}</p>
+                <div ng-bind="secret" style="font-weight: bold; text-align: center;"></div>
+            {% endblock %}
+        {% endembed %}
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" ng-click="close()">{{ 'form.button.ok'|trans }}</button>
+    </div>
+</div>

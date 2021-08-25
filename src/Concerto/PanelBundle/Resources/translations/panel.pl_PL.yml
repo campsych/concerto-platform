@@ -1,6 +1,8 @@
 header:
   logged.user: 'Zalogowany użytkownik: {0}'
   logout: Wyloguj
+  enableMFA: Włącz MFA
+  disableMFA: Wyłącz MFA
 
 tab:
   wizards: Kreatory testów
@@ -174,3 +176,14 @@ code:
     error.info: Nie można załadować danych do autouzupełnienia kodu!
     error.solve: Rozwiąż
 
+mfa:
+  disable_dialog:
+    title: Wyłączanie MFA
+    content: Napewno wyłączyć MFA?
+
+  enable_dialog:
+    title: MFA włączone
+    tooltip: Zarejestruj aplikacje w swoim Google Authenticator
+    paragraph: "Aby dodać aplikacje do Google Authenticator, należy zrobić jedno z:"
+    qr: "a) zeskanuj kod QR:"
+    secret: "b) dodaj sekretny kod ręcznie:"

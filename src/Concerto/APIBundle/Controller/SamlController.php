@@ -18,11 +18,13 @@ class SamlController
 {
     private $service;
     private $administrationService;
+    private $testRunnerSettings;
 
-    public function __construct(AdministrationService $administrationService, SamlService $service)
+    public function __construct(AdministrationService $administrationService, SamlService $service, $testRunnerSettings)
     {
         $this->administrationService = $administrationService;
         $this->service = $service;
+        $this->testRunnerSettings = $testRunnerSettings;
     }
 
     /**
@@ -76,7 +78,20 @@ class SamlController
             } else {
                 $response = new Response("", 200);
             }
-            $response->headers->setCookie(new Cookie("concertoSamlTokenHash", $token));
+
+            $cookie = new Cookie(
+                "concertoSamlTokenHash",
+                $token,
+                time() + (1 * 24 * 60 * 60), //1 day
+                '/',
+                null,
+                $this->testRunnerSettings["cookies_secure"] === "true",
+                true,
+                false,
+                $this->testRunnerSettings["cookies_same_site"] ? $this->testRunnerSettings["cookies_same_site"] : null
+            );
+
+            $response->headers->setCookie($cookie);
         } else {
             $response = new Response("", 403);
         }
