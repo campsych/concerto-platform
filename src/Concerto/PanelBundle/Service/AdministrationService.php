@@ -184,7 +184,7 @@ class AdministrationService
     public function getMessagesCollection()
     {
         $this->fetchMessagesCollection();
-        return $this->messagesRepository->findBy([], array("created" => "DESC"), 100);
+        return $this->messagesRepository->findBy([], array("time" => "DESC"), 100);
     }
 
     public function deleteMessage($object_ids)
