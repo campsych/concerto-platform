@@ -44,7 +44,7 @@ class TestSessionLogController extends ASectionController
     public function collectionByTestAction($test_id)
     {
         return $this->templating->renderResponse('ConcertoPanelBundle::collection.json.twig', array(
-                'collection' => $this->service->getByTest($test_id)
+                'collection' => $this->service->getLatestByTest($test_id)
             )
         );
     }

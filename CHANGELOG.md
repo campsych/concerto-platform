@@ -284,6 +284,7 @@
 * fixed R package installation scheduled tasks
 * fixed file picker URL
 * test error logs are no longer loaded automatically on test edit
+* test specific logs always loaded, showing last 100
 
 #### Improvements
 

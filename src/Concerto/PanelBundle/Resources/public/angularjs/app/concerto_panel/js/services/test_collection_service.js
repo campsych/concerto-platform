@@ -4,16 +4,20 @@ concertoPanel.factory('TestCollectionService', function ($http, BaseCollectionSe
     collectionService.userRoleRequired = "role_test";
 
     collectionService.fetchLogsCollection = function (id) {
-        var test = this.get(id);
-        $http({
-            url: Paths.TEST_LOG_COLLECTION.pf(id),
-            method: "GET"
-        }).then(function (httpResponse) {
-            if (httpResponse.data.content) {
-                test.logs = httpResponse.data.content;
-            } else {
-                test.logs = httpResponse.data;
-            }
+        let service = this;
+        return new Promise((resolve, reject) => {
+            let test = service.get(id);
+            $http({
+                url: Paths.TEST_LOG_COLLECTION.pf(id),
+                method: "GET"
+            }).then(function (httpResponse) {
+                if (httpResponse.data.content) {
+                    test.logs = httpResponse.data.content;
+                } else {
+                    test.logs = httpResponse.data;
+                }
+                resolve(test.logs);
+            });
         });
     };
 
