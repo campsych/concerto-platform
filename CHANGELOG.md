@@ -3,6 +3,7 @@
 #### Fixes
 
 * end test node is now guaranteed to be executed at the end of the test
+* added timeout for fifo fopen in session runner service
 
 #### Improvements
 

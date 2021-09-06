@@ -388,11 +388,16 @@ abstract class ASessionRunnerService
 
         $path = $this->getFifoDir() . ($sessionHash ? $sessionHash : uniqid("hc", true)) . ".fifo";
         posix_mkfifo($path, POSIX_S_IFIFO | 0644);
-        $fh = fopen($path, "wt");
-        if ($fh === false) {
-            $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - fopen() failed");
-            return false;
+
+        $startTime = time();
+        while ((@$fh = fopen($path, "wn")) === false) {
+            if (time() - $startTime > 60) {
+                $this->logger->error(__CLASS__ . ":" . __FUNCTION__ . " - fopen() failed");
+                return false;
+            }
+            usleep(100 * 1000);
         }
+
         stream_set_blocking($fh, 1);
         $buffer = $response . "\n";
         $sent = fwrite($fh, $buffer);
