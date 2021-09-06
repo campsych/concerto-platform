@@ -13,6 +13,11 @@
 
 * exposed **bgWorkers** for **assessment** node template
 
+#### Docker
+
+* paths ending with / will be rewritten (nginx)
+* prevented routing to /bundles/concertopanel/files/protected (nginx)
+
 ## 5.0.25 (2021-07-26)
 
 #### Features
