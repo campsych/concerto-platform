@@ -14,11 +14,11 @@ class TestSessionLogRepository extends AEntityRepository {
         $qb->delete("Concerto\PanelBundle\Entity\TestSessionLog", "tsl")->where("tsl.test = :ti")->setParameter("ti", $test_id)->getQuery()->execute();
     }
     
-    public function findAllNewerThan($time) {
+    public function findLatestNewerThan($time, $limit = 100) {
         $dt = new DateTime();
         $dt->setTimestamp($time);
         $builder = $this->getEntityManager()->getRepository("ConcertoPanelBundle:TestSessionLog")->createQueryBuilder( 'tsl' );
-        $builder->where("tsl.created > :tslc")->setParameter("tslc", $dt);
+        $builder->where("tsl.created > :tslc")->orderBy("tsl.created", "DESC")->setMaxResults($limit)->setParameter("tslc", $dt);
         return $builder->getQuery()->execute();
     }
 } 
