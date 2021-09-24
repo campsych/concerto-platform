@@ -9,6 +9,7 @@
 
 * limited max number of messages that are fetched to 100
 * limited max number of automatic client side error logs per session to 1
+* removed version information from panel login page
 
 #### Starter content
 
