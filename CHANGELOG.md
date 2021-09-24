@@ -1,5 +1,9 @@
 ## 5.0.26 (in progress)
 
+#### Features
+
+* template override
+
 #### Fixes
 
 * end test node is now guaranteed to be executed at the end of the test
