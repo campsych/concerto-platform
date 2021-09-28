@@ -78,6 +78,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             var lastResponse = null;
             var stopped = false;
             var submitId = 0;
+            var cientSideErrorLoggedNum = 0;
             scope.timeLeft = "";
             scope.timerStarted = null;
             scope.retryTimeLeft = "";
@@ -89,7 +90,9 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
             scope.R = {};
 
             $window.addEventListener("error", function (event) {
-                scope.logClientSideError(event.message);
+                if(cientSideErrorLoggedNum === 0) {
+                    scope.logClientSideError(event.message);
+                }
             });
 
             scope.$watch('html', function (newValue) {
@@ -108,6 +111,7 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                     error: error,
                     token: getToken()
                 });
+                cientSideErrorLoggedNum++;
             };
 
             function joinHtml(css, js, html) {
@@ -474,6 +478,10 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                             html = testRunner.settings.sessionLostHtml;
                             break;
                     }
+                    if(response.data.templateHtmlOverride) html = response.data.templateHtmlOverride;
+                    if(response.data.templateCssOverride) css = response.data.templateCssOverride;
+                    if(response.data.templateJsOverride) js = response.data.templateJsOverride;
+                    if(response.data.templateHeadOverride) head = response.data.templateHeadOverride;
 
                     if (typeof (response.data) !== 'undefined' && response.data.templateParams != null) {
                         scope.R = angular.fromJson(response.data.templateParams);

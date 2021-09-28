@@ -437,6 +437,10 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
             $scope.logsGridApi.selection.clearSelectedRows();
 
         $scope.codeOptions.readOnly = !$scope.isEditable();
+
+        if($scope.object.id) {
+            $scope.refreshLogs();
+        }
     };
 
     $scope.onBeforePersist = function () {
@@ -605,7 +609,7 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     };
 
     $scope.refreshLogs = function () {
-        $scope.collectionService.fetchLogsCollection($scope.object.id);
+        $scope.collectionService.fetchLogsCollection($scope.object.id).then(logs => $scope.logs = logs);
     };
 
     $scope.refreshVariables = function () {
@@ -652,12 +656,6 @@ function TestController($scope, $uibModal, $http, $filter, $timeout, $state, $sc
     $scope.$watchCollection("object.logs", function () {
         if ($scope.logsGridApi)
             $scope.logsGridApi.selection.clearSelectedRows();
-
-        if ($scope.object.logs != null) {
-            $scope.logs = $scope.object.logs;
-        } else {
-            $scope.logs = [];
-        }
     });
 
     $scope.$watchCollection("object.variables", function () {

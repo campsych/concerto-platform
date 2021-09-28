@@ -15,13 +15,29 @@
 
 ## 5.0.26 (in progress)
 
+#### Features
+
+* template override
+
 #### Fixes
 
 * end test node is now guaranteed to be executed at the end of the test
+* added timeout for fifo fopen in session runner service
+
+#### Improvements
+
+* limited max number of messages that are fetched to 100
+* limited max number of automatic client side error logs per session to 1
+* removed version information from panel login page
 
 #### Starter content
 
 * exposed **bgWorkers** for **assessment** node template
+
+#### Docker
+
+* paths ending with / will be rewritten (nginx)
+* prevented routing to /bundles/concertopanel/files/protected (nginx)
 
 ## 5.0.25 (2021-07-26)
 
@@ -294,6 +310,7 @@
 * fixed R package installation scheduled tasks
 * fixed file picker URL
 * test error logs are no longer loaded automatically on test edit
+* test specific logs always loaded, showing last 100
 
 #### Improvements
 

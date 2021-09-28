@@ -15,12 +15,12 @@ class TestSessionLogService extends ASectionService
     private $testService;
 
     public function __construct(
-        TestSessionLogRepository $repository,
-        TestService $testService,
+        TestSessionLogRepository      $repository,
+        TestService                   $testService,
         AuthorizationCheckerInterface $securityAuthorizationChecker,
-        TokenStorageInterface $securityTokenStorage,
-        AdministrationService $administrationService,
-        LoggerInterface $logger)
+        TokenStorageInterface         $securityTokenStorage,
+        AdministrationService         $administrationService,
+        LoggerInterface               $logger)
     {
         parent::__construct($repository, $securityAuthorizationChecker, $securityTokenStorage, $administrationService, $logger);
 
@@ -36,9 +36,9 @@ class TestSessionLogService extends ASectionService
         return $object;
     }
 
-    public function getByTest($test_id)
+    public function getLatestByTest($test_id)
     {
-        return $this->authorizeCollection($this->repository->findByTest($test_id));
+        return $this->authorizeCollection($this->repository->findBy(array("test" => $test_id), array("created" => "DESC"), 100));
     }
 
     public function delete($object_ids, $secure = true)

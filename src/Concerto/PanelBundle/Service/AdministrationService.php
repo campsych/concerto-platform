@@ -56,23 +56,23 @@ class AdministrationService
 
     public function __construct(
         AdministrationSettingRepository $settingsRepository,
-        MessageRepository $messageRepository,
-        $configSettings,
-        $version,
-        $rootDir,
-        EngineInterface $templating,
-        TestSessionLogRepository $testSessionLogRepository,
-        RegistryInterface $doctrine,
-        ScheduledTaskRepository $scheduledTaskRepository,
-        KernelInterface $kernel,
-        ClientRepository $clientRepository,
-        $testRunnerSettings,
-        TestRepository $testRepository,
-        DataTableRepository $dataTableRepository,
-        TestWizardRepository $testWizardRepository,
-        ViewTemplateRepository $viewTemplateRepository,
-        TestSessionRepository $testSessionRepository,
-        TokenStorageInterface $securityTokenStorage
+        MessageRepository               $messageRepository,
+                                        $configSettings,
+                                        $version,
+                                        $rootDir,
+        EngineInterface                 $templating,
+        TestSessionLogRepository        $testSessionLogRepository,
+        RegistryInterface               $doctrine,
+        ScheduledTaskRepository         $scheduledTaskRepository,
+        KernelInterface                 $kernel,
+        ClientRepository                $clientRepository,
+                                        $testRunnerSettings,
+        TestRepository                  $testRepository,
+        DataTableRepository             $dataTableRepository,
+        TestWizardRepository            $testWizardRepository,
+        ViewTemplateRepository          $viewTemplateRepository,
+        TestSessionRepository           $testSessionRepository,
+        TokenStorageInterface           $securityTokenStorage
     )
     {
         $this->settingsRepository = $settingsRepository;
@@ -116,7 +116,8 @@ class AdministrationService
 
     private function fetchTestSessionLogs($start_time)
     {
-        foreach ($this->testSessionLogRepository->findAllNewerThan($start_time) as $log) {
+        //this will only take latest 100 logs since this is max amount that we'll be showing in panel
+        foreach ($this->testSessionLogRepository->findLatestNewerThan($start_time) as $log) {
             if ($log->getTest() === null)
                 continue;
 
@@ -183,7 +184,7 @@ class AdministrationService
     public function getMessagesCollection()
     {
         $this->fetchMessagesCollection();
-        return $this->messagesRepository->findAll();
+        return $this->messagesRepository->findBy([], array("time" => "DESC"), 100);
     }
 
     public function deleteMessage($object_ids)
