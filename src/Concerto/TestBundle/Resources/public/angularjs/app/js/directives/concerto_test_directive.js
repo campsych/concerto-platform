@@ -478,10 +478,10 @@ testRunner.directive('concertoTest', ['$http', '$interval', '$timeout', '$sce', 
                             html = testRunner.settings.sessionLostHtml;
                             break;
                     }
-                    if(response.data.templateHtmlOverride) html = response.data.templateHtmlOverride;
-                    if(response.data.templateCssOverride) css = response.data.templateCssOverride;
-                    if(response.data.templateJsOverride) js = response.data.templateJsOverride;
-                    if(response.data.templateHeadOverride) head = response.data.templateHeadOverride;
+                    if(response.data && response.data.templateHtmlOverride) html = response.data.templateHtmlOverride;
+                    if(response.data && response.data.templateCssOverride) css = response.data.templateCssOverride;
+                    if(response.data && response.data.templateJsOverride) js = response.data.templateJsOverride;
+                    if(response.data && response.data.templateHeadOverride) head = response.data.templateHeadOverride;
 
                     if (typeof (response.data) !== 'undefined' && response.data.templateParams != null) {
                         scope.R = angular.fromJson(response.data.templateParams);
