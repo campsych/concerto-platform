@@ -24,6 +24,7 @@
 
 * paths ending with / will be rewritten (nginx)
 * prevented routing to /bundles/concertopanel/files/protected (nginx)
+* removed **Server** header (nginx)
 
 ## 5.0.25 (2021-07-26)
 
