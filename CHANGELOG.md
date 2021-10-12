@@ -19,6 +19,7 @@
 #### Starter content
 
 * exposed **bgWorkers** for **assessment** node template
+* added **itemSet** option to **assessment** node
 
 #### Docker
 
