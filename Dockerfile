@@ -88,6 +88,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     libcurl4-openssl-dev \
     libhiredis-dev \
     libmariadbclient-dev \
+    libnginx-mod-http-headers-more-filter \
     libxml2-dev \
     libssl-dev \
     locales \

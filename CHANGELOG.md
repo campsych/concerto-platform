@@ -29,15 +29,18 @@
 * limited max number of messages that are fetched to 100
 * limited max number of automatic client side error logs per session to 1
 * removed version information from panel login page
+* added **debug** option for **concerto.test.run** command
 
 #### Starter content
 
 * exposed **bgWorkers** for **assessment** node template
+* added **itemSet** option to **assessment** node
 
 #### Docker
 
 * paths ending with / will be rewritten (nginx)
 * prevented routing to /bundles/concertopanel/files/protected (nginx)
+* removed **Server** header (nginx)
 
 ## 5.0.25 (2021-07-26)
 

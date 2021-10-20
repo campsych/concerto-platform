@@ -35,7 +35,7 @@ getIndicedColumnsSql = function(firstColumnName, num, aliasPrefix) {
   if(is.na(firstColumnName) || is.null(firstColumnName) || firstColumnName == "") {
     return("NULL")
   }
-  
+
   columnNamePrefix = substring(firstColumnName, 1, nchar(firstColumnName) - 1)
   columns = c()
   for(i in 1:num) {
@@ -124,6 +124,7 @@ convertFromFlat = function(items, responseColumnsNum) {
 
 getItems = function(itemBankType, itemBankItems, itemBankTable, itemBankFlatTable, extraFields, paramsNum){
   items = NULL
+  itemSetFilterEnabled = !is.na(settings$itemSet) && !is.null(settings$itemSet) && settings$itemSet != ""
 
   if(itemBankType == "table") {
     tableMap = fromJSON(itemBankTable)
@@ -134,6 +135,7 @@ getItems = function(itemBankType, itemBankItems, itemBankTable, itemBankFlatTabl
     p1Column = tableMap$columns$p1
     traitColumn = tableMap$columns$trait
     fixedIndexColumn = tableMap$columns$fixedIndex
+    itemSetColumn = tableMap$columns$itemSet
 
     instructionsColumn = tableMap$columns$instructions
     if(is.null(instructionsColumn) || is.na(instructionsColumn) || instructionsColumn == "") {
@@ -148,8 +150,7 @@ getItems = function(itemBankType, itemBankItems, itemBankTable, itemBankFlatTabl
     extraFieldsSql = getExtraFieldsSql(table, extraFields)
     parametersSql = getIndicedColumnsSql(p1Column, paramsNum, "p")
 
-    items = concerto.table.query(
-      "
+    sql = "
 SELECT 
 id, 
 {{questionColumn}} AS question, 
@@ -161,18 +162,27 @@ id,
 {{skippableColumn}} AS skippable
 {{extraFieldsSql}}
 FROM {{table}}
-", 
-      list(
-        questionColumn=questionColumn,
-        responseOptionsColumn=responseOptionsColumn,
-        parametersSql=parametersSql,
-        traitColumn=traitColumn,
-        fixedIndexColumn=fixedIndexColumn,
-        skippableColumn=skippableColumn,
-        instructionsColumn=instructionsColumn,
-        extraFieldsSql=extraFieldsSql,
-        table=table
-      ))
+"
+
+    #item set filter
+    itemSetFilterEnabled = itemSetFilterEnabled && !is.null(itemSetColumn) && !is.na(itemSetColumn) && itemSetColumn != ""
+    if(itemSetFilterEnabled) {
+      sql = paste0(sql, "WHERE {{itemSetColumn}}='{{itemSet}}'")
+    }
+
+    items = concerto.table.query(sql, list(
+      questionColumn=questionColumn,
+      responseOptionsColumn=responseOptionsColumn,
+      parametersSql=parametersSql,
+      traitColumn=traitColumn,
+      fixedIndexColumn=fixedIndexColumn,
+      skippableColumn=skippableColumn,
+      instructionsColumn=instructionsColumn,
+      extraFieldsSql=extraFieldsSql,
+      itemSetColumn=itemSetColumn,
+      itemSet=settings$itemSet,
+      table=table
+    ))
   }
 
   if(itemBankType == "flatTable") {
@@ -183,6 +193,7 @@ FROM {{table}}
     p1Column = tableMap$columns$p1
     traitColumn = tableMap$columns$trait
     fixedIndexColumn = tableMap$columns$fixedIndex
+    itemSetColumn = tableMap$columns$itemSet
 
     instructionsColumn = tableMap$columns$instructions
     if(is.null(instructionsColumn) || is.na(instructionsColumn) || instructionsColumn == "") {
@@ -220,7 +231,7 @@ FROM {{table}}
     if(is.null(optionsRandomOrderColumn) || is.na(optionsRandomOrderColumn) || optionsRandomOrderColumn == "") {
       optionsRandomOrderColumn = "NULL"
     }
-    
+
     optionsColumnsNumColumn = tableMap$columns$optionsColumnsNum
     if(is.null(optionsColumnsNumColumn) || is.na(optionsColumnsNumColumn) || optionsColumnsNumColumn == "") {
       optionsColumnsNumColumn = "NULL"
@@ -235,8 +246,7 @@ FROM {{table}}
     responseTraitSql = getIndicedColumnsSql(responseTrait1Column, responseColumnsNum, "responseTrait")
     responseFixedIndexSql = getIndicedColumnsSql(responseFixedIndex1Column, responseColumnsNum, "responseFixedIndex")
 
-    items = concerto.table.query(
-      "
+    sql = "
 SELECT 
 id, 
 {{questionColumn}} AS question,
@@ -258,28 +268,36 @@ id,
 {{typeColumn}} AS type
 {{extraFieldsSql}}
 FROM {{table}}
-", 
-      list(
-        questionColumn=questionColumn,
-        parametersSql=parametersSql,
-        traitColumn=traitColumn,
-        fixedIndexColumn=fixedIndexColumn,
-        skippableColumn=skippableColumn,
-        instructionsColumn=instructionsColumn,
-        extraFieldsSql=extraFieldsSql,
-        responseLabelSql=responseLabelSql,
-        responseValueSql=responseValueSql,
-        responseScoreSql=responseScoreSql,
-        responseTraitSql=responseTraitSql,
-        responseFixedIndexSql=responseFixedIndexSql,
-        typeColumn=typeColumn,
-        gracelyScaleShowColumn=gracelyScaleShowColumn,
-        painMannequinGenderColumn=painMannequinGenderColumn,
-        painMannequinAreaMultiMarksColumn=painMannequinAreaMultiMarksColumn,
-        optionsRandomOrderColumn=optionsRandomOrderColumn,
-        optionsColumnsNumColumn=optionsColumnsNumColumn,
-        table=table
-      ))
+"
+
+    itemSetFilterEnabled = itemSetFilterEnabled && !is.null(itemSetColumn) && !is.na(itemSetColumn) && itemSetColumn != ""
+    if(itemSetFilterEnabled) {
+      sql = paste0(sql, "WHERE {{itemSetColumn}}='{{itemSet}}'")
+    }
+
+    items = concerto.table.query(sql, list(
+      questionColumn=questionColumn,
+      parametersSql=parametersSql,
+      traitColumn=traitColumn,
+      fixedIndexColumn=fixedIndexColumn,
+      skippableColumn=skippableColumn,
+      instructionsColumn=instructionsColumn,
+      extraFieldsSql=extraFieldsSql,
+      responseLabelSql=responseLabelSql,
+      responseValueSql=responseValueSql,
+      responseScoreSql=responseScoreSql,
+      responseTraitSql=responseTraitSql,
+      responseFixedIndexSql=responseFixedIndexSql,
+      typeColumn=typeColumn,
+      gracelyScaleShowColumn=gracelyScaleShowColumn,
+      painMannequinGenderColumn=painMannequinGenderColumn,
+      painMannequinAreaMultiMarksColumn=painMannequinAreaMultiMarksColumn,
+      optionsRandomOrderColumn=optionsRandomOrderColumn,
+      optionsColumnsNumColumn=optionsColumnsNumColumn,
+      itemSetColumn=itemSetColumn,
+      itemSet=settings$itemSet,
+      table=table
+    ))
     items = convertFromFlat(items, responseColumnsNum)
   }
 
@@ -290,6 +308,9 @@ FROM {{table}}
         itemBankItems[[i]]$responseOptions = as.character(toJSON(itemBankItems[[i]]$responseOptions)) #response options don't fit into flat table, so turn them back to JSON.
         itemBankItems[[i]][sapply(itemBankItems[[i]], is.null)] <- NA
         items = rbind(items, data.frame(itemBankItems[[i]], stringsAsFactors=F))
+      }
+      if(itemSetFilterEnabled) {
+        items = items[!is.na(items$itemSet) & items$itemSet == settings$itemSet,]
       }
     }
   }
