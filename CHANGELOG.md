@@ -13,7 +13,13 @@
 * added CONCERTO_R_SERVICES_NUM env var
 * added file lock to forker and service guard
 
-## 5.0.26 (in progress)
+## 5.0.27 (in progress)
+
+#### Docker
+
+* UTC as default timezone for PHP
+
+## 5.0.26 (2021-10-21)
 
 #### Features
 
