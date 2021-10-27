@@ -1,3 +1,9 @@
+## 5.0.27 (in progress)
+
+#### Docker
+
+* UTC as default timezone for PHP
+
 ## 5.0.26 (2021-10-21)
 
 #### Features
