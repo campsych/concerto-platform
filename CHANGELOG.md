@@ -9,6 +9,7 @@
 #### Features
 
 * template override
+* R session compression
 
 #### Fixes
 

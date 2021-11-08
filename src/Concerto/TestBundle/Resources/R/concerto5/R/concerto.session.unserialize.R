@@ -1,12 +1,12 @@
 concerto.session.unserialize <- function(response = NULL, hash = NULL){
     concerto.log("unserializing session...")
 
-    prevConcerto = NULL
+    prevEnv = new.env()
     if(concerto$sessionStorage == "redis") {
+        #TODO decompress
         redisBinarySession = concerto$redisConnection$GET(concerto$session$hash)
-        prevConcerto = NULL
         if(!is.null(redisBinarySession)) {
-            prevConcerto = unserialize(redisBinarySession)
+            prevEnv$concerto = unserialize(redisBinarySession)
         } else {
             return(F)
         }
@@ -21,28 +21,27 @@ concerto.session.unserialize <- function(response = NULL, hash = NULL){
         }
         concerto.log(sessionFileName)
 
-        con = file(sessionFileName, open="rb")
-        prevConcerto = unserialize(con)
-        close(con)
+        load(sessionFileName, envir=prevEnv)
     }
 
-    concerto$cache <<- prevConcerto$cache
-    concerto$globals <<- prevConcerto$globals
-    concerto$templateParams <<- prevConcerto$templateParams
-    concerto$flow <<- prevConcerto$flow
-    concerto$lastSubmitTime <<- prevConcerto$lastSubmitTime
-    concerto$lastSubmitResult <<- prevConcerto$lastSubmitResult
-    concerto$lastSubmitId <<- prevConcerto$lastSubmitId
-    concerto$lastKeepAliveTime <<- prevConcerto$lastKeepAliveTime
-    concerto$bgWorkers <<- prevConcerto$bgWorkers
-    concerto$headers <<- prevConcerto$headers
+    concerto$cache <<- prevEnv$concerto$cache
+    concerto$globals <<- prevEnv$concerto$globals
+    concerto$templateParams <<- prevEnv$concerto$templateParams
+    concerto$flow <<- prevEnv$concerto$flow
+    concerto$lastSubmitTime <<- prevEnv$concerto$lastSubmitTime
+    concerto$lastSubmitResult <<- prevEnv$lastSubmitResult
+    concerto$lastSubmitId <<- prevEnv$lastSubmitId
+    concerto$lastKeepAliveTime <<- prevEnv$concerto$lastKeepAliveTime
+    concerto$bgWorkers <<- prevEnv$concerto$bgWorkers
+    concerto$headers <<- prevEnv$concerto$headers
     if(!is.null(response)) {
         concerto$lastResponse <<- response
     } else {
-        concerto$lastResponse <<- prevConcerto$lastResponse
+        concerto$lastResponse <<- prevEnv$concerto$lastResponse
     }
-    concerto$skipTemplateOnResume <<- prevConcerto$skipTemplateOnResume
-    concerto$events <<- prevConcerto$events
+    concerto$skipTemplateOnResume <<- prevEnv$concerto$skipTemplateOnResume
+    concerto$events <<- prevEnv$concerto$events
+    rm(prevEnv)
 
     concerto.log("session unserialized")
 
