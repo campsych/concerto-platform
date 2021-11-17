@@ -9,16 +9,17 @@ function DataTableStructureSaveController($scope, $uibModalInstance, $http, $tim
     $scope.dialogSuccessfulMessage = "";
 
     $scope.types = [
-        {label: "string", value: "string"},
-        {label: "integer", value: "integer"},
-        {label: "smallint", value: "smallint"},
-        {label: "bigint", value: "bigint"},
         {label: "boolean", value: "boolean"},
-        {label: "decimal", value: "decimal"},
+        {label: "bigint", value: "bigint"},
         {label: "date", value: "date"},
         {label: "datetime", value: "datetime"},
-        {label: "text", value: "text"},
-        {label: "float", value: "float"}
+        {label: "decimal", value: "decimal"},
+        {label: "float", value: "float"},
+        {label: "integer", value: "integer"},
+        {label: "json", value: "json"},
+        {label: "smallint", value: "smallint"},
+        {label: "string", value: "string"},
+        {label: "text", value: "text"}
     ];
 
     if ($scope.object.id === 0) {

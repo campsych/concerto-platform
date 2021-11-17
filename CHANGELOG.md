@@ -10,6 +10,7 @@
 
 * template override
 * R session compression
+* added json data table column type
 
 #### Fixes
 

@@ -114,6 +114,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                     colDef.enableCellEdit = false;
                     colDef.type = "date";
                     break;
+                case "json":
                 case "text":
                     colDef.cellTemplate = "<div class='ui-grid-cell-contents' align='center' ng-class='{\"ui-grid-cell-contents-null\": COL_FIELD === null}'>" +
                         '<i class="glyphicon glyphicon-align-justify clickable" ng-click="grid.appScope.editTextCell(row.entity, \'' + col.name + '\')" uib-tooltip="{{row.entity.' + col.name + '}}" tooltip-append-to-body="true"></i>' +
@@ -384,6 +385,12 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                 }
             }
         }).catch(function (error) {
+            console.log(error);
+            DialogsService.alertDialog(
+                Trans.DATA_TABLE_DATA_DIALOG_TITLE_EDIT,
+                Trans.DIALOG_MESSAGE_FAILED,
+                "danger"
+            );
             $scope.fetchDataCollection($scope.object.id);
         });
     };
