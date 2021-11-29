@@ -4,6 +4,10 @@
 
 * UTC as default timezone for PHP
 
+#### Starter content
+
+* fixedIndex in assessment node now also applied when random order
+
 ## 5.0.26 (2021-10-21)
 
 #### Features

@@ -325,11 +325,19 @@ FROM {{table}}
 
   if(dim(items)[1] == 0) { stop("Item bank must not be empty!") }
 
-  if(settings$order == "manual") {
-    items = items[order(items$fixedIndex),]
-  }
   if(settings$order == "random") {
     items = items[sample(1:dim(items)[1]),]
+  }
+  
+  #fixed index sort
+  for(i in 1:nrow(items)) {
+    item = items[i,]
+    fi = as.numeric(item$fixedIndex)
+    if(!is.na(fi) && length(fi) == 1 && fi > 0 && fi != i) {
+      dstItem = items[fi,]
+      items[fi,] = item
+      items[i,] = dstItem
+    }
   }
 
   if("skippable" %in% colnames(items)) {
