@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Concerto\TestBundle\Entity\TestSessionCount;
 use Concerto\TestBundle\Service\TestSessionCountService;
 
-class LogSessionCountCommand extends Command {
+class ConcertoSessionsLogCommand extends Command {
 
     private $sessionCountService;
 

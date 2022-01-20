@@ -1,5 +1,9 @@
 ## 5.0.27 (in progress)
 
+#### Features
+
+* _concerto-tick test
+
 #### Docker
 
 * UTC as default timezone for PHP
@@ -7,6 +11,11 @@
 #### Starter content
 
 * fixedIndex in assessment node now also applied when random order
+
+#### Other
+
+* default session idle timeout changed 1800s -> 300s
+* session clear command now uses flock
 
 ## 5.0.26 (2021-10-21)
 

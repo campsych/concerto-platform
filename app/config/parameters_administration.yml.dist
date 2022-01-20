@@ -57,7 +57,7 @@ parameters:
             editable_starter_content: false
             session_files_expiration: '%env(CONCERTO_SESSION_FILES_EXPIRATION)%'
             session_log_level: '%env(CONCERTO_SESSION_LOG_LEVEL)%'
-            session_count_idle_limit: 1800 #secs
+            session_count_idle_limit: 300 #secs
             failed_auth_lock_time: "%env(CONCERTO_FAILED_AUTH_LOCK_TIME)%"
             failed_auth_lock_streak: "%env(CONCERTO_FAILED_AUTH_LOCK_STREAK)%"
             data_api_enabled: "%env(CONCERTO_DATA_API_ENABLED)%"
