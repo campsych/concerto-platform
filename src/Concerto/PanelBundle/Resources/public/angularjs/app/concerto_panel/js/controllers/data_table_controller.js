@@ -38,7 +38,9 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     $scope.$on('ngGridEventEndCellEdit', function (data) {
         $scope.saveRow(data.targetScope.row.entity);
     });
-    $scope.datePickerOptions = {};
+    $scope.datePickerOptions = {
+        autoclose: true
+    };
     $scope.datePickerFormat = "yyyy-MM-dd";
 
     $scope.toggleFieldNull = function (row, fieldName) {
@@ -105,10 +107,10 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                     colDef.enableCellEdit = false;
                     break;
                 case "date":
-                    colDef.cellTemplate = "<div class='ui-grid-cell-contents' align='center' ng-class='{\"ui-grid-cell-contents-null\": COL_FIELD === null}'>" +
-                        "<input type='text' ng-click='row.entity._datepicker_opened=true' ng-model='row.entity." + col.name + "' " +
+                    colDef.cellTemplate = "<div class='ui-grid-cell-contents' ng-class='{\"ui-grid-cell-contents-null\": COL_FIELD === null}'>" +
+                        "<input type='text' ng-click='row.entity._datepicker_" + col.name + "_opened=true' ng-model='row.entity." + col.name + "' " +
                         "datepicker-append-to-body='true' ng-readonly='true' ng-change='grid.appScope.saveRow(row.entity)' style='width:100%;' " +
-                        "datepicker-options='grid.appScope.datePickerOptions' is-open='row.entity._datepicker_opened' uib-datepicker-popup='{{grid.appScope.datePickerFormat}}' class='form-control' />" +
+                        "datepicker-options='grid.appScope.datePickerOptions' is-open='row.entity._datepicker_" + col.name + "_opened' uib-datepicker-popup='{{grid.appScope.datePickerFormat}}' class='form-control' />" +
                         nullableCb +
                         "</div>";
                     colDef.enableCellEdit = false;

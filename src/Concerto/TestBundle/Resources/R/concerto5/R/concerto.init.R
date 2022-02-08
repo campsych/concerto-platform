@@ -49,6 +49,8 @@ concerto.init = function(dbConnectionParams, publicDir, platformUrl, appUrl, max
     RUNNER_PERSISTENT <<- 0
     RUNNER_SERIALIZED <<- 1
 
+    tempdir(T)
+
     concerto <<- list()
     concerto$cache <<- list(tests=list(), templates=list(), tables=list())
     concerto$cacheEnabled <<- T

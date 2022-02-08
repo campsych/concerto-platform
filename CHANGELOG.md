@@ -12,10 +12,15 @@
 
 * fixedIndex in assessment node now also applied when random order
 
+#### Fixes
+
+* fixed multiple datepickers popping up when data table row has multiple date columns
+
 #### Other
 
 * default session idle timeout changed 1800s -> 300s
 * session clear command now uses flock
+* checks for R tempdir 
 
 ## 5.0.26 (2021-10-21)
 
