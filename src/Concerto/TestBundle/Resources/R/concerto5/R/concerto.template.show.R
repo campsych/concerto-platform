@@ -22,6 +22,8 @@ concerto.template.show = function(
     if (! is.list(params)) stop("'params' must be a list!")
     if (templateId == -1 && html == "") stop("templateId or html must be declared")
 
+    params = concerto.template.makeParams(params)
+
     concerto$response$protectedFilesAccess <<- protectedFilesAccess
     concerto$response$sessionFilesAccess <<- sessionFilesAccess
     if (html != "") {
@@ -47,15 +49,7 @@ concerto.template.show = function(
     }
     concerto$bgWorkers <<- workers
 
-    if (length(params) > 0) {
-        for (name in ls(params)) {
-            if (is.null(params[[name]])) {
-                concerto$templateParams[name] <<- list(NULL)
-            } else {
-                concerto$templateParams[[name]] <<- params[[name]]
-            }
-        }
-    }
+    concerto$templateParams <<- params
 
     concerto.event.fire("onBeforeTemplateShow", list(params = concerto$templateParams))
 

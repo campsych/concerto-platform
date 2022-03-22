@@ -56,6 +56,7 @@ concerto.init = function(dbConnectionParams, publicDir, platformUrl, appUrl, max
     concerto$cacheEnabled <<- T
     concerto$globals <<- list()
     concerto$templateParams <<- list()
+    concerto$globalTemplateParams <<- list()
     concerto$flow <<- list()
     concerto$flowIndex <<- 0
     concerto$bgWorkers <<- list()

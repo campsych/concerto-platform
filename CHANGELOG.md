@@ -3,6 +3,7 @@
 #### Features
 
 * _concerto-tick test
+* concerto$globalTemplateParams object added
 
 #### Docker
 
