@@ -4,6 +4,7 @@
 
 * _concerto-tick test
 * concerto$globalTemplateParams object added
+* OTP helpers
 
 #### Docker
 
