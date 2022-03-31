@@ -35,9 +35,6 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     };
     $scope.data = [];
     $scope.structure = [];
-    $scope.$on('ngGridEventEndCellEdit', function (data) {
-        $scope.saveRow(data.targetScope.row.entity);
-    });
     $scope.datePickerOptions = {
         autoclose: true
     };
@@ -45,7 +42,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
 
     $scope.toggleFieldNull = function (row, fieldName) {
         row[fieldName] = row[fieldName] === null ? $scope.getDefaultColumnValue(fieldName) : null;
-        $scope.saveRow(row);
+        $scope.saveRow(row, fieldName);
     };
 
     $scope.getDefaultColumnValue = function (fieldName) {
@@ -101,7 +98,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                 case "boolean":
                     colDef.cellTemplate =
                         "<div class='ui-grid-cell-contents' align='center' ng-class='{\"ui-grid-cell-contents-null\": COL_FIELD === null}'>" +
-                        "<input type='checkbox' ng-change='grid.appScope.saveRow(row.entity)' ng-model='row.entity." + col.name + "' ng-true-value='\"1\"' ng-false-value='\"0\"' style='margin: 0;' />" +
+                        "<input type='checkbox' ng-change='grid.appScope.saveRow(row.entity, \"" + col.name + "\")' ng-model='row.entity." + col.name + "' ng-true-value='\"1\"' ng-false-value='\"0\"' style='margin: 0;' />" +
                         nullableCb +
                         "</div>";
                     colDef.enableCellEdit = false;
@@ -109,7 +106,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                 case "date":
                     colDef.cellTemplate = "<div class='ui-grid-cell-contents' ng-class='{\"ui-grid-cell-contents-null\": COL_FIELD === null}'>" +
                         "<input type='text' ng-click='row.entity._datepicker_" + col.name + "_opened=true' ng-model='row.entity." + col.name + "' " +
-                        "datepicker-append-to-body='true' ng-readonly='true' ng-change='grid.appScope.saveRow(row.entity)' style='width:100%;' " +
+                        "datepicker-append-to-body='true' ng-readonly='true' ng-change='grid.appScope.saveRow(row.entity, \"" + col.name + "\")' style='width:100%;' " +
                         "datepicker-options='grid.appScope.datePickerOptions' is-open='row.entity._datepicker_" + col.name + "_opened' uib-datepicker-popup='{{grid.appScope.datePickerFormat}}' class='form-control' />" +
                         nullableCb +
                         "</div>";
@@ -173,7 +170,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             !$scope.isEditable(),
             function (newVal) {
                 entity[colName] = newVal;
-                $scope.saveRow(entity);
+                $scope.saveRow(entity, colName);
             }
         );
     };
@@ -325,7 +322,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                 $scope.fetchDataCollection($scope.object.id);
             });
             $scope.dataGridApi.edit.on.afterCellEdit($scope, function (rowEntity, colDef, newValue, oldValue) {
-                $scope.saveRow(rowEntity);
+                if (newValue !== oldValue) $scope.saveRow(rowEntity, colDef.name);
             });
             $scope.dataGridApi.pagination.seek(1);
         },
@@ -358,8 +355,17 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             }
         });
     };
-    $scope.saveRow = function (row) {
+    $scope.saveRow = function (row, fieldName = null) {
         let newRow = angular.copy(row);
+
+        /* commented out individual field update as api will null out nullable fields when missing in update params
+        if (fieldName !== null) {
+            newRow = {};
+            newRow.id = row.id;
+            newRow[fieldName] = row[fieldName];
+        }
+        */
+
         for (let key in newRow) {
             if (key.substring(0, 1) === "$" || key.substring(0, 1) === "_")
                 delete newRow[key];

@@ -17,6 +17,7 @@
 #### Fixes
 
 * fixed multiple datepickers popping up when data table row has multiple date columns
+* fixed data table row update on field blur (even when no change made)
 
 #### Other
 
