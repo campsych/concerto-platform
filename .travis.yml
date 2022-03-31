@@ -9,11 +9,11 @@ services:
 
 before_install:
   - npm install -g bower
-  - composer self-update
+  - wget https://getcomposer.org/download/2.2.10/composer.phar
   - mysql -e 'CREATE DATABASE concerto_test;'
 
 install:
-  - composer install --no-interaction
+  - php composer.phar install --no-interaction
   - cd $TRAVIS_BUILD_DIR/src/Concerto/PanelBundle/Resources/public/angularjs && bower install --allow-root
   - cd $TRAVIS_BUILD_DIR/src/Concerto/TestBundle/Resources/public/angularjs && bower install --allow-root
   - cd $TRAVIS_BUILD_DIR
