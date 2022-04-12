@@ -9,6 +9,8 @@ function(
   
   template <- concerto.template.get(templateId)
 
+  params = concerto.template.makeParams(params)
+
   if(html!=""){
     concerto$response$loaderHead <<- concerto.template.insertParams(head,params)
     concerto$response$loaderHtml <<- concerto.template.insertParams(html,params)
@@ -22,11 +24,5 @@ function(
     concerto$response$loaderHtml <<- concerto.template.insertParams(template$html,params)
   }
 
-  for(name in ls(params)) {
-    if(is.null(params[[name]])) {
-      concerto$templateParams[name] <<- list(NULL)
-    } else {
-      concerto$templateParams[[name]] <<- params[[name]]
-    }
-  }
+  concerto$templateParams <<- params
 }

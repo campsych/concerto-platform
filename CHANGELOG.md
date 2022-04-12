@@ -15,6 +15,12 @@
 
 ## 5.0.27 (in progress)
 
+#### Features
+
+* _concerto-tick test
+* concerto$globalTemplateParams object added
+* OTP helpers
+
 #### Docker
 
 * UTC as default timezone for PHP
@@ -22,6 +28,17 @@
 #### Starter content
 
 * fixedIndex in assessment node now also applied when random order
+
+#### Fixes
+
+* fixed multiple datepickers popping up when data table row has multiple date columns
+* fixed data table row update on field blur (even when no change made)
+
+#### Other
+
+* default session idle timeout changed 1800s -> 300s
+* session clear command now uses flock
+* checks for R tempdir 
 
 ## 5.0.26 (2021-10-21)
 

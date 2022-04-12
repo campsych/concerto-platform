@@ -1,4 +1,6 @@
 concerto.template.insertParams = function(html,params=list(),removeMissing=T){
+  params = concerto.template.makeParams(params)
+
   insertRegex = "\\{\\{[^(\\}\\})|(\\{\\{)]*\\}\\}"
   matches <- unlist(regmatches(html,gregexpr(insertRegex,html)))
   offset = 0

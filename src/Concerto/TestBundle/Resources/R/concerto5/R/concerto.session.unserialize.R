@@ -27,6 +27,7 @@ concerto.session.unserialize <- function(response = NULL, hash = NULL){
     concerto$cache <<- prevEnv$concerto$cache
     concerto$globals <<- prevEnv$concerto$globals
     concerto$templateParams <<- prevEnv$concerto$templateParams
+    concerto$globalTemplateParams <<- prevEnv$concerto$globalTemplateParams
     concerto$flow <<- prevEnv$concerto$flow
     concerto$lastSubmitTime <<- prevEnv$concerto$lastSubmitTime
     concerto$lastSubmitResult <<- prevEnv$lastSubmitResult
