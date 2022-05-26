@@ -13,6 +13,7 @@
 #### Starter content
 
 * fixedIndex in assessment node now also applied when random order
+* random or manual ordered item bank (assessment node) will be now sorted by fixedIndex
 
 #### Fixes
 

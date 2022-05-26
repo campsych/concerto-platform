@@ -17,8 +17,6 @@ getSafeItems = function(items, extraFields) {
   for(i in 1:dim(items)[1]) {
     item = as.list(items[i,])
 
-    concerto.log(item, "ITEM")
-
     scoreColName = "responseScore1"
     scoreColIndex = 1
     while(scoreColName %in% ls(item)) {
