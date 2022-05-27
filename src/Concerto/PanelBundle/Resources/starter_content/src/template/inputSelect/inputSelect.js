@@ -1,5 +1,5 @@
 testRunner.compileProvider.component('inputSelect', {
-  templateUrl: testRunner.settings.platformUrl + "/ViewTemplate/inputSelect/content?css=1,html=1",
+  templateUrl: testRunner.settings.platformUrl + "/ViewTemplate/inputSelect/content?css=1&html=1&js=0",
   bindings: {
     field: '=',
     values: '='

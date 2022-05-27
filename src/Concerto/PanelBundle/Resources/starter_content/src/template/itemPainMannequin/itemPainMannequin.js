@@ -1,5 +1,5 @@
 testRunner.compileProvider.component('itemPainMannequin', {
-  templateUrl: testRunner.settings.platformUrl + "/ViewTemplate/itemPainMannequin/content?css=1,html=1",
+  templateUrl: testRunner.settings.platformUrl + "/ViewTemplate/itemPainMannequin/content?css=1&html=1&js=0",
   bindings: {
     item: '=',
     response: '=',
