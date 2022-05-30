@@ -11,33 +11,45 @@ server {
     location ~ /(\.|web\.config) {
         deny all;
     }
-    location ~ ^/bundles/concertopanel/files/protected/ {
+    location ~ ^{{base_dir}}bundles/concertopanel/files/protected/ {
         deny all;
     }
 
-    location ~ ^/files/(protected|session)/ {
-        rewrite ^/(.*)$ /app.php/$1 last;
+    location ~ ^{{base_dir}}files/(protected|session)/ {
+        rewrite ^{{base_dir}}(.*)$ {{base_dir}}app.php/$1 last;
     }
 
-    location / {
-        try_files $uri /app.php$is_args$args;
+    location {{base_dir}}files {
+        alias /app/concerto/web/files;
     }
 
-    location ~ ^/app\.php(/|$) {
+    location {{base_dir}}bundles {
+        alias /app/concerto/web/bundles;
+    }
+
+    location {{base_dir}}favicon.ico {
+        alias /app/concerto/web/favicon.ico;
+    }
+
+    location {{base_dir}} {
+        try_files $uri {{base_dir}}app.php$is_args$args;
+    }
+
+    location ~ ^{{base_dir}}app\.php(/|$) {
         fastcgi_pass localhost:9000;
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
         include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        fastcgi_param DOCUMENT_ROOT $realpath_root;
+        fastcgi_param SCRIPT_FILENAME /app/concerto/web/app.php;
+        fastcgi_param DOCUMENT_ROOT /app/concerto/web;
         fastcgi_param HTTPS off;
     }
 
-    location ~ ^/app_dev\.php(/|$) {
+    location ~ ^{{base_dir}}app_dev\.php(/|$) {
         fastcgi_pass localhost:9000;
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
         include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
-        fastcgi_param DOCUMENT_ROOT $realpath_root;
+        fastcgi_param SCRIPT_FILENAME /app/concerto/web/app_dev.php;
+        fastcgi_param DOCUMENT_ROOT /app/concerto/web;
         fastcgi_param HTTPS off;
     }
 }
