@@ -4,7 +4,6 @@ MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 ARG CRAN_MIRROR=https://cloud.r-project.org
 
 ENV CONCERTO_PLATFORM_URL=/
-ENV CONCERTO_BASE_DIR=/
 ENV CONCERTO_PASSWORD=admin
 ENV CONCERTO_API_ENABLED=true
 ENV CONCERTO_API_ENABLED_OVERRIDABLE=true
@@ -159,7 +158,8 @@ CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
  && chown -R $WEB_USER var/git \
  && chown -R $WEB_USER src/Concerto/PanelBundle/Resources/export \
  && chown -R $WEB_USER /data/git \
- && cat /app/concerto/build/docker/nginx/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" | sed "s|{{nginx_server_conf}}|$NGINX_SERVER_CONF|g" | sed "s|{{base_dir}}|$CONCERTO_BASE_DIR|g" > /etc/nginx/sites-available/concerto.conf \
+ && BASE_DIR=$(bash /app/concerto/scripts/basedir.sh $CONCERTO_PLATFORM_URL) \
+ && cat /app/concerto/build/docker/nginx/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" | sed "s|{{nginx_server_conf}}|$NGINX_SERVER_CONF|g" | sed "s|{{base_dir}}|$BASE_DIR|g" > /etc/nginx/sites-available/concerto.conf \
  && service nginx start \
  && . /app/concerto/cron/concerto.forker.guard.sh  \
  && /etc/init.d/php7.2-fpm start \

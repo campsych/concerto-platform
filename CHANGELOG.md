@@ -9,7 +9,7 @@
 #### Docker
 
 * UTC as default timezone for PHP
-* added CONCERTO_BASE_DIR env
+* can now be installed in subdirectory; base dir will be extracted from CONCERTO_PLATFORM_URL
 
 #### Starter content
 
