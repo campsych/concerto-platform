@@ -1,4 +1,3 @@
-import("session")
 import("httr")
 export(
     concerto.db.connect,
