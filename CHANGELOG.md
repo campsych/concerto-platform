@@ -27,6 +27,7 @@
 * default session idle timeout changed 1800s -> 300s
 * session clear command now uses flock
 * checks for R tempdir 
+* removed 'session' R package dependency
 
 ## 5.0.26 (2021-10-21)
 
