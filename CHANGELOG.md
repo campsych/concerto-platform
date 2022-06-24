@@ -28,6 +28,7 @@
 * session clear command now uses flock
 * checks for R tempdir 
 * removed 'session' R package dependency
+* fixed 'catR' and 'rjson' R packages version
 
 ## 5.0.26 (2021-10-21)
 
