@@ -34,7 +34,7 @@
     "symfony/monolog-bundle": "3.4.*",
     "symfony/polyfill-apcu": "^1.0",
     "symfony/symfony": "3.4.*",
-    "twig/twig": "2.10.*",
+    "twig/twig": "2.14.*",
     "lexik/jwt-authentication-bundle": "2.10.*",
     "scheb/two-factor-bundle": "4.*"
   },
