@@ -1,4 +1,4 @@
-## 5.0.27 (in progress)
+## 5.0.27 (2022-11-04)
 
 #### Features
 
@@ -16,6 +16,7 @@
 * fixedIndex in assessment node now also applied when random order
 * random or manual ordered item bank (assessment node) will be now sorted by fixedIndex
 * fixed excess template include for item and input components
+* assessment node post item flow injector
 
 #### Fixes
 
