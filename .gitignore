@@ -35,3 +35,5 @@ var/git/*
 /src/Concerto/PanelBundle/Resources/import/*
 /src/Concerto/TestBundle/Resources/R/fifo
 /import
+/dev
+/Dockerfile-dev
