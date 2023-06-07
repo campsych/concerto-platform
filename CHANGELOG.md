@@ -2,7 +2,7 @@
 
 #### Features
 
-* POST payload can now be read as test input wiith URL flag
+* POST payload can now be read as test input with URL flag
 
 ## 5.0.27 (2022-11-04)
 
