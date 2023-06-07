@@ -4,6 +4,11 @@
 
 * POST payload can now be read as test input with URL flag
 
+#### Starter content
+
+* *assessment*'s node *saveResponse* module now accepts *itemSafe* input
+* *assessment*'s node post item flow injector now accepts *lastItemsSafe* input
+
 ## 5.0.27 (2022-11-04)
 
 #### Features

@@ -78,6 +78,8 @@ getSafeItems = function(items, extraFields) {
     safeItems = rbind(safeItems, item)
   }
 
+  safeItems = data.frame(safeItems)
+  rownames(safeItems) <- NULL
   return(safeItems)
 }
 
