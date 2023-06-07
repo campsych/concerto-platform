@@ -81,8 +81,12 @@ class TestRunnerController
         }
 
         $params = json_decode($params, true);
-        $keys = $request->query->keys();
-        foreach ($keys as $k) {
+        $requestKeys = $request->request->keys();
+        foreach ($requestKeys as $k) {
+            $params[$k] = $request->request->get($k);
+        }
+        $queryKeys = $request->query->keys();
+        foreach ($queryKeys as $k) {
             $params[$k] = $request->query->get($k);
         }
         $params = json_encode($params);
