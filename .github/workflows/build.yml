@@ -48,7 +48,7 @@ jobs:
         run: cd ${{ github.workspace }}/src/Concerto/TestBundle/Resources/public/angularjs && bower install --allow-root
 
       - name: Build test image
-        run: bash ./build/travis/docker_build.sh
+        run: bash ./build/github-actions/docker_build.sh
 
       - name: Test
         run: docker-compose -f ./build/github-actions/docker-compose.yml up --build --exit-code-from concerto
