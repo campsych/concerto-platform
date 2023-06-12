@@ -7,6 +7,11 @@ on:
       - 5.1-dev
       - github-actions
 
+env:
+  DOCKER_HOST: ${{ vars.DOCKER_HOST }}
+  DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ vars.DOCKER_PASSWORD }}
+
 permissions:
   contents: read
 
@@ -52,3 +57,6 @@ jobs:
 
       - name: Test
         run: docker-compose -f ./build/github-actions/docker-compose.yml up --build --exit-code-from concerto
+
+      - name: Docker publish
+        run: bash ./build/github-actions/docker_publish.sh
