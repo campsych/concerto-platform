@@ -1,0 +1,25 @@
+name: Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "5.0-dev", "5.1-dev", "github-actions" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install PHP dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Install bower
+        run: npm install -g bower
