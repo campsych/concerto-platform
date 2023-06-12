@@ -14,12 +14,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: nanasess/setup-php@v4
-        with:
-          php-version: '7.2'
-
       - name: Install PHP dependencies
-        run: composer install --prefer-dist --no-progress
+        uses: php-actions/composer@v6
+        with:
+          php_version: 7.2
+          version: 2.2.21
 
       - uses: actions/setup-node@v3
         with:
