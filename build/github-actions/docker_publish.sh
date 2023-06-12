@@ -10,7 +10,7 @@ fi
 
 if [[ -n $GITHUB_SHA ]]
 then
-  COMMIT_SHORT=${$GITHUB_SHA:0:7}
+  COMMIT_SHORT=${GITHUB_SHA:0:7}
   docker push campsych/concerto-platform:$COMMIT_SHORT
 fi
 
