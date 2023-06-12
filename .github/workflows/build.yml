@@ -38,7 +38,7 @@ jobs:
         run: cd ${{ github.workspace }}/src/Concerto/TestBundle/Resources/public/angularjs && bower install --allow-root
 
       - name: Start MySQL service
-        run: service mysql start
+        run: sudo service mysql start
 
       - name: Create MySQL test database
         run: mysql -e 'CREATE DATABASE concerto_test;'
