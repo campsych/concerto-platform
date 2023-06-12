@@ -41,4 +41,4 @@ jobs:
         run: sudo service mysql start
 
       - name: Create MySQL test database
-        run: sudo mysql -u root -e 'CREATE DATABASE concerto_test;'
+        run: sudo mysql -u root -h 127.0.0.1 -e 'CREATE DATABASE concerto_test;'
