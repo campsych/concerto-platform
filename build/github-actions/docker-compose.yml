@@ -8,7 +8,7 @@ services:
         - DB_TEST_PORT=3306
         - DB_TEST_NAME=concerto_test
         - DB_TEST_USER=root
-        - DB_TEST_PASSWORD=password
+        - DB_TEST_PASSWORD=test
         - PHP_FPM_PM=dynamic
         - PHP_FPM_PM_MAX_CHILDREN=30
         - PHP_FPM_PM_START_SERVERS=10
