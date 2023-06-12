@@ -1,9 +1,11 @@
-name: Build
+name: Concerto Platform CI
 
 on:
-  workflow_dispatch:
   push:
-    branches: [ "5.0-dev", "5.1-dev", "github-actions" ]
+    branches:
+      - 5.0-dev
+      - 5.1-dev
+      - github-actions
 
 permissions:
   contents: read
@@ -12,7 +14,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Git checkout
+        uses: actions/checkout@v3
 
       - name: Install PHP dependencies
         uses: php-actions/composer@v6
@@ -20,9 +23,10 @@ jobs:
           php_version: 7.2
           version: 2.2.21
 
-      - uses: actions/setup-node@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: 14
 
       - name: Install bower
         run: npm install -g bower
@@ -32,3 +36,9 @@ jobs:
 
       - name: Install JS dependencies (2/2)
         run: cd ${{ github.workspace }}/src/Concerto/TestBundle/Resources/public/angularjs && bower install --allow-root
+
+      - name: Start MySQL service
+        run: service mysql start
+
+      - name: Create MySQL test database
+        run: mysql -e 'CREATE DATABASE concerto_test;'
