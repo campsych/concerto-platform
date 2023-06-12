@@ -58,4 +58,4 @@ jobs:
         env:
           DOCKER_HOST: ${{ vars.DOCKER_HOST }}
           DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ vars.DOCKER_PASSWORD }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
