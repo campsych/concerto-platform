@@ -10,9 +10,13 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+
+      - uses: nanasess/setup-php@v4
+        with:
+          php-version: '7.2'
 
       - name: Install PHP dependencies
         run: composer install --prefer-dist --no-progress
