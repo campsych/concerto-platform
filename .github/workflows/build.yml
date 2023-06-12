@@ -26,3 +26,9 @@ jobs:
 
       - name: Install bower
         run: npm install -g bower
+
+      - name: Install JS dependencies (1/2)
+        run: cd ${{ github.workspace }}/src/Concerto/PanelBundle/Resources/public/angularjs && bower install --allow-root
+
+      - name: Install JS dependencies (2/2)
+        run: cd ${{ github.workspace }}/src/Concerto/TestBundle/Resources/public/angularjs && bower install --allow-root
