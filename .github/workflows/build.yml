@@ -13,6 +13,16 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: test
+          MYSQL_DATABASE: concerto_test
+        ports:
+          - '127.0.0.1:3306:3306'
+
     steps:
       - name: Git checkout
         uses: actions/checkout@v3
@@ -37,8 +47,8 @@ jobs:
       - name: Install JS dependencies (2/2)
         run: cd ${{ github.workspace }}/src/Concerto/TestBundle/Resources/public/angularjs && bower install --allow-root
 
-      - name: Start MySQL service
-        run: sudo service mysql start
+      - name: Build test image
+        run: bash ./build/travis/docker_build.sh
 
-      - name: Create MySQL test database
-        run: sudo mysql -u root -h 127.0.0.1 -e 'CREATE DATABASE concerto_test;'
+      - name: Test
+        run: docker-compose -f ./build/github-actions/docker-compose.yml up --build --exit-code-from concerto
