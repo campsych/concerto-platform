@@ -56,6 +56,5 @@ jobs:
       - name: Docker publish
         run: bash ./build/github-actions/docker_publish.sh
         env:
-          DOCKER_HOST: ${{ vars.DOCKER_HOST }}
           DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
