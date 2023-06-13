@@ -5,7 +5,6 @@ on:
     branches:
       - 5.0-dev
       - 5.1-dev
-      - github-actions
 
 permissions:
   contents: read
