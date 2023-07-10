@@ -42,7 +42,7 @@ abstract class ATopEntity extends AEntity
     /**
      *
      * @var groups
-     * @ORM\Column(type="string")
+     * @ORM\Column(name="`groups`", type="string")
      */
     protected $groups;
 
