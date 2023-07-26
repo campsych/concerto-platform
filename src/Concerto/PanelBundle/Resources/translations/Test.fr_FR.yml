@@ -3,7 +3,7 @@ breadcrumb:
 
 form:
   title:
-    add: Créer nu nouveau test
+    add: Créer un nouveau test
     edit: 'Editer le test #{0}'
   field:
     name: Nom
@@ -12,6 +12,8 @@ form:
     accessibility.tooltip: Niveau d\'accès du test
     archived: Archivé
     archived.tooltip: Le test est-il archivé ?
+    protected: Protégé
+    protected.tooltip: Démarrer ce test directement requiert-il une autorisation utilisateur de Concerto ?
     slug: Nom de l'URL
     slug.tooltip: Le nom de l\'URL (appelé aussi "slug") est une partie personnalisable de l\'URL avec laquelle le test est accessible ; cela permet de construire des URLs plus descriptive.
     visibility: Visibilité
@@ -23,7 +25,7 @@ form:
     type.tooltip: Type du test
     type.code: code
     type.wizard: assistant
-    type.flow: organigramme
+    type.flow: diagramme de flux
     wizard: Assistant
     wizard.tooltip: Sélectionnez un assistant de création de test grâce auquel sera créé ce test.
     wizard.none: <aucun sélectionné>
@@ -33,14 +35,24 @@ form:
     groups.tooltip: Liste des groupes (séparés par une virgule) pour qui l\'objet est assigné
   button:
       run: Démarrer
-      debug: Deboguer
+      debug: Déboguer
     
 list: 
   field:
     name: Nom
+    slug: Nom de l'URL
     wizard: Assistant
-    wizard.source: Test source
-    
+    wizard.source: Source de l'assistant
+
+templates:
+  fieldset:
+    legend: Modèles
+    legend.tooltip: Modèles
+  fields:
+    base_template: Modèle de base
+    base_template.tooltip: Modèle squelette qui sera utilisé pour démarrer ce test
+    base_template.none: <aucun sélectionné>
+
 variables:
     form:
         field:
@@ -74,9 +86,9 @@ variables:
                     value: Valeur par défaut
             dialog:
                 title:
-                    add: Ajouter un nouveau paramètre d'entrée
-                    edit: Editer un paramètre d'entrée
-                    delete: Enlever un paramètre d'entrée
+                    add: Ajout d'un nouveau paramètre d'entrée
+                    edit: Edition d'un paramètre d'entrée
+                    delete: Suppression d'un paramètre d'entrée
                 message:
                     delete.confirm: Êtes-vous sûr de vouloir supprimer les paramètres d'entrée sélectionnés ?
     output:
@@ -97,17 +109,17 @@ variables:
                     value: Valeur par défaut
             dialog:
                 title:
-                    add: Ajouter une nouvelle variable de retour
-                    edit: Editer une variable de retour
-                    delete: Enlever une variable de retour
+                    add: Ajout d'une nouvelle variable de retour
+                    edit: Edition d'une variable de retour
+                    delete: Suppression d'une variable de retour
                 message:
                     delete.confirm:  Êtes-vous sûr de vouloir supprimer les variables de retour sélectionnées ?
         branches:
-            legend: Ramification
-            legend.tooltip: Définissez les ramifications du test
+            legend: Branche
+            legend.tooltip: Définissez les branches du test
             list:
                 add: Ajouter une ramification
-                delete.checked: Enlever les ramifications sélectionnées
+                delete.checked: Enlever les branches sélectionnées
                 edit: Editer
                 delete: Supprimer
                 field:
@@ -116,23 +128,23 @@ variables:
                     value: Valeur par défaut
             dialog:
                 title:
-                    add: Ajouter une nouvelle ramification
-                    edit: Editer une ramification
-                    delete: Enlever une ramification
+                    add: Ajout d'une nouvelle branche
+                    edit: Edition d'une branche
+                    delete: Suppression d'une branche
                 message:
-                    delete.confirm: Êtes-vous sûr de vouloir supprimer les ramifications sélectionnées ?
+                    delete.confirm: Êtes-vous sûr de vouloir supprimer les branches sélectionnées ?
     
 log:
     dialog:
         title:
-            delete: Enlever le journal
-            clear: Effacer les journaux
+            delete: Suppression de l'entrée du journal
+            clear: Effacement des toutes les entrées du journal
         message:
-            delete.confirm: Êtes-vous sûr de vouloir enlever les journaux sélectionnés ?
-            clear.confirm: Êtes-vous sûr de vouloir effacer tous les journaux ?
+            delete.confirm: Êtes-vous sûr de vouloir enlever les entrées sélectionnées ?
+            clear.confirm: Êtes-vous sûr de vouloir effacer toutes les entrées du journal ?
     fieldset:
-        legend: Journaux d'erreur
-        legend.tooltip: Journaux d\'erreur du test
+        legend: Journal derreurs
+        legend.tooltip: Journal d\'erreurs du test
     list:
         button: 
             delete.all: Tout supprimer
@@ -189,30 +201,87 @@ flow:
             test_end: C'est un nœud du test où vous pouvez assigner les valeurs des variables de retour du test.  This is a test node where you can set the values of test return variables.
         dialog:
             delete:
-                title: Enlever un nœud
-                message: Êtes-vous sûr de vouloir enlever ce nœud ?
+                title: Suppression d'un nœud
+                message: Êtes-vous sûr de vouloir supprimer ce nœud ?
             selection_delete:
-                title: Enlever les nœuds sélectionnés
-                message: Êtes-vous sûr de vouloir enlever les nœuds sélectionnés ?
+                title: Suppression des nœuds sélectionnés
+                message: Êtes-vous sûr de vouloir supprimer les nœuds sélectionnés ?
+            title:
+                title: Edition du titre du nœud
+                tooltip: Le titre du nœud qui sera visible dans l\'entête du nœud
+            edit:
+                title: Edition du nœud
+    connections:
+        dialog:
+            edit:
+                title: Edition de la connexion
     ports:
         names:
             in: entrée
+            out: sortie
         descriptions:
             in: Point d'entrée du nœud.
+            out: Point de sortie du nœud.
         dialog:
+            titles:
+                input.add: Ajout des ports d'entrée
+                input.add.tooltip: Ajout des entrées dynamiques et exposition/masquage des paramètres d\'entrée courants
+                input.remove: Supression/masquage des ports d'entrée
+                branch.add: Ajout des ports de branche
+                branch.add.tooltip: Ajout de branches dynamiques Adding dynamic branches ou exposition/masquage des ports de branche courants
+                branch.remove: Supression/masquage des ports de branche
+                return.add: Ajout des ports de retour
+                return.add.tooltip: Ajout des retours dynamques ou exposition/masquage des variables de retours courantes
+                return.remove: Supression/masquage des ports de retour
+                port.remove_all_connections: Suppression des connexions de port
+            content:
+                input.remove: Êtes-vous sûr de vouloir supprimer/masquer le port d'entrée {0} ?
+                branch.remove: Êtes-vous sûr de vouloir supprimer/masquer le port de branche {0}?
+                return.remove: Êtes-vous sûr de vouloir supprimer/masquer le port de retour {0} ?
+                port.remove_all_connections: Êtes-vous sûr de vouloir supprimer toutes les connexions de port {0} ?
             fields:
-                string: Comme un chaîne de caractères ?
-                string.tooltip: Si coché, la valeur de la balise sera traitée comme une chaîne de caractères, sinon comme du code R.
-                value: Valeur
-                value.tooltip: Valeur de la variable dans cette balise
+                string: Valeur texte par défaut
+                string.tooltip: Si coché, la valeur du port sera traitée comme du texte, sinon comme du code R.
+                value: Valeur par défaut
+                value.tooltip: Valeur par défaut de la variable du port. Utilisé lorsque la valeur du port est NULL.
+                exposed.inputs: Entrées exposées
+                exposed.inputs.tooltip: Exposition/masquage des paramètres en entrée
+                dynamic.input: Entrée dynamique
+                dynamic.input.tooltip: Ajout d\'un entrée dynamique
+                exposed.branches: Branches exposées
+                exposed.branches.tooltip: Exposition/masquage des ports de branche
+                dynamic.branch: Branche dynamique
+                dynamic.branch.tooltip: Ajout d\'une branche dynamique
+                exposed.returns: Retours exposés
+                exposed.returns.tooltip: Exposition/masquage des ports de retour
+                dynamic.return: Retour dynamique
+                dynamic.return.tooltip: Ajout d\'un retour dynamique
+                pointer: Pointeur de variable de flux
+                pointer.tooltip: Si coché, ce port utilisera la valeur de la variable de flux spécifiée
+                pointer_variable: Nom de la variable pointée
+                pointer_variable.tooltip: Nom de la variable de flux pointée
+                name: Nom
+                name.tooltip: Nom de variable dynamique
+        add:
+            input: Ajouter/exposer un port d'entrée
+            branch: Ajouter/exposer un port de branche
+            return: Ajouter/exposer un port de retour
     buttons:
-        reset_view: Rétablir la vue
+        reset_view: Taille réelle
+        rename_node: Renommer le nœud
         copy_node: Copier le nœud
+        copy_nodes: Copier les nœuds
         paste_nodes: Coller les nœuds
         remove_node: Enlever le nœud
+        remove_nodes: Enlever les nœuds
         reset_to_default: Rétablir par défaut
-        zoom_in: Aggrandir
-        zoom_out: Réduire
+        zoom_in: Zoom avant
+        zoom_out: Zoom arrière
+        maximize: Plein écran
+        node_menu: Cliquer pour ouvrir le menu du nœud
+        remove_connection: Enlever la connexion
+        hide_port: Masquer/enlever le port
+        remove_all_connections: Enlever toutes les connexions
     tags:
         all: Tout        
         
