@@ -1,10 +1,14 @@
 breadcrumb:
     list: Tous les assistants
 
+alerts:
+    no_steps: Aucune étape d'assistant n'a été définie !
+    no_params: Aucun paramètre éditable d'assistant disponible dans cette étape !
+
 form:
   title:
-    add: Créer un nouvel assistant de création de tests
-    edit: "Editer l'assistant #{0}"
+    add: Création d'un nouvel assistant de création de tests
+    edit: "Edittion de l'assistant #{0}"
   field:
     name: Nom
     name.tooltip: Nom de l\'assistant de création de tests
@@ -52,10 +56,10 @@ step:
             order: Ordre
     dialog:
         title:
-            add: Créer une nouvelle étape de l'assistant de création de tests
-            edit: Editer une étape de l'assistant de création de tests
-            delete: Enlever une étape de l'assistant de création de tests
-            clear: Effacer les étapes de l'assistant de création de tests
+            add: Création d'une nouvelle étape de l'assistant de création de tests
+            edit: Edition d'une étape de l'assistant de création de tests
+            delete: Suppression d'une étape de l'assistant de création de tests
+            clear: Suppression de toutes les étapes de l'assistant de création de tests
         message:
             delete.confirm: Êtes-vous sûr de vouloir supprimer l'étape de l'assistant de création de tests ?
             clear.confirm: Êtes-vous sûr de vouloir effacer toutes les étapes de l'assistant de création de tests ?
@@ -73,9 +77,9 @@ param:
             description: Description
             description.tooltip: Description du paramètre de l\'assistant de création de tests
             url: Transmission via l'URL
-            url.tooltip: Cochez si la valeur du paramètre peut être transmise au travers des paramètres l'URL
+            url.tooltip: Cochez si la valeur du paramètre peut être transmise au travers des paramètres l\'URL
             order: Ordre
-            order.tooltip: Ordonnez l'index du paramètre dans son étape de l\'assistant
+            order.tooltip: Ordonnez l\'index du paramètre dans son étape de l\'assistant
             variable: Variable de test
             variable.tooltip: Paramètre du test
             step: Etape de l'assitant
@@ -88,6 +92,7 @@ param:
             type.single_line_text: Texte ligne simple
             type.multi_line_text: Texte multi-lignes
             type.html: HTML
+            type.r: Code R
             type.select: Zone de liste déroulante
             type.view: Modèle de vue
             type.test: Test
@@ -96,10 +101,12 @@ param:
             type.checkbox: Case à cocher
             type.group: Groupe
             type.list: Liste
+            type.column_map: Correspondance de colonne de table de données
+            type.wizard: Assistant de création de tests
             hide_condition: Masquer la condition
             hide_condition.tooltip: >
-                Masquer la condition. Utilise la syntaxe javascript. L\'objet courant de collection de valeurs de paramètres est appelé <strong>values</strong>. Pour accéder à la portée du paramètre parent utilisez <strong>parent</strong>. Exemple : <strong>values.param1.subparam3 != \"1\" </strong>
-            setter.icon.tooltip: Afficher l'éditeur
+                Masque la condition. Utilise la syntaxe javascript. L\'objet courant de collection de valeurs de paramètres est appelé <strong>values</strong>. Pour accéder à la portée du paramètre parent utilisez <strong>parent</strong>. Exemple : <strong>values.param1.subparam3 != \"1\" </strong>
+            setter.icon.tooltip: Afficher l\'éditeur
     list:
         button: 
             add: Ajouter un nouveau paramètre
@@ -117,25 +124,50 @@ param:
             order: Ordre
     dialog:
         title:
-            add: Ajouter un nouveau paramètre d'assistant de création de tests
-            edit: Editer un paramètre d'assistant de création de tests
-            delete: Enlever un paramètre d'assistant de création de tests
-            clear: Effacer les paramètres d'assistant de création de tests
+            add: Ajout d'un nouveau paramètre d'assistant de création de tests
+            edit: Edition d'un paramètre d'assistant de création de tests
+            delete: Suppression d'un paramètre d'assistant de création de tests
+            clear: Suppression de tous les paramètres d'assistant de création de tests
         message:
             delete.confirm: Êtes-vous sûr de vouloir supprimer les paramètres d'assistant de création de tests sélectionnés ?
             clear.confirm: Êtes-vous sûr de vouloir effacer tous les paramètres d'assistant de création de tests ?
     definer:
         titles:
             select: "{0} - définir les options de sélection possibles"
-            select.tooltip: Appliquez les options de sélection au paramètre courant
+            select.tooltip: Applique les options de sélection au paramètre courant
             group: "{0} - définir les champs du groupe"
-            group.tooltip: Appliquez les champs du groupe au paramètre courant
+            group.tooltip: Applique les champs du groupe au paramètre courant
             list: "{0} - définir le type d'élément de liste "
-            list.tooltip: Appliquez le type d'élement de liste au paramètre courant
+            list.tooltip: Applique le type d\'élement de liste au paramètre courant
+            single_line: "{0} - définir la valeur par défaut"
+            single_line.tooltip: Paramètre la valeur par défaut
+            multi_line: "{0} - définir la valeur par défaut"
+            multi_line.tooltip: Paramètre la valeur par défaut
+            html: "{0} - définir la valeur par défaut"
+            html.tooltip: Paramètre la valeur par défaut
+            checkbox: "{0} - définir la valeur par défaut"
+            checkbox.tooltip: Paramètre la valeur par défaut
+            test: "{0} - définir la valeur par défaut"
+            test.tooltip: Paramètre la valeur par défaut
+            table: "{0} - définir la valeur par défaut"
+            table.tooltip: Paramètre la valeur par défaut
+            template: "{0} - définir la valeur par défaut"
+            template.tooltip: Paramètre la valeur par défaut
+            r_code: "{0} - définir la valeur par défaut"
+            r_code.tooltip: Paramètre la valeur par défaut
+            column_map: "{0} - définir les colonnes requises"
+            column_map.tooltip: Correspondance de colonne
+            wizard: "{0} - remplir dans l'assistant de création de tests"
+            wizard.tooltip: Assistant de création de tests
         summaries:
             select: "Nombre d'options : {0}"
             group: "Nombre de champs : {0}"
             list: "Type d'élements : {0}"
+            column_map: "Colonnes: {0}"
+        select.options: Options
+        select.options.tooltip: Définit les options de sélection possibles
+        select.default: Défaut
+        select.default.tooltip: Choisir la valeur par défaut
         select.option.add: Ajouter une nouvelle option
         select.option.remove.selected: Enlever les options sélectionnées
         select.option.remove.all: Enlever toutes les options
@@ -152,24 +184,41 @@ param:
         group.list.field.hide_condition: Masquer la condition
         group.list.field.definition: Définition
         group.list.field.order: Ordre
+        column_map.list.field.name: Nom
+        column_map.list.field.label: Libellé
+        column_map.list.field.tooltip: Bulle d\'aide
+        column_map.list.button.delete: Supprimer
+        column_map.columns: Colonnes
+        column_map.columns.tooltip: Colonnes à faire correspondre
+        column_map.column.add: Ajouter une nouvelle colonne
+        column_map.column.remove.selected: Enlever les colonnes sélectionnées
+        column_map.column.remove.all: Enlever toutes les colonnes
     setter:
         titles:
             textarea: "{0} - texte multilignes"
-            textarea.tooltip: Appliquez la valeur du texte au paramètre courant
+            textarea.tooltip: Applique la valeur du texte au paramètre courant
             html: "{0} - HTML"
-            html.tooltip: Appliquez le HTML au paramètre courant
+            html.tooltip: Applique le HTML au paramètre courant
             column: "{0} - colonne de table de données"
-            column.tooltip: Appliquez la colonne de table de données au paramètre courant
+            column.tooltip: Applique la colonne de table de données au paramètre courant
             group: "{0} - champs de groupe"
-            group.tooltip: Appliquez les valeurs des champs de groupe au paramètre courant
+            group.tooltip: Applique les valeurs des champs de groupe au paramètre courant
             list: "{0} - éléments de liste"
-            list.tooltip: Appliquez les éléments de liste au paramètre courant
+            list.tooltip: Applique les éléments de liste au paramètre courant
+            r: "{0} - code R"
+            r.tooltip: Code R
+            column_map: "{0} - correspondance de colonne"
+            column_map.tooltip: Correspondance de colonne
+            wizard: "{0} - assistant de création de tests"
+            wizard.tooltip: Assistant de création de tests
         summaries:
             textarea: "{0}"
             html: "{0}"
-            column: "Table: {0}, Column: {1}"
+            column: "Table : {0}, Colonne : {1}"
             group: "{0}"
-            list: "Elements count: {0}"
+            list: "Nombre  d'éléments : {0}"
+            r: "{0}"
+            column_map: "{0}"
         column.table: Table de données
         column.table.tooltip: Choisissez la table de données depuis laquelle vous sélectionnerez la colonne ensuite
         column: Colonne
@@ -179,7 +228,9 @@ param:
         list.element.remove.all: Enlever tous les éléments
         list.element.remove: Supprimer
         list.column.element: Elément
-            
+        column_map.table: Table
+        column_map.table.tooltip: Table de données à faire correspondre
+
 preview:
     fieldset:
         legend: Prévisualisation de l'assitant
