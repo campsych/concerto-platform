@@ -54,7 +54,8 @@ class SamlController
             return new Response("API disabled", Response::HTTP_FORBIDDEN);
 
         $redirectTo = $request->get("redirectTo");
-        $this->service->logout($redirectTo);
+        $tokenHash = $request->cookies->get("concertoSamlTokenHash");
+        $this->service->logout($redirectTo, $tokenHash);
 
         return new Response('', 200);
     }

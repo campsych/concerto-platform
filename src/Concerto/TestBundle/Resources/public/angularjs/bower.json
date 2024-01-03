@@ -15,5 +15,8 @@
     "html5-boilerplate": "5.2.x",
     "jquery": "3.5.x",
     "jquery-ui": "1.12.x"
+  },
+  "resolutions": {
+    "angular": "1.8.x"
   }
 }

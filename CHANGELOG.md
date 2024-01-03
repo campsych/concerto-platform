@@ -4,6 +4,10 @@
 
 * POST payload can now be read as test input with URL flag
 
+#### Fixes
+
+* SAML logout process now includes nameId
+
 #### Starter content
 
 * *assessment*'s node *saveResponse* module now accepts *itemSafe* input

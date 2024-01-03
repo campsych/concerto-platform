@@ -71,22 +71,29 @@ class SamlService
         return $metadata;
     }
 
-    public function logout($redirectTo = null)
+    public function logout($redirectTo = null, $tokenHash = null)
     {
         $auth = new Auth($this->settings);
-        $auth->logout($redirectTo);
+
+        $nameId = null;
+        $token = $this->samlTokenRepository->findLatestValid($tokenHash);
+        if ($token !== null) {
+            $nameId = $token->getNameId();
+        }
+
+        $auth->logout($redirectTo, array(), $nameId);
     }
 
     public function sls($tokenHash, &$stateRelay, &$errors = null)
     {
         $auth = new Auth($this->settings);
-        $auth->processSLO(true);
+        $auth->processSLO(true, null, true);
         $errors = $auth->getErrors();
         if (!empty($errors)) {
             return false;
         }
 
-        $token = $this->samlTokenRepository->findOneBy(array("hash" => $tokenHash));
+        $token = $this->samlTokenRepository->findLatestValid($tokenHash);
         if ($token !== null) {
             $token->setRevoked(true);
             $this->samlTokenRepository->save($token);
