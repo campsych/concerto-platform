@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
 ARG CRAN_MIRROR=https://cloud.r-project.org
@@ -89,11 +89,11 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     libssl-dev \
     locales \
     nginx \
-    php7.2-curl \
-    php7.2-mbstring \
-    php7.2-mysql \
-    php7.2-xml \
-    php7.2-zip \
+    php7.4-curl \
+    php7.4-mbstring \
+    php7.4-mysql \
+    php7.4-xml \
+    php7.4-zip \
     php-fpm \
     procps \
     r-base \
@@ -116,10 +116,10 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && rm -f /etc/nginx/sites-enabled/default \
  && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf
 
-COPY build/docker/php/php.ini /etc/php/7.2/fpm/php.ini
+COPY build/docker/php/php.ini /etc/php/7.4/fpm/php.ini
 COPY build/docker/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY build/docker/php-fpm/php-fpm.conf /etc/php/7.2/fpm/php-fpm.conf
-COPY build/docker/php-fpm/www.conf /etc/php/7.2/fpm/pool.d/www.conf
+COPY build/docker/php-fpm/php-fpm.conf /etc/php/7.4/fpm/php-fpm.conf
+COPY build/docker/php-fpm/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
 RUN rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/public/files \
  && rm -rf /app/concerto/src/Concerto/TestBundle/Resources/sessions \
@@ -165,6 +165,6 @@ CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
  && cat /app/concerto/build/docker/nginx/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" | sed "s|{{nginx_server_conf}}|$NGINX_SERVER_CONF|g" | sed "s|{{base_dir}}|$BASE_DIR|g" > /etc/nginx/sites-available/concerto.conf \
  && service nginx start \
  && . /app/concerto/cron/concerto.forker.guard.sh  \
- && /etc/init.d/php7.2-fpm start \
+ && /etc/init.d/php7.4-fpm start \
  && cron \
  && tail -F -n 0 var/logs/prod.log var/logs/forker.log

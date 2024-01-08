@@ -9,6 +9,11 @@
 
 * SAML logout process now includes nameId
 
+#### Docker
+
+* Ubuntu 20.04
+* PHP 7.4
+
 #### Starter content
 
 * *assessment*'s node *saveResponse* module now accepts *itemSafe* input
