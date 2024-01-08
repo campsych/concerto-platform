@@ -7,7 +7,7 @@ parameters:
     env(DB_PASSWORD): ThisIsYourDatabaseUserPassword
     database_path: null
     database_unix_socket: null
-    database_version: 5.7
+    database_version: null
     env(DB_TEST_HOST): 127.0.0.1
     env(DB_TEST_PORT): null
     env(DB_TEST_NAME): ThisIsYourTestDatabaseName #not needed for production env

@@ -3,6 +3,7 @@
 #### Features
 
 * POST payload can now be read as test input with URL flag
+* MySQL 8 support
 
 #### Fixes
 
