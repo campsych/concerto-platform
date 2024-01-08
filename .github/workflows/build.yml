@@ -30,7 +30,7 @@ jobs:
         uses: php-actions/composer@v6
         with:
           php_version: 7.2
-          php_extensions: pdo_mysql
+          args: --no-scripts
           version: 2.2.21
 
       - name: Setup node
