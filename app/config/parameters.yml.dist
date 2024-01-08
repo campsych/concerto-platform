@@ -10,9 +10,9 @@ parameters:
     database_version: null
     env(DB_TEST_HOST): 127.0.0.1
     env(DB_TEST_PORT): null
-    env(DB_TEST_NAME): ThisIsYourTestDatabaseName #not needed for production env
-    env(DB_TEST_USER): ThisIsYourTestDatabaseUserName #not needed for production env
-    env(DB_TEST_PASSWORD): ThisIsYourTestDatabaseUserPassword #not needed for production env
+    env(DB_TEST_NAME): concerto_test #not needed for production env
+    env(DB_TEST_USER): root #not needed for production env
+    env(DB_TEST_PASSWORD): test #not needed for production env
     locale: en_GB
     secret: ThisTokenIsNotSoSecretChangeIt
     env(CONCERTO_BEHIND_PROXY): false
