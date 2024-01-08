@@ -52,6 +52,7 @@ ENV DB_PORT=3306
 ENV DB_NAME=concerto
 ENV DB_USER=concerto
 ENV DB_PASSWORD=changeme
+ENV DB_VERSION=5.7
 ENV NGINX_PORT=80
 ENV NGINX_SERVER_CONF="add_header X-Frame-Options sameorigin always;\nadd_header X-Content-Type-Options nosniff always;"
 ENV PHP_FPM_PM=dynamic
