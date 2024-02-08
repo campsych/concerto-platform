@@ -1,0 +1,48 @@
+{
+  "name": "jsPlumb",
+  "version": "1.7.6",
+  "ignore": [
+    "demo",
+    "dist/apidocs",
+    "dist/demo",
+    "dist/doc",
+    "dist/lib",
+    "dist/tests",
+    "dist/index.html",
+    "doc",
+    "img",
+    "lib",
+    "jekyll",
+    "node_modules",
+    "src",
+    "tests",
+    "Gruntfile.js",
+    "README.md",
+    "changelog.txt",
+    "index.html",
+    "build-support.js",
+    "package.json",
+    "todo.txt",
+    "**/.*",
+    "bower_components",
+    "test"
+  ],
+  "main": [
+    "dist/js/dom.jsPlumb-1.7.6.js"
+  ],
+  "homepage": "http://jsplumbtoolkit.com",
+  "authors": [
+    "jsPlumb <hello@jsplumbtoolkit.com>"
+  ],
+  "description": "Visual connectivity for webapps",
+  "license": "MIT/GPL2",
+  "_release": "1.7.6",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.7.6",
+    "commit": "a6d541bccef174c5d39cb535f71f5113097e99ab"
+  },
+  "_source": "https://github.com/sporritt/jsPlumb.git",
+  "_target": "1.7.6",
+  "_originalSource": "jsPlumb"
+}
