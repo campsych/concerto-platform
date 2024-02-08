@@ -330,15 +330,7 @@ FROM {{table}}
   }
   
   #fixed index sort
-  for(i in 1:nrow(items)) {
-    item = items[i,]
-    fi = as.numeric(item$fixedIndex)
-    if(!is.na(fi) && length(fi) == 1 && fi > 0 && fi != i) {
-      dstItem = items[fi,]
-      items[fi,] = item
-      items[i,] = dstItem
-    }
-  }
+  items = items[order(items$fixedIndex),]
 
   if("skippable" %in% colnames(items)) {
     items[is.null(items$skippable) | is.na(items$skippable), "skippable"] = settings$canSkipItems

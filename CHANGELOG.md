@@ -13,7 +13,28 @@
 * added CONCERTO_R_SERVICES_NUM env var
 * added file lock to forker and service guard
 
-## 5.0.27 (in progress)
+## 5.0.28 (in progress)
+
+#### Features
+
+* POST payload can now be read as test input with URL flag
+* MySQL 8 support
+
+#### Fixes
+
+* SAML logout process now includes nameId
+
+#### Docker
+
+* Ubuntu 20.04
+* PHP 7.4
+
+#### Starter content
+
+* *assessment*'s node *saveResponse* module now accepts *itemSafe* input
+* *assessment*'s node post item flow injector now accepts *lastItemsSafe* input
+
+## 5.0.27 (2022-11-04)
 
 #### Features
 
@@ -24,21 +45,28 @@
 #### Docker
 
 * UTC as default timezone for PHP
+* can now be installed in subdirectory; base dir will be extracted from CONCERTO_PLATFORM_URL
 
 #### Starter content
 
 * fixedIndex in assessment node now also applied when random order
+* random or manual ordered item bank (assessment node) will be now sorted by fixedIndex
+* fixed excess template include for item and input components
+* assessment node post item flow injector
 
 #### Fixes
 
 * fixed multiple datepickers popping up when data table row has multiple date columns
 * fixed data table row update on field blur (even when no change made)
+* corrected base template app_url variable name
 
 #### Other
 
 * default session idle timeout changed 1800s -> 300s
 * session clear command now uses flock
 * checks for R tempdir 
+* removed 'session' R package dependency
+* fixed 'catR' and 'rjson' R packages version
 
 ## 5.0.26 (2021-10-21)
 

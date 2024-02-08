@@ -39,3 +39,5 @@ var/R/service_fifo/*
 /src/Concerto/PanelBundle/Resources/export/*
 /src/Concerto/PanelBundle/Resources/import/*
 /import
+/dev
+/Dockerfile-dev

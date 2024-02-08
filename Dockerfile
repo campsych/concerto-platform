@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
 ARG CRAN_MIRROR=https://cloud.r-project.org
@@ -57,6 +57,7 @@ ENV DB_PORT=3306
 ENV DB_NAME=concerto
 ENV DB_USER=concerto
 ENV DB_PASSWORD=changeme
+ENV DB_VERSION=5.7
 ENV NGINX_PORT=80
 ENV NGINX_SERVER_CONF="add_header X-Frame-Options sameorigin always;\nadd_header X-Content-Type-Options nosniff always;"
 ENV PHP_FPM_PM=dynamic
@@ -93,11 +94,11 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     libssl-dev \
     locales \
     nginx \
-    php7.2-curl \
-    php7.2-mbstring \
-    php7.2-mysql \
-    php7.2-xml \
-    php7.2-zip \
+    php7.4-curl \
+    php7.4-mbstring \
+    php7.4-mysql \
+    php7.4-xml \
+    php7.4-zip \
     php-fpm \
     procps \
     r-base \
@@ -105,7 +106,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && rm -rf /var/lib/apt/lists/* \
  && sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
  && locale-gen "en_US.UTF-8" \
- && Rscript -e "install.packages(c('catR','digest','filelock','httr','jsonlite','redux','rjson','RMySQL','session','xml2'), repos='$CRAN_MIRROR')" \
+ && Rscript -e "install.packages('https://cran.r-project.org/src/contrib/Archive/rjson/rjson_0.2.20.tar.gz')" \
+ && Rscript -e "install.packages(c('digest','filelock','httr','jsonlite','redux','RMySQL','xml2'), repos='$CRAN_MIRROR')" \
+ && Rscript -e "install.packages('https://cran.r-project.org/src/contrib/Archive/catR/catR_3.16.tar.gz')" \
  && R CMD INSTALL /app/concerto/src/Concerto/TestBundle/Resources/R/concerto5 \
  && chmod +x /wait-for-it.sh \
  && php /app/concerto/bin/console concerto:r:cache \
@@ -119,11 +122,10 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && rm -f /etc/nginx/sites-enabled/default \
  && ln -fs /etc/nginx/sites-available/concerto.conf /etc/nginx/sites-enabled/concerto.conf
 
-COPY build/docker/php/php.ini /etc/php/7.2/fpm/php.ini
+COPY build/docker/php/php.ini /etc/php/7.4/fpm/php.ini
 COPY build/docker/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY build/docker/nginx/concerto.conf.tpl /etc/nginx/sites-available/concerto.conf.tpl
-COPY build/docker/php-fpm/php-fpm.conf /etc/php/7.2/fpm/php-fpm.conf
-COPY build/docker/php-fpm/www.conf /etc/php/7.2/fpm/pool.d/www.conf
+COPY build/docker/php-fpm/php-fpm.conf /etc/php/7.4/fpm/php-fpm.conf
+COPY build/docker/php-fpm/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
 RUN rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/public/files \
  && rm -rf /app/concerto/src/Concerto/TestBundle/Resources/sessions \
@@ -166,10 +168,11 @@ CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
  && chown -R $WEB_USER var/git \
  && chown -R $WEB_USER src/Concerto/PanelBundle/Resources/export \
  && chown -R $WEB_USER /data/git \
- && cat /etc/nginx/sites-available/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" | sed "s|{{nginx_server_conf}}|$NGINX_SERVER_CONF|g" > /etc/nginx/sites-available/concerto.conf \
+ && BASE_DIR=$(bash /app/concerto/scripts/basedir.sh $CONCERTO_PLATFORM_URL) \
+ && cat /app/concerto/build/docker/nginx/concerto.conf.tpl | sed "s/{{nginx_port}}/$NGINX_PORT/g" | sed "s|{{nginx_server_conf}}|$NGINX_SERVER_CONF|g" | sed "s|{{base_dir}}|$BASE_DIR|g" > /etc/nginx/sites-available/concerto.conf \
  && service nginx start \
  && . /app/concerto/cron/concerto.forker.guard.sh \
  && . /app/concerto/cron/concerto.service.guard.sh \
- && /etc/init.d/php7.2-fpm start \
+ && /etc/init.d/php7.4-fpm start \
  && cron \
  && tail -F -n 0 var/logs/prod.log var/logs/forker.log var/logs/service.log

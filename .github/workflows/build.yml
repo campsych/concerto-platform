@@ -1,0 +1,59 @@
+name: Concerto Platform CI
+
+on:
+  push:
+    branches:
+      - 5.0-dev
+      - 5.1-dev
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: test
+          MYSQL_DATABASE: concerto_test
+        ports:
+          - '127.0.0.1:3306:3306'
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v3
+
+      - name: Install PHP dependencies
+        uses: php-actions/composer@v6
+        with:
+          php_version: 7.4
+          version: 2.2.21
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+
+      - name: Install bower
+        run: npm install -g bower
+
+      - name: Install JS dependencies (1/2)
+        run: cd ${{ github.workspace }}/src/Concerto/PanelBundle/Resources/public/angularjs && bower install --allow-root
+
+      - name: Install JS dependencies (2/2)
+        run: cd ${{ github.workspace }}/src/Concerto/TestBundle/Resources/public/angularjs && bower install --allow-root
+
+      - name: Build test image
+        run: bash ./build/github-actions/docker_build.sh
+
+      - name: Test
+        run: docker-compose -f ./build/github-actions/docker-compose.yml up --build --exit-code-from concerto
+
+      - name: Docker publish
+        run: bash ./build/github-actions/docker_publish.sh
+        env:
+          DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

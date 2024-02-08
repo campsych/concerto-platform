@@ -3,6 +3,7 @@
 namespace Concerto\APIBundle\Repository;
 
 use Concerto\PanelBundle\Repository\AEntityRepository;
+use Exception;
 
 /**
  * SamlTokenRepository
@@ -12,4 +13,26 @@ use Concerto\PanelBundle\Repository\AEntityRepository;
  */
 class SamlTokenRepository extends AEntityRepository
 {
+    public function findLatestValid($tokenHash)
+    {
+        $now = new \DateTime("now", new \DateTimeZone("UTC"));
+
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('t')
+            ->from('Concerto\APIBundle\Entity\SamlToken', 't')
+            ->where('t.revoked=0')
+            ->andWhere('t.expiresAt IS NULL OR t.expiresAt > :now')
+            ->andWhere('t.hash = :hash')
+            ->setParameter('hash', $tokenHash)
+            ->setParameter('now', $now)
+            ->orderBy('t.id', 'desc')
+            ->setMaxResults(1)
+            ->getQuery();
+
+        try {
+            return $query->getSingleResult();
+        } catch (Exception $ex) {
+            return null;
+        }
+    }
 }

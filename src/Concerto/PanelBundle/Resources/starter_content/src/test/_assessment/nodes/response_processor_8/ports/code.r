@@ -16,7 +16,7 @@ isSkipped = function(item) {
   return(F)
 }
 
-saveResponse = function(score, trait, item, skipped) {
+saveResponse = function(score, trait, item, itemSafe, skipped) {
   responseBank = fromJSON(settings$responseBank)
   if(!is.character(responseBank$table) || nchar(responseBank$table) == 0) {
     return(NULL)
@@ -147,6 +147,7 @@ VALUES (
       value = params$responseValue,
       session = session,
       item = item,
+      itemSafe = itemSafe,
       skipped = skipped,
       timeTaken = params$timeTaken,
       templateResponse = templateResponse
@@ -157,8 +158,9 @@ VALUES (
 for(i in 1:length(itemsIndices)) {
   itemIndex = itemsIndices[i]
   item = items[itemIndex,]
+  itemSafe = lastItemsSafe[lastItemsSafe$id == item$id,]
   skipped = isSkipped(item)
-  saveResponse(currentScores[i], currentTraits[i], item, skipped)
+  saveResponse(currentScores[i], currentTraits[i], item, itemSafe, skipped)
 }
 
 direction = 1
