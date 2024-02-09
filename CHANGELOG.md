@@ -23,6 +23,7 @@
 #### Fixes
 
 * SAML logout process now includes nameId
+* fixed *assessment* node *skipped* column of response table being not optional
 
 #### Docker
 

@@ -102,6 +102,11 @@ getSafePastResponses = function(nextItems, nextItemsIndices) {
     return(pastResponses)
   }
 
+  skippedColumn = responseBank$columns$skipped
+  if(is.null(skippedColumn) || is.na(skippedColumn) || skippedColumn == "") {
+    skippedColumn = "0"
+  }
+
   sql = "
 SELECT 
 {{itemIdColumn}} AS item_id,
@@ -115,7 +120,7 @@ WHERE
   pastResponses = concerto.table.query(sql, list(
     table=responseBank$table,
     responseColumn=responseBank$columns$response,
-    skippedColumn=responseBank$columns$skipped,
+    skippedColumn=skippedColumn,
     sessionIdColumn=responseBank$columns$session_id,
     sessionId=getSessionId(session),
     itemIdColumn=responseBank$columns$item_id,
