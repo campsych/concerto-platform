@@ -1,0 +1,261 @@
+breadcrumb: Administration
+form:
+    title: Paramètres
+    settings:
+        home_test: Test à l'accueil 
+        home_test.tooltip: Test à lancer en utilisant l\'URL racine.
+        session_limit: Limite de sessions 
+        session_limit.tooltip: Nombre maximum autorisé de sessions de test simultanées.
+        api_enabled: API activée 
+        api_enabled.tooltip: Activer les requêtes API.
+        session_runner_service: Service de session 
+        session_runner_service.tooltip: |
+            Peut être un des deux :
+            <ul>
+                <li>
+                    Persistent (Persistant)
+                    <ul>
+                        <li>Utilisation <strong>très importante</strong> de la RAM</li>
+                        <li>Utilisation du CPU légèrement diminuée</li>
+                        <li>Légèrement plus rapide</li>
+                        <li>Autorise les tests en code pur avec soumissions de page</li>
+                    </ul>
+                </li>
+                <li>
+                    Serialized (Sérialisé, recommandé)
+                    <ul>
+                        <li>Utilisation <strong>très basse</strong> de la RAM</li>
+                        <li>Utilisation du CPU légèrement augmentée</li>
+                        <li>Légèrement plus lent</li>
+                        <li>Nécessite des modèles pour être affiché à travers des noeuds de flux seulement</li>
+                    </ul>
+                </li>
+            </ul>
+        
+messages:
+    fieldset:
+        legend: Messages
+        legend.tooltip: Messages
+    list: 
+        fields: 
+            time: Date/heure
+            category: Catégorie
+            category.system: Système
+            category.test: Test
+            category.global: Global
+            category.local: Local
+            category.changelog: Journal
+            subject: Sujet
+            message: Message
+        buttons:
+            refresh: Actualiser
+            delete_selected: Supprimer la sélection
+            clear: Effacer tous les messages
+            delete: Supprimer
+    dialogs:
+        title:
+            delete: Suppression du message
+            clear: Effacement des messages
+        message:
+            delete: Êtes-vous sûr de vouloir supprimer le ou les messages sélectionnés ?
+            clear: Êtes-vous sûr de vouloir supprimer tous les messages ?
+
+content:
+    fieldset:
+        legend: Contenu
+        legend.tooltip: Import et export de contenu
+    import: Import
+    export: Export
+    last_import_time: Date du dernier import
+    url: Importer depuis une URL
+    url.tooltip: |
+        URL depuis laquelle importer. Elle peut être sous la forme :
+        <ul>
+            <li>d\'une URL distante vers un fichier d\'export unique (peut être compressé) ; seuls les protocoles HTTP et HTTPS sont autorisés</li>
+            <li>d\'un chemin vers un répertoire ou un fichier d\'export (zip autorisé) ; <strong>.</strong> pointera vers le répertoire par défaut du contenu de débutant</li>
+        </ul>
+    file: Importer depuis un fichier
+    file.tooltip: Fichier d\'export téléversable. Lorsque téléversé, le champ \'URL\' sera ignoré.
+    clear: Effacer
+    transfer_options: Options de transfert
+    transfer_options.tooltip: |
+        Permet de spécifier les options spécifiques de transfert d\'un objet. Par exemple, pour remplacer les données des tables de contenu avec des données dans le fichier d\'import ou pour inclure des données des tables de contenu dans le fichier export :
+        <pre>[
+            {
+                "class_name": "DataTable",
+                "name": "MyTableName",
+                "data": 2
+            }
+        ]</pre>
+    import_from_file: Le contenu sera importé depuis le fichier téléversé du champ 'Fichier'.
+    import_from_url: Le contenu sera importé depuis le fichier téléversé du champ 'URL'.
+    importing_content: Importation du contenu en cours
+    import_prompt: Êtes-vous sûr de vouloir importer le contenu ? Cette opération ne peut pas être annulée. Assurez-vous d'avoir une sauvegarde de vos données en cas de problème.
+    import_failure: Import échoué
+
+git:
+    status:
+        behind: "Validations en retard :"
+        ahead: "Validations en avance :"
+        local_changes: "Modifications locales :"
+        local_changes.no_changes: "Aucune modification"
+        local_changes.uncommitted_changes: "Modification non soumises"
+    history:
+        title: Historique
+        no_commits: Aucune validation
+        list:
+            sha: SHA
+            committer:  Validateur
+            time_ago: Temps écoulé
+            subject: Sujet
+            ref: Réf.
+    enable:
+        title: Activation
+        title.tooltip: Active de l\'intégration de Git et clone le dépôt Git. Activer Git ne modifie pas votre contenu.
+        url: "URL Git :"
+        url.tooltip: URL du dépôt Git
+        branch: "Branche Git :"
+        branch.tooltip: Nom de la branche du dépôt Git
+        login: "Identifiant Git :"
+        login.tooltip: Identifiant utilisateur Git
+        password: "Mot de passe Git :"
+        password.tooltip: Mot de passe de l\'utilisateur Git
+        button: Activer Git
+    disable:
+        title: Désactivation Git
+        confirm: Êtes-vous sûr de vouloir désactiver l'intégration Git ?
+        button: Désactiver Git
+    diff:
+        sha: "{0} diff"
+        local: diff de la copie de travail
+    refresh:
+        title: Actualisation du statut de Git
+        button: Actualiser
+    commit:
+        title: Validation des modifications
+        title.tooltip: Valide vos modifications locales.
+        message: Message
+        message.tooltip: Message de validation Git qui sera visible dans votre historique de dépôt.
+        success: Modifications validées
+        failure: Validation Git échouée
+        button: Valider
+    reset:
+        title: Réinitialisation de la copie de travail
+        confirm: Cela réinitialisera votre copie de travail à l'état de la dernière validation. Cela n'enlèvera pas les objets nouvellement ajoutés. Êtes-vous sûr de vouloir continuer ?
+        button: Réinitialiser
+    push:
+        title: Pousser vos validations locales sur le dépôt distant
+        confirm: Êtes-vous sûr de vouloir pousser vos validations locales sur le dépôt distant ?
+        failure: Envoi des validations locales échouée
+        button: Pousser
+    pull:
+        title: Tirer les validations depuis le dépôt distant
+        confirm: Êtes-vous sûr de vouloir tirer les validations depuis le dépôt distant ?
+        failure: Récupération des validations distantes écouhée
+        button: Tirer
+    update:
+        title: Mise à jour des modifications locales
+        button: Mettre à jour les modifications locales
+    latest_operation: "Dernière opération Git :"
+    no_git_task: Aucune tâche Git exécutée.
+    task:
+        started: Démarré
+        description: Description
+        output: Sortie
+        status: Statut
+        
+usage_charts:
+    fieldset:
+        legend: Graphiques d'utilisation
+        legend.tooltip: Graphiques d\'utilisation
+    buttons: 
+        refresh: Actualiser
+        clear: Effacer les données
+    dialog:
+        title:
+            clear: Effacement des données d'utilisation
+        confirm:
+            clear: Êtes-vous sûr de vouloir effacer les données d'utilisation ?
+    filter:
+        today: Aujourd'hui
+        specific_date: Date spécifique
+        date_range: Plage de dates
+        
+packages:
+    fieldset:
+        legend: Paquets R
+        legend.tooltip: Paquets R
+    list:
+        buttons:
+            refresh: Actualiser
+            report: Rapport de paquets
+            install: Installer
+    dialog:
+        title: 
+            report: Rapport de paquets R
+            report.tooltip: Rapport de paquets
+            installation: Installation de paquet R
+            installation.tooltip: Installation de paquet R
+            installation_failed: Installation de paquet R échouée
+        content:
+            report_failed: Rapport de paquets R échoué.
+        fields:
+            method: Méthode
+            method.tooltip: Méthode d\'installation de paquet R
+            method.latest: Dernière version
+            method.specific: Version spécifique
+            name: Nom
+            name.tooltip: Nom du paquet R
+            mirror: ULR miroir
+            mirror.tooltip: ULR miroir du paquet R
+            url: URL du paquet
+            url.tooltip: URL source du paquet
+        buttons:
+            install: Installer
+            cancel: Annuler
+        
+tasks:
+    list:
+        fields:
+            updated: Mis à jour
+            status: Statut
+            status.pending: En attente
+            status.ongoing: En cours
+            status.completed: Terminé
+            status.failed: Echoué
+            status.canceled: Annulé
+            description: Description
+            output: Sortie
+    ongoing_dialog:
+        title: Tâches planifiées en cours
+        refresh_prompt: Toutes les tâches planifiées en attente sont terminées. Actualisez s'il vous plaît.
+        button:
+            return: Fermer
+            refresh: Actualiser
+    version_none: Aucune version
+            
+api_clients:
+    fieldset:
+        legend: Clients API
+        legend.tooltip: Clients API
+    list: 
+        fields: 
+            id: Id
+            secret: Secret
+        buttons:
+            refresh: Actualiser
+            add: Ajouter un nouveau
+            delete_selected: Supprimer la sélection
+            clear: Effacer les clients
+            delete: Supprimer
+    dialogs:
+        title:
+            delete: Suppression client API
+            clear: Effacement des clients API
+        message:
+            delete: Êtes-vous sûr de vouloir supprimer les clients API sélectionnés ?
+            clear: Êtes-vous sûr de vouloir supprimer tous les clients API ?
+        
+alerts:
+    no_usage_data: Aucune donnée d'utilisation n'est actuellement disponible.
+    api_disabled: L'API est actuellement désactivée.

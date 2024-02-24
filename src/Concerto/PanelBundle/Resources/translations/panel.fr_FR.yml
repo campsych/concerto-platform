@@ -1,6 +1,8 @@
 header:
   logged.user: 'Utilisateur connecté : {0}'
   logout: Se déconnecter
+  enableMFA: Activer la MFA
+  disableMFA: Désactiver la MFA
 
 tab:
   wizards: Assistants
@@ -15,6 +17,8 @@ tab:
   files.tooltip: Onglet du gestionnaire de fichiers
   users: Utilisateurs
   users.tooltip: Onglet de gestion des utilisateurs
+  administration: Administration
+  administration.tooltip: Onglet d\'administration
 
 list:
   accessibility:
@@ -26,10 +30,26 @@ list:
     info: Info
     updated.on: Dernière mise à jour
     updated.by: Dernier auteur
+    type: Type
+    exists: Existe
+    action: Action
+    data: Donnée
+    data.not_applicable: Non applicable
+    data.leave: Laisser
+    data.include: Inclure
+    data.ignore: Ignorer
+    data.replace: Remplacer
+    data_num: N° donnée
+    rename: Renommer
+    safe: Sûr
+  filter:
+      starter_content: Contenu de démarrage
+      user_made: Contenu utilisateur
   edit: Editer
   delete: Supprimer
   export: Exporter
   button:
+    toggle_filters: Basculer les filtres
     refresh: Actualiser
     delete.checked: Supprimer la sélection
     export.checked: Exporter la sélection
@@ -37,6 +57,7 @@ list:
     import: Importer
     download: Télécharger
     upload: Téléverser CSV
+  locked.tooltip: "Verrouillé par : {0}"
 
 form:
   validation.failed: Echec de la validation 
@@ -51,16 +72,27 @@ form:
     ok: Ok
     apply: Appliquer
     upload: Téléverser
+    add: Ajouter
+    lock: Verrouiller
+    unlock: Déverrouiller
+  locked_by_other_info: |
+    <p>Cet objet a été verrouillé par : <strong>{0}</strong></p>
+    <p>Vous ne pouvez pas le modifier tant qu\'il n\'est pas libéré.</p>
+  locked_by_me_info: |
+    <p>Cet objet a été verrouillé par <strong>Vous</strong></p>
+    <p>Personne ne pourra le modifier tant que vous ne le libèrerez pas.</p>
 
 dialog:
   title:
-    save: Enregistrer un objet
-    delete: Supprimer un objet
+    save: Enregistrement de l'objet
+    delete: Suppression de l'objet
     csv: CSV
+    lock: Modifier le verrouillage d un objet
   message:
-    failed: L'operation a échoué. Valider vos données et essayez une nouvelle fois.
+    failed: L'opération a échoué. Validez vos données et essayez une nouvelle fois.
     saved: L'objet a été sauvegardé
     confirm.delete: Êtes-vous sûr de vouloir supprimer le(s) objet(s) sélectionné(s) ?
+    confirm.unsafe_import: Il y a des imports risqués plannifiés pouvant conduire à une perte de données. Il est fortement recommandé de sauvegarder votre base de données avant de continuer. Voulez-vous continuer ?
     leaving: Êtes-vous sûr de vouloir continuer ? Toutes les modifications non sauvegardées seront perdues.
 
 please.wait: Merci de patienter...
@@ -80,24 +112,40 @@ save_new:
         message.copied: Objet copié
     fieldset:
         legend.tooltip: >
-            Saisissez le nom que vous voulez appliquer à l\'objet copié. Laissez vide pour appliquer le nom original. Vous pouvez insérer l\'id ou le nom original de l\'objet en utilisant : \{\{id\}\} ou \{\{name\}\}.
+            Saisissez le nom que vous voulez appliquer à l'objet copié. Laissez vide pour appliquer le nom original. Vous pouvez insérer l'id ou le nom original de l'objet en utilisant : \{\{id\}\} ou \{\{name\}\}.
 
 import:
+    action:
+        new: Nouveau
+        convert: Convertir
+        ignore: Ignorer
     dialog:
-        title: Importer un objet
-        message.imported: Objet importé
+        title: Import d un objet
+        description_warning: Convertir les objets courants par de nouveaux est encore expérimental et peut conduire à une perte de donnée. Cela peut aussi être le cas lorsque des différences entre la version de l\'objet courant et celle de l\'objet importé mèneront à des pertes de données inévitables. Il est fortement recommandé de sauvegarder votre base de données avant de continuer.
     fieldset:
         legend.tooltip: Importez de nouveaux objets depuis un fichier qui a été exporté précédemment.
     form:
         field:
             file: Fichier
             file.tooltip: Choisissez le fichier à importer
+            instructions: Consignes
+            instructions.tooltip: "Consignes d'import. Lors d'un renommage, vous pouvez insérer des variables au nouveau nom comme : <b>\\{\\{name\\}\\}, \\{\\{id\\}\\}, \\{\\{user_username\\}\\}, \\{\\{user_id\\}\\}</b> respectivement pour nom de l'objet importé, id  de l'objet importé, nom d'utilisateur propriétaire de l'objet importé et id du propriétaire de l'objet importé."
 
 export:
     dialog:
+        title: Export d un objet
         error:
             empty.content: Merci de sélectionner au moins une entrée dans la table ci-dessous afin de l'exporter.
-     
+    fieldset:
+        legend.tooltip: Exporte des objets vers un fichier
+    form:
+        field:
+            format: Format
+            format.tooltip: Format du fichier
+            format.json: JSON
+            format.yml: YAML
+            format.compressed: Compressé
+
 download_list:
     dialog:
         title: Téléchargement du tableau
@@ -133,4 +181,15 @@ code:
     documentation:
         error.info: Chargement des données d'autocomplétion impossible !
         error.solve: Résoudre
-    
+
+mfa:
+  disable_dialog:
+    title: Désactivation de la MFA
+    content: Êtes-vous sûr de vouloir désactiver la MFA ?
+
+  enable_dialog:
+    title: MFA activée
+    tooltip: Enregistre l\'application dans votre Google Authenticator
+    paragraph: "Pour ajouter l'application à Google Authenticator, choisissez :"
+    qr: "a) scanner un QR code:"
+    secret: "b) ajouter manuellement un code secret :"

@@ -22,28 +22,31 @@ form:
 list: 
   field:
     name: Nom
-    
+
 structure:
   fieldset:
     legend: Structure de la table de données
     legend.tooltip: Définition de la structure de la table de données
-    
   form:
     field:
       name: Nom
       name.tooltip: Nom de la colonne
       type: Type
       type.tooltip: Type de la colonne
-      
+      length: Taille
+      length.tooltip: Taille et précision (nombre de chiffres après la virgule)
+      nullable: Null ?
+      nullable.tooltip: La valeur de la colonne peut avoir une valeur NULL
   list:
     field:
       name: Nom
       type: Type
+      length: Taille
+      nullable: Null ?
     edit: Editer
     add: Ajouter une colonne
     delete: Supprimer
     delete.checked: Supprimer la sélection
-    
   dialog:
     title:
       add: Ajouter une nouvelle colonne à la table de données
@@ -55,6 +58,7 @@ structure:
 data:
     dialog:
         title:
+            edit: Editer la donnée
             delete: Enlever une ligne
         message:
             confirm.delete: Êtes-vous sûr de vouloir enlever les lignes sélectionnées ?
@@ -94,4 +98,3 @@ io:
                 field.enclosure.tooltip: Caractère unique utilisé entourer les champs de texte. Le caractère par défaut est \"
                 file: Fichier
                 file.tooltip: Choisissez le fichier CSV à importer
-        

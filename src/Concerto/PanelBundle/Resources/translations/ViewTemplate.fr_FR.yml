@@ -28,5 +28,9 @@ source:
     field:
         head: Balise d'entête
         head.tooltip: Basile d\'entête HTML du modèle de vue
+        css: CSS
+        css.tooltip: Styles CSS
+        js: Javascript
+        js.tooltip: Code Javascript
         html: Corps de document HTML
         html.tooltip: Code source HTML du corps du modèle de vue
