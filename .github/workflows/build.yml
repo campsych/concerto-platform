@@ -5,7 +5,6 @@ on:
     branches:
       - 5.0-dev
       - 5.1-dev
-      - arm64v8-5.0-dev
 
 permissions:
   contents: read
