@@ -3,7 +3,6 @@ services:
     concerto:
       build: .
       container_name: concerto
-      platform: linux/arm64
       environment:
         - DB_TEST_HOST=127.0.0.1
         - DB_TEST_PORT=3306

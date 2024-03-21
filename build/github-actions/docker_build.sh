@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PLATFORM="linux/arm64"
+PLATFORM="linux/amd64,linux/arm64"
 
 if [[ -n $GITHUB_REF_NAME ]]
 then

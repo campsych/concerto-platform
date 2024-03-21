@@ -1,4 +1,4 @@
-FROM arm64v8/ubuntu:20.04
+FROM ubuntu:20.04
 MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
 ARG CRAN_MIRROR=https://cloud.r-project.org
