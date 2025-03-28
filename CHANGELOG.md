@@ -19,6 +19,7 @@
 
 * POST payload can now be read as test input with URL flag
 * MySQL 8 support
+* protected and session file endpoint can be now called with POST method
 
 #### Fixes
 
