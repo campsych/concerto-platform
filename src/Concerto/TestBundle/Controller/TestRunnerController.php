@@ -318,7 +318,7 @@ class TestRunnerController
     }
 
     /**
-     * @Route("/files/protected/{name}", name="files_protected", methods={"GET"}, requirements={"name"=".+"})
+     * @Route("/files/protected/{name}", name="files_protected", methods={"GET","POST"}, requirements={"name"=".+"})
      * @param Request $request
      * @param string $name
      * @return BinaryFileResponse | Response
@@ -337,7 +337,7 @@ class TestRunnerController
     }
 
     /**
-     * @Route("/files/session/{name}", name="files_session", methods={"GET"}, requirements={"name"=".+"})
+     * @Route("/files/session/{name}", name="files_session", methods={"GET","POST"}, requirements={"name"=".+"})
      * @param Request $request
      * @param string $name
      * @return BinaryFileResponse | Response
