@@ -85,6 +85,12 @@ class TestRunnerController
         foreach ($requestKeys as $k) {
             $params[$k] = $request->request->get($k);
         }
+        $bodyParams = json_decode($request->getContent(), true);
+        if ($bodyParams !== null) {
+            foreach ($bodyParams as $k => $v) {
+                $params[$k] = $v;
+            }
+        }
         $queryKeys = $request->query->keys();
         foreach ($queryKeys as $k) {
             $params[$k] = $request->query->get($k);
@@ -147,6 +153,23 @@ class TestRunnerController
     public function startNewSessionAction(Request $request, $test_slug, $test_name = null, $params = "{}", $debug = false)
     {
         $this->logger->info(__CLASS__ . ":" . __FUNCTION__ . " - $test_slug, $test_name, $params, $debug");
+
+        $params = json_decode($params, true);
+        $requestKeys = $request->request->keys();
+        foreach ($requestKeys as $k) {
+            $params[$k] = $request->request->get($k);
+        }
+        $bodyParams = json_decode($request->getContent(), true);
+        if ($bodyParams !== null) {
+            foreach ($bodyParams as $k => $v) {
+                $params[$k] = $v;
+            }
+        }
+        $queryKeys = $request->query->keys();
+        foreach ($queryKeys as $k) {
+            $params[$k] = $request->query->get($k);
+        }
+        $params = json_encode($params);
 
         $result = $this->testRunnerService->startNewSession(
             $test_slug,
