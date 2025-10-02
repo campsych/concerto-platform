@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adaptive AI-Powered Learning Assessment Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .step {
+            margin-bottom: 40px;
+            padding: 30px;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .step:hover {
+            border-color: #4facfe;
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.1);
+        }
+
+        .step h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .step h3 {
+            color: #4facfe;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .fundamental-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .fundamental-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #4facfe;
+            transition: transform 0.3s ease;
+        }
+
+        .fundamental-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .fundamental-card h4 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .score {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4facfe;
+        }
+
+        .score.low {
+            color: #e74c3c;
+        }
+
+        .score.medium {
+            color: #f39c12;
+        }
+
+        .score.high {
+            color: #27ae60;
+        }
+
+        .recommendations {
+            background: #e8f4fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .recommendation-item {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #4facfe;
+        }
+
+        .priority {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .priority.high {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .priority.medium {
+            background: #f39c12;
+            color: white;
+        }
+
+        .priority.low {
+            background: #27ae60;
+            color: white;
+        }
+
+        .button {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+        }
+
+        .button.secondary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .dashboard-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .heatmap {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .heatmap-item {
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .heatmap-item.excellent {
+            background: #27ae60;
+        }
+
+        .heatmap-item.good {
+            background: #2ecc71;
+        }
+
+        .heatmap-item.needs-improvement {
+            background: #f39c12;
+        }
+
+        .heatmap-item.struggling {
+            background: #e74c3c;
+        }
+
+        .tips {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .tip-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Adaptive AI-Powered Learning Assessment</h1>
+            <p>Personalized Learning with Fundamental Analysis</p>
+        </div>
+
+        <div class="content">
+            <!-- Step 1: Test Completion -->
+            <div class="step" id="step1">
+                <h2>📝 Step 1: Adaptive Test Completed</h2>
+                <p>Student has completed an adaptive test. The system has analyzed their performance across four fundamental learning areas.</p>
+                
+                <div class="fundamental-grid">
+                    <div class="fundamental-card">
+                        <h4>🎧 Listening</h4>
+                        <div class="score high">85%</div>
+                        <p>Strong audio comprehension skills</p>
+                    </div>
+                    <div class="fundamental-card">
+                        <h4>🧩 Grasping</h4>
+                        <div class="score medium">72%</div>
+                        <p>Good concept understanding</p>
+                    </div>
+                    <div class="fundamental-card">
+                        <h4>🧠 Retention</h4>
+                        <div class="score low">45%</div>
+                        <p>Needs improvement in memory</p>
+                    </div>
+                    <div class="fundamental-card">
+                        <h4>⚡ Application</h4>
+                        <div class="score low">38%</div>
+                        <p>Struggles with applying knowledge</p>
+                    </div>
+                </div>
+
+                <button class="button" onclick="showStep2()">View Analysis & Recommendations</button>
+            </div>
+
+            <!-- Step 2: Analysis & Recommendations -->
+            <div class="step hidden" id="step2">
+                <h2>🔍 Step 2: AI Analysis & Recommendations</h2>
+                <p>The AI has identified areas for improvement and generated personalized practice recommendations.</p>
+
+                <div class="recommendations">
+                    <h3>🎯 Practice Recommendations</h3>
+                    
+                    <div class="recommendation-item">
+                        <span class="priority high">High Priority</span>
+                        <h4>Application Practice</h4>
+                        <p>Focus on applying knowledge to new situations - start with easier questions</p>
+                        <p><strong>Suggested:</strong> 15 targeted practice questions</p>
+                    </div>
+
+                    <div class="recommendation-item">
+                        <span class="priority high">High Priority</span>
+                        <h4>Retention Practice</h4>
+                        <p>Work on memory and recall techniques with emphasis on speed</p>
+                        <p><strong>Suggested:</strong> 15 targeted practice questions</p>
+                    </div>
+
+                    <div class="recommendation-item">
+                        <span class="priority medium">Medium Priority</span>
+                        <h4>Grasping Practice</h4>
+                        <p>Practice understanding concepts and making connections</p>
+                        <p><strong>Suggested:</strong> 10 targeted practice questions</p>
+                    </div>
+                </div>
+
+                <button class="button" onclick="showStep3()">Start Practice Session</button>
+                <button class="button secondary" onclick="showStep4()">View Dashboards</button>
+            </div>
+
+            <!-- Step 3: Practice Session -->
+            <div class="step hidden" id="step3">
+                <h2>🎯 Step 3: Targeted Practice Session</h2>
+                <p>Student is now practicing their weakest fundamental: Application</p>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 60%"></div>
+                </div>
+                <p>Progress: 6/10 questions completed (60%)</p>
+
+                <div class="fundamental-card">
+                    <h4>Current Question: Application Practice</h4>
+                    <p><strong>Question:</strong> How would you apply the concept of photosynthesis to design a more efficient solar panel?</p>
+                    <p><strong>Options:</strong></p>
+                    <ul>
+                        <li>A) Use the same chemical process</li>
+                        <li>B) Mimic the light absorption mechanism</li>
+                        <li>C) Copy the exact molecular structure</li>
+                        <li>D) Use the same temperature conditions</li>
+                    </ul>
+                </div>
+
+                <button class="button" onclick="completePractice()">Complete Practice Session</button>
+            </div>
+
+            <!-- Step 4: Dashboards -->
+            <div class="step hidden" id="step4">
+                <h2>📊 Step 4: Multi-User Dashboards</h2>
+                
+                <div class="dashboard-grid">
+                    <!-- Student Dashboard -->
+                    <div class="dashboard-card">
+                        <h3>👨‍🎓 Student Dashboard</h3>
+                        <div class="score medium">60%</div>
+                        <p><strong>Overall Score</strong></p>
+                        
+                        <h4>Strengths:</h4>
+                        <ul>
+                            <li>Listening (85%)</li>
+                            <li>Grasping (72%)</li>
+                        </ul>
+                        
+                        <h4>Areas for Improvement:</h4>
+                        <ul>
+                            <li>Retention (45%)</li>
+                            <li>Application (38%)</li>
+                        </ul>
+                        
+                        <button class="button">Start Practice</button>
+                    </div>
+
+                    <!-- Teacher Dashboard -->
+                    <div class="dashboard-card">
+                        <h3>👩‍🏫 Teacher Dashboard</h3>
+                        <p><strong>Class Performance Overview</strong></p>
+                        
+                        <div class="heatmap">
+                            <div class="heatmap-item excellent">Listening<br>15 students</div>
+                            <div class="heatmap-item good">Grasping<br>12 students</div>
+                            <div class="heatmap-item needs-improvement">Retention<br>8 students</div>
+                            <div class="heatmap-item struggling">Application<br>5 students</div>
+                        </div>
+                        
+                        <p><strong>Recommendation:</strong> Focus on Application and Retention skills in next lesson</p>
+                    </div>
+
+                    <!-- Parent Dashboard -->
+                    <div class="dashboard-card">
+                        <h3>👨‍👩‍👧‍👦 Parent Dashboard</h3>
+                        <div class="score medium">60%</div>
+                        <p><strong>Overall Performance</strong></p>
+                        
+                        <div class="tips">
+                            <h4>💡 Improvement Tips:</h4>
+                            <div class="tip-item">Encourage your child to apply what they learn in practical situations at home.</div>
+                            <div class="tip-item">Practice memory techniques like repetition and creating mental associations.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="button" onclick="showStep5()">View AI Predictions</button>
+            </div>
+
+            <!-- Step 5: AI Predictions -->
+            <div class="step hidden" id="step5">
+                <h2>🤖 Step 5: AI-Powered Predictions</h2>
+                <p>The AI has analyzed response patterns to predict potential weaknesses and suggest interventions.</p>
+
+                <div class="recommendations">
+                    <h3>🔮 AI Predictions</h3>
+                    
+                    <div class="recommendation-item">
+                        <h4>Application Skills</h4>
+                        <p><strong>Weakness Score:</strong> 85/100 (High Risk)</p>
+                        <p><strong>Confidence:</strong> 90%</p>
+                        <p><strong>Risk Factors:</strong> Low accuracy, Slow response, Extended session time</p>
+                        <p><strong>Prediction:</strong> Student will likely struggle with complex problem-solving tasks</p>
+                    </div>
+
+                    <div class="recommendation-item">
+                        <h4>Retention Skills</h4>
+                        <p><strong>Weakness Score:</strong> 75/100 (High Risk)</p>
+                        <p><strong>Confidence:</strong> 85%</p>
+                        <p><strong>Risk Factors:</strong> Low accuracy, Insufficient data</p>
+                        <p><strong>Prediction:</strong> Student may have difficulty recalling information in future assessments</p>
+                    </div>
+                </div>
+
+                <div class="tips">
+                    <h4>🎯 Recommended Interventions:</h4>
+                    <div class="tip-item">Implement spaced repetition techniques for retention improvement</div>
+                    <div class="tip-item">Provide real-world application examples and case studies</div>
+                    <div class="tip-item">Use visual aids and interactive learning tools</div>
+                    <div class="tip-item">Schedule regular practice sessions with immediate feedback</div>
+                </div>
+
+                <button class="button" onclick="resetDemo()">Restart Demo</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showStep2() {
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+        }
+
+        function showStep3() {
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.remove('hidden');
+        }
+
+        function showStep4() {
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step4').classList.remove('hidden');
+        }
+
+        function showStep5() {
+            document.getElementById('step4').classList.add('hidden');
+            document.getElementById('step5').classList.remove('hidden');
+        }
+
+        function completePractice() {
+            alert('Practice session completed! Score: 70%\n\nStudent has improved in Application skills through targeted practice.');
+            showStep4();
+        }
+
+        function resetDemo() {
+            // Hide all steps except the first one
+            const steps = document.querySelectorAll('.step');
+            steps.forEach(step => step.classList.add('hidden'));
+            document.getElementById('step1').classList.remove('hidden');
+        }
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.fundamental-card, .dashboard-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
