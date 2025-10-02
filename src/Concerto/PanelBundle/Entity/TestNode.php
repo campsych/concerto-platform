@@ -44,6 +44,12 @@ class TestNode extends AEntity implements \JsonSerializable
     private $posY;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    private $fundamentalType;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Test", inversedBy="nodes")
      */
     private $flowTest;
@@ -179,6 +185,29 @@ class TestNode extends AEntity implements \JsonSerializable
         $this->posY = $posY;
 
         return $this;
+    }
+
+    /**
+     * Set fundamental type
+     *
+     * @param string $fundamentalType
+     * @return TestNode
+     */
+    public function setFundamentalType($fundamentalType)
+    {
+        $this->fundamentalType = $fundamentalType;
+
+        return $this;
+    }
+
+    /**
+     * Get fundamental type
+     *
+     * @return string
+     */
+    public function getFundamentalType()
+    {
+        return $this->fundamentalType;
     }
 
     /**
@@ -359,6 +388,7 @@ class TestNode extends AEntity implements \JsonSerializable
             "type" => $this->getType(),
             "posX" => $this->getPosX(),
             "posY" => $this->getPosY(),
+            "fundamentalType" => $this->getFundamentalType(),
             "sourceTestName" => $this->sourceTest->getName(),
             "ports" => AEntity::getEntityCollectionHash($this->getPorts())
         ));
@@ -382,6 +412,7 @@ class TestNode extends AEntity implements \JsonSerializable
             "type" => $this->type,
             "posX" => $this->posX,
             "posY" => $this->posY,
+            "fundamentalType" => $this->fundamentalType,
             "flowTest" => $this->flowTest->getId(),
             "sourceTest" => $this->sourceTest->getId(),
             "sourceTestName" => $this->sourceTest->getName(),
