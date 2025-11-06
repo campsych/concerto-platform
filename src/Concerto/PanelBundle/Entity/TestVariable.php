@@ -29,7 +29,7 @@ class TestVariable extends AEntity implements \JsonSerializable
     /**
      *
      * @var string
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 

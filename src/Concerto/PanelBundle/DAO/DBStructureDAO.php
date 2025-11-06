@@ -70,13 +70,22 @@ class DBStructureDAO
             }
             $options = [];
             $lengthString = "";
-            if(array_key_exists("length", $col)) $lengthString = $col["length"];
+            if (array_key_exists("length", $col)) $lengthString = $col["length"];
             if (array_key_exists($col["type"], self::$typeDefaultLengths)) $options["length"] = self::$typeDefaultLengths[$col["type"]];
             if (array_key_exists($col["type"], self::$typeDefaultPrecisions)) $options["precision"] = self::$typeDefaultPrecisions[$col["type"]];
             if (array_key_exists($col["type"], self::$typeDefaultScales)) $options["scale"] = self::$typeDefaultScales[$col["type"]];
-            $options["notnull"] = !$col["nullable"];
+
+            if ($this->connection->getDriver()->getName() == "oci8") {
+                if (in_array($col["type"], ["string", "text"])) {
+                    $options["notnull"] = false;
+                }
+            } else {
+                $options["notnull"] = !$col["nullable"];
+            }
+
             if ($col["nullable"]) $options["default"] = null;
             else if (array_key_exists($col["type"], self::$typeDefaultValues)) $options["default"] = self::$typeDefaultValues[$col["type"]];
+
             $this->applyLengthStringToColumnOptions($col["type"], $lengthString, $options);
 
             $table->addColumn($col["name"], $col["type"], $options);

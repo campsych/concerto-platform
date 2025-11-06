@@ -42,7 +42,7 @@ abstract class ATopEntity extends AEntity
     /**
      *
      * @var string groups
-     * @ORM\Column(name="objectGroups", type="string")
+     * @ORM\Column(name="objectGroups", type="string", nullable=true)
      */
     protected $groups;
 
@@ -63,7 +63,7 @@ abstract class ATopEntity extends AEntity
     /**
      *
      * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $tags;
 

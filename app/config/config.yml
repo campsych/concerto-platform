@@ -59,16 +59,18 @@ doctrine:
         default_connection: local
         connections:
             local:
-                driver:      "%database_driver%"
+                driver:      "%env(DB_DRIVER)%"
                 server_version: "%env(DB_VERSION)%"
                 host:        "%env(DB_HOST)%"
                 port:        "%env(DB_PORT)%"
                 dbname:      "%env(DB_NAME)%"
                 user:        "%env(DB_USER)%"
                 password:    "%env(DB_PASSWORD)%"
-                charset:     UTF8
+                charset:     "%env(DB_CHARSET)%"
                 path:        "%database_path%"
                 unix_socket: "%database_unix_socket%"
+                service: true
+                servicename: "%env(DB_SERVICENAME)%"
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
@@ -98,3 +100,9 @@ scheb_two_factor:
         #server_name: Server Name
         #issuer: Issuer Name
         template: ConcertoPanelBundle:Panel:login_mfa.html.twig
+
+services:
+  oracle_session_initializer:
+    class: Concerto\PanelBundle\EventSubscriber\OracleSubscriber
+    tags:
+      - { name: doctrine.event_listener, event: postConnect }

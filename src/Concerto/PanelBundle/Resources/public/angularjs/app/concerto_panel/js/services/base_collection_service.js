@@ -46,7 +46,7 @@ concertoPanel.factory('BaseCollectionService', function ($http, $filter, AuthSer
             let result = [];
             for (let i = 0; i < this.collection.length; i++) {
                 let obj = this.collection[i];
-                let tags = obj.tags.trim().split(" ");
+                let tags = (obj.tags ?? "").trim().split(" ");
                 for (let j = 0; j < tags.length; j++) {
                     if (tags[j] && result.indexOf(tags[j]) === -1) {
                         result.push(tags[j]);
@@ -59,7 +59,7 @@ concertoPanel.factory('BaseCollectionService', function ($http, $filter, AuthSer
             let result = [];
             for (let i = 0; i < this.collection.length; i++) {
                 let obj = this.collection[i];
-                let tags = obj.tags.trim().split(" ");
+                let tags = (obj.tags ?? "").trim().split(" ");
                 for (let j = 0; j < tags.length; j++) {
                     if (tag == null || tags[j] === tag) {
                         result.push(obj);

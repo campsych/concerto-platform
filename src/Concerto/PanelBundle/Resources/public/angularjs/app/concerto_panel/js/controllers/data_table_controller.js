@@ -374,7 +374,8 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             }
         }
 
-        $http.post(Paths.DATA_TABLE_DATA_UPDATE.pf($scope.object.id, newRow.id), {
+        const newRowId = newRow.id ?? newRow.ID;
+        $http.post(Paths.DATA_TABLE_DATA_UPDATE.pf($scope.object.id, newRowId), {
             values: newRow,
             objectTimestamp: $scope.object.updatedOn
         }).then(function (httpResponse) {

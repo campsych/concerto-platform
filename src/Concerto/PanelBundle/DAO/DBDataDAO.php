@@ -23,7 +23,9 @@ class DBDataDAO
 
     public function getFilteredDataResult($table_name, $id = null, $filter = null)
     {
-        $this->connection->getWrappedConnection()->setAttribute(\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
+        if ($this->connection->getDriver()->getName() == "pdo_mysql") {
+            $this->connection->getWrappedConnection()->setAttribute(\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
+        }
         $q = $this->connection->createQueryBuilder()->select("*")->from($table_name, "d");
 
         $i = 0;
@@ -99,7 +101,7 @@ class DBDataDAO
         $cols = $this->connection->getSchemaManager()->listTableColumns($table_name);
         foreach ($values as $k => $v) {
             $i++;
-            if ($k == "id") continue;
+            if (strtolower($k) == strtolower($id_field)) continue;
             $found = false;
             foreach ($cols as $col) {
                 if ($col->getName() == $k) {
