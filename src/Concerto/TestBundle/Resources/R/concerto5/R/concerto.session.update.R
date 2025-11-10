@@ -13,5 +13,10 @@ concerto.session.update = function(){
   dbEscapeStrings(concerto$connection, toString(concerto$session$id)))
 
   res = dbSendStatement(concerto$connection, statement = sql)
+
+  if(concerto$dbConnectionParams$driver == "oci8") {
+    dbCommit(concerto$connection)
+  }
+
   dbClearResult(res)
 }

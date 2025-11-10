@@ -13,7 +13,17 @@ concerto.template.get = function(templateId, cache=NULL){
   }
   templateId <- dbEscapeStrings(concerto$connection,toString(templateId))
     
-  result <- dbSendQuery(concerto$connection,sprintf("SELECT id,name,head,html,css,js FROM ViewTemplate WHERE %s='%s'",idField,templateId))
+  result <- dbSendQuery(concerto$connection,sprintf("
+      SELECT
+      id AS \"id\",
+      name AS \"name\",
+      head AS \"head\",
+      html AS \"html\",
+      css AS \"css\",
+      js AS \"js\"
+      FROM ViewTemplate
+      WHERE %s='%s'
+  ",idField,templateId))
   response <- fetch(result,n=-1)
 
   if(dim(response)[1] > 0){

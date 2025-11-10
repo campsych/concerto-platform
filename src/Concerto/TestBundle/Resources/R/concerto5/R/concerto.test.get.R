@@ -25,14 +25,14 @@ concerto.test.get = function(testId, cache=NULL, includeSubObjects=F){
 
   testID <- dbEscapeStrings(concerto$connection,toString(testId))
   result <- dbSendQuery(concerto$connection,sprintf("
-  SELECT
-  id,
-  name,
-  code,
-  type,
-  sourceWizard_id
-  FROM Test
-  WHERE %s='%s'
+      SELECT
+      id AS \"id\",
+      name AS \"name\",
+      code AS \"code\",
+      type AS \"type\",
+      sourceWizard_id AS \"sourceWizard_id\"
+      FROM Test
+      WHERE %s='%s'
   ",idField,testId))
   response <- fetch(result,n=-1)
 
@@ -42,7 +42,10 @@ concerto.test.get = function(testId, cache=NULL, includeSubObjects=F){
       test$variables <- concerto5:::concerto.test.getVariables(test$id)
       if(test$type == 1) {
         result = dbSendQuery(concerto$connection, paste0("
-        SELECT test_id FROM TestWizard WHERE id=",dbEscapeStrings(concerto$connection,toString(test$sourceWizard_id)),"
+            SELECT
+            test_id AS \"test_id\"
+            FROM TestWizard
+            WHERE id=",dbEscapeStrings(concerto$connection,toString(test$sourceWizard_id)),"
         "))
         sourceTestId = fetch(result,n=-1)
         test$sourceTest <- concerto.test.get(sourceTestId, cache, includeSubObjects)

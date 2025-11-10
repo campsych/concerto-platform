@@ -1,4 +1,4 @@
-concerto.db.connect = function(driver, username, password, dbname, host, unix_socket, port){
+concerto.db.connect = function(driver, username, password, dbname, host, unix_socket, port, servicename, charset){
     concerto.log(paste0("connecting with db using ",driver))
     con = NULL
     if (driver == "pdo_mysql") {
@@ -28,9 +28,17 @@ concerto.db.connect = function(driver, username, password, dbname, host, unix_so
             port = port,
             properties = list(user = username, password = password)
         )
-    } else if (driver == "oci8" || driver == "pdo_oci") {
-        #require("ROracle")
-        stop("oci8 and pdo_oci driver not implemented yet")
+    } else if (driver == "oci8") {
+        require("ROracle")
+        conStr <- paste0("(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=", host, ")(PORT=", port, "))(CONNECT_DATA=(SERVICE_NAME=", servicename, ")))")
+        con <- dbConnect(
+            Oracle(),
+            username = username,
+            password = password,
+            dbname = conStr,
+        )
+        dbExecute(con, statement = "ALTER SESSION SET NLS_DATE_FORMAT='YYYY-MM-DD HH24:MI:SS'")
+        dbExecute(con, statement = "ALTER SESSION SET NLS_TIMESTAMP_FORMAT='YYYY-MM-DD HH24:MI:SS'")
     } else if (driver == "sqlanywhere") {
         stop("sqlanywhere driver not supported yet")
     }

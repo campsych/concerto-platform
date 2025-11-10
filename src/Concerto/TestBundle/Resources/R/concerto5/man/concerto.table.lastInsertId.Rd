@@ -13,6 +13,9 @@
     \item{connection}{
         Connection to use.
     }
+    \item{tableName}{
+        Required explicit table name value for some db drivers.
+    }
 }
 \details{
 }

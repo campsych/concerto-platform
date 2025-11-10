@@ -22,6 +22,9 @@ Table query
     \item{connection}{
         Connection to use.
     }
+    \item{commit}{
+        TRUE if transactions should be automatically committed.
+    }
 }
 \details{
     Contains extended function wizard with SQL query builder when used in Concerto platform.

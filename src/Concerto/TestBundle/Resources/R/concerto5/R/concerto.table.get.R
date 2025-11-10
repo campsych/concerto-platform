@@ -14,7 +14,13 @@ function(tableId, cache=NULL){
   }
 
   tableId <- dbEscapeStrings(concerto$connection,toString(tableId))
-  result <- dbSendQuery(concerto$connection,sprintf("SELECT id,name FROM Table WHERE %s='%s'",objField,tableId))
+  result <- dbSendQuery(concerto$connection,sprintf("
+      SELECT
+      id AS \"id\",
+      name AS \"name\"
+      FROM Table
+      WHERE %s='%s'
+  ",objField,tableId))
   response <- fetch(result,n=-1)
 
   if(dim(response)[1] > 0){
