@@ -25,7 +25,12 @@ class TestSessionRepository extends AEntityRepository
 
     public function getUpdatedAgo($id)
     {
-        $builder = $this->getEntityManager()->getConnection()->createQueryBuilder()->select('TIME_TO_SEC(TIMEDIFF(CURRENT_TIMESTAMP, ts.updated))')->from("TestSession", "ts");
+        $select = "TIME_TO_SEC(TIMEDIFF(CURRENT_TIMESTAMP, ts.updated))";
+        if ($this->getEntityManager()->getConnection()->getDriver()->getName() == "oci8") {
+            $select = "ROUND((CAST(SYSTIMESTAMP AS DATE) - CAST(ts.updated AS DATE)) * 86400)";
+        }
+
+        $builder = $this->getEntityManager()->getConnection()->createQueryBuilder()->select($select)->from("TestSession", "ts");
         $builder->where("ts.id = :id")->setParameter('id', $id);
 
         return (int)$builder->execute()->fetchOne();

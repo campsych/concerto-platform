@@ -1,10 +1,23 @@
 getIndicedColumnsNum = function(tableName, firstColumnName) {
   columnPrefix = substring(firstColumnName, 1, nchar(firstColumnName) - 1)
 
-  columns = concerto.table.query("SHOW COLUMNS FROM {{tableName}} LIKE '{{columnPrefix}}%'", params=list(
-    tableName=tableName,
-    columnPrefix=columnPrefix
-  ))[,"Field"]
+  columns = NULL
+
+  if(concerto$dbConnectionParams$driver == "oci8") {
+    columns = concerto.table.query("
+      SELECT LOWER(COLUMN_NAME) AS \"Field\"
+      FROM USER_TAB_COLUMNS
+      WHERE LOWER(TABLE_NAME) = LOWER('{{tableName}}') AND LOWER(COLUMN_NAME) LIKE LOWER('{{columnPrefix}}%')
+    ", params=list(
+      tableName=tableName,
+      columnPrefix=columnPrefix
+    ))[,"Field"]
+  } else {
+    columns = concerto.table.query("SHOW COLUMNS FROM {{tableName}} LIKE '{{columnPrefix}}%'", params=list(
+      tableName=tableName,
+      columnPrefix=columnPrefix
+    ))[,"Field"]
+  }
 
   i=1;
   while(paste0(columnPrefix,i) %in% columns) {
@@ -14,18 +27,29 @@ getIndicedColumnsNum = function(tableName, firstColumnName) {
 }
 
 getExtraFieldsSql = function(table, extraFields) {
-  columns = concerto.table.query("SHOW COLUMNS FROM {{table}}", params=list(
-    table=table
-  ))[,"Field"]
+  columns = NULL
+  if(concerto$dbConnectionParams$driver == "oci8") {
+    columns = concerto.table.query("
+      SELECT LOWER(COLUMN_NAME) AS \"Field\"
+      FROM USER_TAB_COLUMNS
+      WHERE LOWER(TABLE_NAME) = LOWER('{{table}}')
+    ", params=list(
+      table=table
+    ))[,"Field"]
+  } else {
+    columns = concerto.table.query("SHOW COLUMNS FROM {{table}}", params=list(
+      table=table
+    ))[,"Field"]
+  }
   extraFields = fromJSON(extraFields)
   if(length(extraFields) > 0) {
     for(i in length(extraFields):1) {
-      if(!(extraFields[[i]]$name %in% columns)) {
+      if(!(tolower(extraFields[[i]]$name) %in% tolower(columns))) {
         extraFields[[i]] = NULL
       }
     }
   }
-  extraFieldsNames = lapply(extraFields, function(extraField) { return(extraField$name) })
+  extraFieldsNames = lapply(extraFields, function(extraField) { return(paste0(extraField$name, " AS \"", extraField$name, "\"")) })
   extraFieldsSql = paste(extraFieldsNames, collapse=", ")
   if(extraFieldsSql != "") { extraFieldsSql = paste0(", ", extraFieldsSql) }
   return(extraFieldsSql)
@@ -41,7 +65,7 @@ getIndicedColumnsSql = function(firstColumnName, num, aliasPrefix) {
   for(i in 1:num) {
     columnName = paste0(columnNamePrefix, i)
     alias = paste0(aliasPrefix, i)
-    columns = c(columns, paste0(columnName, " AS ", alias))
+    columns = c(columns, paste0(columnName, " AS \"", alias, "\""))
   }
   return(paste(columns, collapse=", "))
 }
@@ -152,14 +176,14 @@ getItems = function(itemBankType, itemBankItems, itemBankTable, itemBankFlatTabl
 
     sql = "
 SELECT 
-id, 
-{{questionColumn}} AS question, 
-{{responseOptionsColumn}} AS responseOptions,
+id AS \"id\",
+{{questionColumn}} AS \"question\",
+{{responseOptionsColumn}} AS \"responseOptions\",
 {{parametersSql}},
-{{traitColumn}} AS trait,
-{{fixedIndexColumn}} AS fixedIndex,
-{{instructionsColumn}} AS instructions,
-{{skippableColumn}} AS skippable
+{{traitColumn}} AS \"trait\",
+{{fixedIndexColumn}} AS \"fixedIndex\",
+{{instructionsColumn}} AS \"instructions\",
+{{skippableColumn}} AS \"skippable\"
 {{extraFieldsSql}}
 FROM {{table}}
 "
@@ -248,24 +272,24 @@ FROM {{table}}
 
     sql = "
 SELECT 
-id, 
-{{questionColumn}} AS question,
+id AS \"id\",
+{{questionColumn}} AS \"question\",
 {{parametersSql}},
-{{traitColumn}} AS trait,
-{{fixedIndexColumn}} AS fixedIndex,
-{{instructionsColumn}} AS instructions,
-{{skippableColumn}} AS skippable,
+{{traitColumn}} AS \"trait\",
+{{fixedIndexColumn}} AS \"fixedIndex\",
+{{instructionsColumn}} AS \"instructions\",
+{{skippableColumn}} AS \"skippable\",
 {{responseLabelSql}},
 {{responseValueSql}},
 {{responseScoreSql}},
 {{responseFixedIndexSql}},
 {{responseTraitSql}},
-{{gracelyScaleShowColumn}} AS gracelyScaleShow,
-{{painMannequinGenderColumn}} AS painMannequinGender,
-{{painMannequinAreaMultiMarksColumn}} AS painMannequinAreaMultiMarks,
-{{optionsRandomOrderColumn}} AS optionsRandomOrder,
-{{optionsColumnsNumColumn}} AS optionsColumnsNum,
-{{typeColumn}} AS type
+{{gracelyScaleShowColumn}} AS \"gracelyScaleShow\",
+{{painMannequinGenderColumn}} AS \"painMannequinGender\",
+{{painMannequinAreaMultiMarksColumn}} AS \"painMannequinAreaMultiMarks\",
+{{optionsRandomOrderColumn}} AS \"optionsRandomOrder\",
+{{optionsColumnsNumColumn}} AS \"optionsColumnsNum\",
+{{typeColumn}} AS \"type\"
 {{extraFieldsSql}}
 FROM {{table}}
 "
@@ -404,14 +428,14 @@ if(settings$sessionResuming == 1) {
 
       responseTable = fromJSON(settings$responseBank)
       responsesRecords = concerto.table.query("
-SELECT id, 
-{{scoreCol}} AS score, 
-{{timeTakenCol}} AS timeTaken,
-{{itemIdCol}} AS item_id,
-{{responseCol}} AS response,
-{{skippedCol}} AS skipped
+SELECT id AS \"id\",
+{{scoreCol}} AS \"score\",
+{{timeTakenCol}} AS \"timeTaken\",
+{{itemIdCol}} AS \"item_id\",
+{{responseCol}} AS \"response\",
+{{skippedCol}} AS \"skipped\"
 FROM {{table}} 
-WHERE {{sessionIdCol}}={{sessionId}}", params=list(
+WHERE {{sessionIdCol}}='{{sessionId}}'", params=list(
   scoreCol = responseTable$columns$score,
   timeTakenCol = responseTable$columns$timeTaken,
   itemIdCol = responseTable$columns$item_id,

@@ -36,18 +36,47 @@ getUserByLogin = function(login, columnMap) {
     resultCode <<- 1
     return(NULL)
   } else {
-    sql = "
-SELECT * 
-FROM {{table}} 
-WHERE 
-{{loginColumn}}='{{login}}'
-AND {{enabledColumn}}=1
-"
+    sql = NULL
+    otherColumnsSql = ""
+    if(concerto$dbConnectionParams$driver == "oci8") {
+        allColumns = concerto.table.query("SELECT column_name \"col\" FROM user_tab_columns WHERE table_name = UPPER('{{table}}')", list(table=columnMap$table))[,"col"]
+        explicitColumns = toupper(c(
+          columnMap$columns$id,
+          columnMap$columns$login,
+          columnMap$columns$password,
+          columnMap$columns$enabled
+        ))
+        otherColumnsSql = paste(setdiff(allColumns, explicitColumns), collapse=",")
+        if(otherColumnsSql != "") { otherColumnsSql = paste0(",", otherColumnsSql) }
+        sql = "
+            SELECT
+            id AS \"id\",
+            {{loginColumn}} AS \"login\",
+            {{passwordColumn}} AS \"password\",
+            {{enabledColumn}} AS \"enabled\"
+            {{otherColumnsSql}}
+            FROM {{table}}
+            WHERE
+            {{loginColumn}}='{{login}}'
+            AND {{enabledColumn}}='1'
+        "
+    } else {
+        sql = "
+            SELECT
+            *
+            FROM {{table}}
+            WHERE
+            {{loginColumn}}='{{login}}'
+            AND {{enabledColumn}}='1'
+        "
+    }
     user = concerto.table.query(sql, params=list(
       table=columnMap$table,
       loginColumn=columnMap$columns$login,
+      passwordColumn=columnMap$columns$password,
       enabledColumn=columnMap$columns$enabled,
-      login=login
+      login=login,
+      otherColumnsSql=otherColumnsSql
     ))
     if(dim(user)[1] == 0) {
       resultCode <<- 1

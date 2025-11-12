@@ -49,7 +49,7 @@ saveData = function(name, value, sessionId, decodedTable) {
   if(is.null(id)) {
     concerto.table.query("INSERT INTO {{table}} ({{sessionIdColumn}}, {{nameColumn}}, {{valueColumn}}) VALUES ('{{sessionId}}', '{{name}}', '{{value}}')", params=params)
   } else {
-    concerto.table.query("UPDATE {{table}} SET {{sessionIdColumn}}='{{sessionId}}', {{nameColumn}}='{{name}}', {{valueColumn}}='{{value}}' WHERE id={{id}}", params=params)
+    concerto.table.query("UPDATE {{table}} SET {{sessionIdColumn}}='{{sessionId}}', {{nameColumn}}='{{name}}', {{valueColumn}}='{{value}}' WHERE id='{{id}}'", params=params)
   }
 }
 

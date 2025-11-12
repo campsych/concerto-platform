@@ -88,7 +88,7 @@ if(settings$sessionResuming == 1) {
   concerto.table.query("
 UPDATE {{table}} 
 SET {{stateCol}}='{{resumeState}}'
-WHERE id={{id}}", params=list(
+WHERE id='{{id}}'", params=list(
   table = sessionTable$table,
   stateCol = sessionTable$columns$state,
   resumeState = toJSON(state),

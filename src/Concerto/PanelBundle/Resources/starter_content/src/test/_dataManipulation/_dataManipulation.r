@@ -102,7 +102,7 @@ if(queryType == "select") {
   result = concerto.table.query(queryString, params=list(
     table=table
   ))
-  insertId = concerto.table.lastInsertId()
+  insertId = concerto.table.lastInsertId(concerto$connection, table)
 } else if(queryType == "update") {
   queryString = "UPDATE {{table}}"
   .setString = getSetClause(setClause, queryType)

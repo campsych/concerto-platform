@@ -36,13 +36,36 @@ if(is.list(extraFields)) {
 
 concerto.table.query(paste0("
 UPDATE {{table}} SET 
-{{finishedColumn}}=1,
+{{finishedColumn}}='1',
 {{updateTimeColumn}}=CURRENT_TIMESTAMP
 ", getExtraFieldsSql(), "
-WHERE id={{id}}"), params=params)
+WHERE id='{{id}}'"), params=params)
 
-session = as.list(concerto.table.query("
-SELECT * FROM {{table}} WHERE id='{{id}}'", params=list(
+sql = NULL
+  otherColumnsSql = ""
+  if(concerto$dbConnectionParams$driver == "oci8") {
+    allColumns = concerto.table.query("SELECT column_name \"col\" FROM user_tab_columns WHERE table_name = UPPER('{{table}}')", list(table=sessionBank$table))[,"col"]
+    explicitColumns = toupper(c(
+      "id",
+      sessionBank$columns$updateTime,
+      sessionBank$columns$finished
+    ))
+    otherColumnsSql = paste(setdiff(allColumns, explicitColumns), collapse=",")
+    if(otherColumnsSql != "") { otherColumnsSql = paste0(",", otherColumnsSql) }
+    sql = "
+        SELECT
+        id AS \"id\",
+        {{updateTimeColumn}} AS \"updateTime\",
+        {{finishedColumn}} AS \"finished\"
+        FROM {{table}}
+        WHERE id='{{id}}'
+    "
+} else {
+    sql = "SELECT * FROM {{table}} WHERE id='{{id}}'"
+}
+session = as.list(concerto.table.query(sql, params=list(
   table=sessionBank$table,
-  id=session$id
+  id=session$id,
+  updateTimeColumn=sessionBank$columns$updateTime,
+  finishedColumn=sessionBank$columns$finished
 )))

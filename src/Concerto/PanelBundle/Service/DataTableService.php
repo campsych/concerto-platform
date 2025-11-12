@@ -371,7 +371,7 @@ class DataTableService extends AExportableSectionService
         $currentColumns = $this->dbStructureService->getColumns($table->getName());
         if ($restructure) {
             foreach ($currentColumns as $col) {
-                if ($col["name"] !== "id") {
+                if (strtolower($col["name"]) !== "id") {
                     $this->dbStructureService->removeColumn($table->getName(), $col["name"]);
                 }
             }
@@ -391,7 +391,7 @@ class DataTableService extends AExportableSectionService
                         for ($c = 0; $c < $num; $c++) {
                             if (!$restructure) {
                                 foreach ($currentColumns as $col) {
-                                    if ($col["name"] == $data[$c]) {
+                                    if (strtolower($col["name"]) == strtolower($data[$c])) {
                                         array_push($colNames, $data[$c]);
                                         array_push($colNamesMapping, $c);
                                     }
@@ -399,7 +399,7 @@ class DataTableService extends AExportableSectionService
                             } else {
                                 array_push($colNames, $data[$c]);
                                 array_push($colNamesMapping, $c);
-                                if ($data[$c] !== "id") {
+                                if (strtolower($data[$c]) !== "id") {
                                     $this->dbStructureService->saveColumn($table->getName(), "0", $data[$c], "text");
                                 }
                             }
@@ -515,7 +515,7 @@ class DataTableService extends AExportableSectionService
         foreach ($entity->getColumns() as $currentColumn) {
             $found = false;
             foreach ($importArray["columns"] as $importColumn) {
-                if ($currentColumn["name"] == $importColumn["name"]) {
+                if (strtolower($currentColumn["name"]) == strtolower($importColumn["name"])) {
                     $found = true;
                     break;
                 }
@@ -591,12 +591,12 @@ class DataTableService extends AExportableSectionService
         $old_columns = $ent->getColumns();
         $new_columns = $obj["columns"];
         foreach ($new_columns as $new_col) {
-            if ($new_col["name"] == "id") continue;
+            if (strtolower($new_col["name"]) == "id") continue;
             $found = false;
             $lengthString = "";
             if (array_key_exists("length", $new_col)) $lengthString = $new_col["length"];
             foreach ($old_columns as $old_col) {
-                if ($old_col["name"] == $new_col["name"]) {
+                if (strtolower($old_col["name"]) == strtolower($new_col["name"])) {
                     $found = true;
                     $db_errors = $this->dbStructureService->saveColumn($new_name, $old_col["name"], $new_col["name"], $new_col["type"], $lengthString, $new_col["nullable"]);
                     if (count($db_errors) > 0)

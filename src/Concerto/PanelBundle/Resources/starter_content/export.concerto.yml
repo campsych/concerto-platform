@@ -221,12 +221,12 @@ collection:
       -
         name: question
         type: text
-        nullable: false
+        nullable: true
         length: ''
       -
         name: responseOptions
         type: text
-        nullable: false
+        nullable: true
         length: ''
       -
         name: p1
@@ -291,7 +291,7 @@ collection:
       -
         name: question
         type: text
-        nullable: false
+        nullable: true
         length: ''
       -
         name: p1
@@ -441,7 +441,7 @@ collection:
       -
         name: feedback
         type: text
-        nullable: false
+        nullable: true
         length: ''
     groups: ''
     starterContent: true
@@ -496,7 +496,7 @@ collection:
       -
         name: value
         type: text
-        nullable: false
+        nullable: true
         length: ''
       -
         name: session_id

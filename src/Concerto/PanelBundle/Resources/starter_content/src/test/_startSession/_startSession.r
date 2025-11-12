@@ -39,19 +39,60 @@ insertSession = function(fields, tableMap) {
   
   sqlColumns = paste(getMappedColumns(ls(fields), tableMap), collapse=",")
   sqlValues = paste0("'{{",ls(fields),"}}'", collapse=",")
-  sql = paste0("INSERT INTO {{table}} ({{startedTimeColumn}}, {{updateTimeColumn}}, ",sqlColumns,") VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ",sqlValues,")")
+  sql = paste0("
+    INSERT INTO {{table}}
+    ({{startedTimeColumn}}, {{updateTimeColumn}}, ",sqlColumns,")
+    VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, ",sqlValues,")
+  ")
   concerto.table.query(sql, params=append(fields, list(
     table=tableMap$table,
     startedTimeColumn=startedTimeColumn,
     updateTimeColumn=updateTimeColumn
   )))
-  id = concerto.table.lastInsertId()
+  id = concerto.table.lastInsertId(concerto$connection, tableMap$table)
 
-  sql = "SELECT * FROM {{table}} WHERE {{idColumn}}={{id}}"
+  sql = NULL
+  otherColumnsSql = ""
+  if(concerto$dbConnectionParams$driver == "oci8") {
+    allColumns = concerto.table.query("SELECT column_name \"col\" FROM user_tab_columns WHERE table_name = UPPER('{{table}}')", list(table=tableMap$table))[,"col"]
+    explicitColumns = toupper(c(
+      tableMap$columns$id,
+      tableMap$columns$internal_id,
+      tableMap$columns$test_id,
+      tableMap$columns$user_id,
+      tableMap$columns$startedTime,
+      tableMap$columns$updateTime,
+      tableMap$columns$finished
+    ))
+    otherColumnsSql = paste(setdiff(allColumns, explicitColumns), collapse=",")
+    if(otherColumnsSql != "") { otherColumnsSql = paste0(",", otherColumnsSql) }
+    sql = "
+        SELECT
+        {{idColumn}} AS \"id\",
+        {{internalIdColumn}} AS \"internal_id\",
+        {{testIdColumn}} AS \"test_id\",
+        {{userIdColumn}} AS \"user_id\",
+        {{startedTimeColumn}} AS \"startedTime\",
+        {{updateTimeColumn}} AS \"updateTime\",
+        {{finishedColumn}} AS \"finished\"
+        {{otherColumnsSql}}
+        FROM {{table}}
+        WHERE id='{{id}}'
+    "
+  } else {
+    sql = "SELECT * FROM {{table}} WHERE {{idColumn}}='{{id}}'"
+  }
   session = concerto.table.query(sql, params=list(
     table=tableMap$table,
     idColumn=tableMap$columns$id,
-    id=id
+    internalIdColumn=tableMap$columns$internal_id,
+    testIdColumn=tableMap$columns$test_id,
+    userIdColumn=tableMap$columns$user_id,
+    startedTimeColumn=tableMap$columns$startedTime,
+    updateTimeColumn=tableMap$columns$updateTime,
+    finishedColumn=tableMap$columns$finished,
+    id=id,
+    otherColumnsSql=otherColumnsSql
   ))
   if(dim(session)[1] > 0) {
     return(session[1,])
@@ -62,19 +103,61 @@ insertSession = function(fields, tableMap) {
 resumeSession = function(user, tableMap) {
   if(is.null(user)) { return(NULL) }
 
-  session = concerto.table.query("
-SELECT * FROM {{table}} 
-WHERE 
-{{testIdColumn}} = {{testId}} AND 
-{{userIdColumn}} = '{{userId}}' AND 
-{{finishedColumn}} = 0 
-ORDER BY id DESC", params=list(
-  table=tableMap$table, 
+  sql = NULL
+  otherColumnsSql = ""
+  if(concerto$dbConnectionParams$driver == "oci8") {
+    allColumns = concerto.table.query("SELECT column_name \"col\" FROM user_tab_columns WHERE table_name = UPPER('{{table}}')", list(table=tableMap$table))[,"col"]
+    explicitColumns = toupper(c(
+      tableMap$columns$id,
+      tableMap$columns$internal_id,
+      tableMap$columns$test_id,
+      tableMap$columns$user_id,
+      tableMap$columns$startedTime,
+      tableMap$columns$updateTime,
+      tableMap$columns$finished
+    ))
+    otherColumnsSql = paste(setdiff(allColumns, explicitColumns), collapse=",")
+    if(otherColumnsSql != "") { otherColumnsSql = paste0(",", otherColumnsSql) }
+    sql = "
+      SELECT
+      {{idColumn}} AS \"id\",
+      {{internalIdColumn}} AS \"internal_id\",
+      {{testIdColumn}} AS \"test_id\",
+      {{userIdColumn}} AS \"user_id\",
+      {{startedTimeColumn}} AS \"startedTime\",
+      {{updateTimeColumn}} AS \"updateTime\",
+      {{finishedColumn}} AS \"finished\"
+      {{otherColumnsSql}}
+      FROM {{table}}
+      WHERE
+      {{testIdColumn}} = '{{testId}}' AND
+      {{userIdColumn}} = '{{userId}}' AND
+      {{finishedColumn}} = '0'
+      ORDER BY {{idColumn}} DESC
+    "
+  } else {
+    sql = "
+      SELECT * FROM {{table}}
+      WHERE
+      {{testIdColumn}} = '{{testId}}' AND
+      {{userIdColumn}} = '{{userId}}' AND
+      {{finishedColumn}} = '0'
+      ORDER BY {{idColumn}} DESC
+    "
+  }
+
+  session = concerto.table.query(sql, params=list(
+  table=tableMap$table,
+  idColumn=tableMap$columns$id,
+  internalIdColumn=tableMap$columns$internal_id,
   testIdColumn=tableMap$columns$test_id, 
   testId=test_id, 
   userIdColumn=tableMap$columns$user_id, 
   userId=user$id,
-  finishedColumn=tableMap$columns$finished
+  startedTimeColumn=tableMap$columns$startedTime,
+  updateTimeColumn=tableMap$columns$updateTime,
+  finishedColumn=tableMap$columns$finished,
+  otherColumnsSql=otherColumnsSql
 ), n=1)
   if(dim(session)[1] == 0) {
     return(NULL)
@@ -94,12 +177,14 @@ ORDER BY id DESC", params=list(
   }
 
   concerto.table.query("
-UPDATE {{table}} 
-SET 
-{{internalIdColumn}}='{{internal_id}}', 
-{{updateTimeColumn}}=CURRENT_TIMESTAMP 
-WHERE id={{id}}", params=list(
+    UPDATE {{table}}
+    SET
+    {{internalIdColumn}}='{{internal_id}}',
+    {{updateTimeColumn}}=CURRENT_TIMESTAMP
+    WHERE {{idColumn}}='{{id}}'
+  ", params=list(
   table=tableMap$table,
+  idColumn=tableMap$columns$id,
   internalIdColumn=tableMap$columns$internal_id,
   internal_id=concerto$session$id,
   id=session$id,
@@ -117,7 +202,7 @@ session = NULL
 if(resumable == 1) {
   session = resumeSession(user, tableMap)
   if(restoreState == 1 && !is.null(session)) {
-    hash = concerto.table.query("SELECT hash FROM TestSession WHERE id={{id}}", list(id=session$previousInternal_id))
+    hash = concerto.table.query("SELECT hash AS \"hash\" FROM TestSession WHERE id='{{id}}'", list(id=session$previousInternal_id))
     concerto.log(hash, "resuming session...")
     if(!concerto.session.unserialize(hash=hash)) {
       session = NULL
@@ -131,11 +216,13 @@ if(is.null(session)) {
 if(preventParallelSessionUsage == 1) {
   concerto.event.add("onTemplateSubmit", function(response) {
     sql = "
-SELECT {{internalIdCol}}
-FROM {{table}} 
-WHERE id={{id}}"
+      SELECT {{internalIdCol}} AS \"internal_id\"
+      FROM {{table}}
+      WHERE {{idColumn}}='{{id}}'
+    "
     internalId = concerto.table.query(sql, params=list(
       table=tableMap$table,
+      idColumn=tableMap$columns$id,
       internalIdCol=tableMap$columns$internal_id,
       id=session$id
     ))[1,1]
