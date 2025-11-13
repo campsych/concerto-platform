@@ -34,6 +34,7 @@ jobs:
           version: 2.2.21
         env:
           DB_DRIVER: pdo_mysql
+          DB_CHARSET: UTF8
 
       - name: Setup node
         uses: actions/setup-node@v3
