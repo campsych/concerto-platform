@@ -32,6 +32,8 @@ jobs:
         with:
           php_version: 7.4
           version: 2.2.21
+        env:
+          DB_DRIVER: pdo_mysql
 
       - name: Setup node
         uses: actions/setup-node@v3
