@@ -35,6 +35,7 @@ jobs:
         env:
           DB_DRIVER: pdo_mysql
           DB_CHARSET: UTF8
+          DB_SERVICENAME: FREEPDB1
 
       - name: Setup node
         uses: actions/setup-node@v3
