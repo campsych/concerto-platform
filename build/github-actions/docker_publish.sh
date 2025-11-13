@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PLATFORM="linux/amd64,linux/arm64"
+PLATFORM="linux/amd64"
 
 echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 
