@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 5.0-dev
+      - 5.0-dev-oracle
       - 5.1-dev
 
 permissions:

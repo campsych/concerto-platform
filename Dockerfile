@@ -47,6 +47,9 @@ ENV CONCERTO_PHP_SESSION_SAVE_PATH=/app/concerto/var/sessions
 ENV REDIS_HOST=redis
 ENV REDIS_PORT=6379
 ENV REDIS_PASS=''
+ENV DB_DRIVER=pdo_mysql
+ENV DB_CHARSET=UTF8
+ENV DB_SERVICENAME=FREEPDB1
 ENV DB_HOST=localhost
 ENV DB_PORT=3306
 ENV DB_NAME=concerto
@@ -64,11 +67,13 @@ ENV PHP_FPM_PM_PROCESS_IDLE_TIMEOUT=10s
 ENV PHP_FPM_PM_MAX_REQUESTS=300
 ENV WEB_USER=www-data
 ENV TZ=UTC
+ENV ORACLE_HOME=/opt/oracle/instantclient
 
 COPY . /app/concerto/
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
+ && DEBIAN_FRONTEND=noninteractive \
  && apt-get update -y \
  && apt-get -y install \
     ca-certificates \
@@ -77,10 +82,13 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && apt-key adv --no-tty --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 \
  && apt-get update -y \
  && apt-get -y install \
+    autoconf \
+    build-essential \
     cron \
     curl \
     gettext \
     git \
+    libaio1 \
     libcurl4-openssl-dev \
     libhiredis-dev \
     libmariadbclient-dev \
@@ -89,15 +97,20 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     libssl-dev \
     locales \
     nginx \
+    php-pear \
     php7.4-curl \
+    php7.4-dev \
     php7.4-mbstring \
     php7.4-mysql \
     php7.4-xml \
     php7.4-zip \
     php-fpm \
+    pkg-config \
     procps \
     r-base \
     r-base-dev \
+    unzip \
+    wget \
  && rm -rf /var/lib/apt/lists/* \
  && sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
  && locale-gen "en_US.UTF-8" \
@@ -124,6 +137,25 @@ COPY build/docker/php-fpm/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 RUN rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/public/files \
  && rm -rf /app/concerto/src/Concerto/TestBundle/Resources/sessions \
  && rm -rf /app/concerto/src/Concerto/PanelBundle/Resources/import
+
+RUN mkdir -p /opt/oracle \
+ && cd /opt/oracle \
+ && wget -O basic.zip https://download.oracle.com/otn_software/linux/instantclient/2112000/instantclient-basiclite-linux.x64-21.12.0.0.0dbru.zip \
+ && wget -O sdk.zip   https://download.oracle.com/otn_software/linux/instantclient/2112000/instantclient-sdk-linux.x64-21.12.0.0.0dbru.zip \
+ && unzip -o basic.zip \
+ && unzip -o sdk.zip \
+ && rm -f basic.zip sdk.zip \
+ && ln -s /opt/oracle/instantclient_21_12 $ORACLE_HOME \
+ && echo "$ORACLE_HOME" > /etc/ld.so.conf.d/oracle-instantclient.conf \
+ && ldconfig \
+ && pecl channel-update pecl.php.net \
+ && printf "instantclient,%s\n" "$ORACLE_HOME" | pecl install oci8-2.2.0 \
+ && echo "extension=oci8.so" > /etc/php/7.4/mods-available/oci8.ini \
+ && phpenmod oci8 \
+ && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.pearrc \
+ && export LD_LIBRARY_PATH=$ORACLE_HOME:$LD_LIBRARY_PATH \
+ && export PATH=$ORACLE_HOME:$PATH \
+ && Rscript -e "install.packages('https://cran.r-project.org/src/contrib/Archive/ROracle/ROracle_1.3-1.1.tar.gz', repos = NULL, type = 'source', configure.args = c('ROracle' = '--with-oci-lib=$ORACLE_HOME --with-oci-inc=$ORACLE_HOME/sdk/include'))"
 
 EXPOSE 80 9000
 WORKDIR /app/concerto
