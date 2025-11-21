@@ -1,4 +1,5 @@
 concerto.var.get = c.get = function(name, global=F, all=F, flowIndexOffset = 0, posOffset = 0, flowIndex = NULL){
+    if(is.null(name)) { return(NULL) }
     if(posOffset != 0) {
         flowIndexOffset = posOffset
         concerto.log("c.get : posOffset argument is deprecated. Use flowIndexOffset argument instead")

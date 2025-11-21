@@ -98,7 +98,7 @@ class TestNodePort extends AEntity implements \JsonSerializable
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=64, nullable=true)
      */
     private $pointerVariable;
 

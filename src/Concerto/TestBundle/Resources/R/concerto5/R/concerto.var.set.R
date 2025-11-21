@@ -1,4 +1,5 @@
 concerto.var.set = c.set = function(name, value, global=F, flowIndexOffset = 0, posOffset = 0, flowIndex = NULL){
+    if(is.null(name)) { return(NULL) }
     if(posOffset != 0) {
         flowIndexOffset = posOffset
         concerto.log("c.set : posOffset argument is deprecated. Use flowIndexOffset argument instead")
