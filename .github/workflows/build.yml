@@ -6,6 +6,7 @@ on:
       - 5.0-dev
       - 5.0-dev-oracle
       - 5.1-dev
+      - 5.1-dev-oracle
 
 permissions:
   contents: read
