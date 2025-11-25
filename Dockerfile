@@ -86,7 +86,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
  && echo "deb $CRAN_MIRROR/bin/linux/ubuntu focal-cran40/" | tee -a /etc/apt/sources.list \
  && apt-key adv --no-tty --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 \
  && apt-get update -y \
- && apt-get -y install \
+ && apt-get -y --no-install-recommends install \
     autoconf \
     build-essential \
     cron \
@@ -110,12 +110,13 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     php7.4-xml \
     php7.4-zip \
     php-fpm \
-    pkg-config \
     procps \
     r-base \
     r-base-dev \
     unzip \
-    wget \
+    wget
+
+RUN apt-get -y --no-install-recommends install pkg-config \
  && rm -rf /var/lib/apt/lists/* \
  && sed -i 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen \
  && locale-gen "en_US.UTF-8" \
