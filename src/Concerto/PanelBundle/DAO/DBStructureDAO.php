@@ -4,6 +4,7 @@ namespace Concerto\PanelBundle\DAO;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Schema\ColumnDiff;
+use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Schema\TableDiff;
@@ -65,18 +66,26 @@ class DBStructureDAO
         $table->setPrimaryKey(array("id"));
 
         foreach ($structure as $col) {
-            if ($col["name"] == "id") {
+            if (strtolower($col["name"]) == "id") {
                 continue;
             }
             $options = [];
             $lengthString = "";
-            if (isset($col["length"])) $lengthString = $col["length"];
-            if (isset(self::$typeDefaultLengths[$col["type"]])) $options["length"] = self::$typeDefaultLengths[$col["type"]];
-            if (isset(self::$typeDefaultPrecisions[$col["type"]])) $options["precision"] = self::$typeDefaultPrecisions[$col["type"]];
-            if (isset(self::$typeDefaultScales[$col["type"]])) $options["scale"] = self::$typeDefaultScales[$col["type"]];
+            if (array_key_exists("length", $col)) $lengthString = $col["length"];
+            if (array_key_exists($col["type"], self::$typeDefaultLengths)) $options["length"] = self::$typeDefaultLengths[$col["type"]];
+            if (array_key_exists($col["type"], self::$typeDefaultPrecisions)) $options["precision"] = self::$typeDefaultPrecisions[$col["type"]];
+            if (array_key_exists($col["type"], self::$typeDefaultScales)) $options["scale"] = self::$typeDefaultScales[$col["type"]];
+
             $options["notnull"] = !$col["nullable"];
-            if ($col["nullable"]) $options["default"] = null;
-            else if (isset(self::$typeDefaultValues[$col["type"]])) $options["default"] = self::$typeDefaultValues[$col["type"]];
+            if ($this->connection->getDriver()->getName() == "oci8") {
+                if (in_array($col["type"], ["string", "text"])) {
+                    $options["notnull"] = false;
+                }
+            }
+
+            if (!$options["notnull"]) $options["default"] = null;
+            else if (array_key_exists($col["type"], self::$typeDefaultValues)) $options["default"] = self::$typeDefaultValues[$col["type"]];
+
             $this->applyLengthStringToColumnOptions($col["type"], $lengthString, $options);
 
             $table->addColumn($col["name"], $col["type"], $options);
@@ -115,12 +124,19 @@ class DBStructureDAO
     public function saveColumn($table_name, $column_name, $name, $type, $lengthString = "", $nullable = false)
     {
         $options = array();
-        if (isset(self::$typeDefaultLengths[$type])) $options["length"] = self::$typeDefaultLengths[$type];
-        if (isset(self::$typeDefaultPrecisions[$type])) $options["precision"] = self::$typeDefaultPrecisions[$type];
-        if (isset(self::$typeDefaultScales[$type])) $options["scale"] = self::$typeDefaultScales[$type];
+        if (array_key_exists($type, self::$typeDefaultLengths)) $options["length"] = self::$typeDefaultLengths[$type];
+        if (array_key_exists($type, self::$typeDefaultPrecisions)) $options["precision"] = self::$typeDefaultPrecisions[$type];
+        if (array_key_exists($type, self::$typeDefaultScales)) $options["scale"] = self::$typeDefaultScales[$type];
+
         $options["notnull"] = !$nullable;
-        if ($nullable) $options["default"] = null;
-        else if (isset(self::$typeDefaultValues[$type])) $options["default"] = self::$typeDefaultValues[$type];
+        if ($this->connection->getDriver()->getName() == "oci8") {
+            if (in_array($type, ["string", "text"])) {
+                $options["notnull"] = false;
+            }
+        }
+
+        if (!$options["notnull"]) $options["default"] = null;
+        else if (array_key_exists($type, self::$typeDefaultValues)) $options["default"] = self::$typeDefaultValues[$type];
         $this->applyLengthStringToColumnOptions($type, $lengthString, $options);
 
         $tableDiff = new TableDiff($table_name);
@@ -129,9 +145,13 @@ class DBStructureDAO
             $tableDiff->addedColumns = array($newColumn);
         } else {
             foreach ($this->connection->getSchemaManager()->listTableColumns($table_name) as $col) {
-                if ($col->getName() == $column_name) {
-                    $columnDiff = new ColumnDiff($column_name, $newColumn);
-                    $tableDiff->changedColumns = array($columnDiff);
+                if (strtolower($col->getName()) == strtolower($column_name)) {
+                    $comparator = new Comparator();
+                    $changedProperties = $comparator->diffColumn($col, $newColumn);
+                    if (count($changedProperties) > 0) {
+                        $columnDiff = new ColumnDiff($column_name, $newColumn, $changedProperties);
+                        $tableDiff->changedColumns = array($columnDiff);
+                    }
                     break;
                 }
             }

@@ -4,6 +4,8 @@ services:
       build: .
       container_name: concerto
       environment:
+        - DB_DRIVER=pdo_mysql
+        - DB_CHARSET=UTF8
         - DB_TEST_HOST=127.0.0.1
         - DB_TEST_PORT=3306
         - DB_TEST_NAME=concerto_test

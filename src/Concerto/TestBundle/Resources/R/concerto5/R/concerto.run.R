@@ -24,7 +24,9 @@ concerto.run = function(workingDir, client, sessionHash, maxIdleTime = NULL, max
         concerto$dbConnectionParams$dbname,
         concerto$dbConnectionParams$host,
         concerto$dbConnectionParams$unix_socket,
-        concerto$dbConnectionParams$port
+        concerto$dbConnectionParams$port,
+        concerto$dbConnectionParams$servicename,
+        concerto$dbConnectionParams$charset
     )
 
     if(concerto$sessionStorage == "redis") {

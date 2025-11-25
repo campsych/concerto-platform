@@ -26,6 +26,11 @@ saveResponse = function(score, trait, item, itemSafe, skipped) {
   hasCreatedTimeColumn = !is.null(responseBank$columns$createdTime) && !is.na(responseBank$columns$createdTime) && responseBank$columns$createdTime != ""
   hasUpdateTimeColumn = !is.null(responseBank$columns$updateTime) && !is.na(responseBank$columns$updateTime) && responseBank$columns$updateTime != ""
 
+  limitSql = "LIMIT 1"
+  if(concerto$dbConnectionParams$driver == "oci8") {
+    limitSql = "FETCH FIRST 1 ROW ONLY;"
+  }
+
   params = list(
     table = responseBank$table,
     sessionIdColumn = responseBank$columns$session_id,
@@ -47,29 +52,31 @@ saveResponse = function(score, trait, item, itemSafe, skipped) {
     traitColumn = responseBank$columns$trait,
     trait = trait,
     createdTimeColumn = responseBank$columns$createdTime,
-    updateTimeColumn = responseBank$columns$updateTime
+    updateTimeColumn = responseBank$columns$updateTime,
+    limitSql = limitSql
   )
 
-  sql = NULL
   response = concerto.table.query("
-SELECT id 
+SELECT id AS \"id\"
 FROM {{table}} 
-WHERE {{itemIdColumn}}={{itemId}} AND {{sessionIdColumn}}='{{sessionId}}' 
-LIMIT 1", params=params)
+WHERE {{itemIdColumn}}='{{itemId}}' AND {{sessionIdColumn}}='{{sessionId}}'
+{{limitSql}}
+  ", params=params)
   responseExist = dim(response)[1] > 0
   responseId = NULL
 
+  sql = NULL
   if(responseExist) {
     responseId = response[1,"id"]
     params$id = responseId
     sql = "
 UPDATE {{table}} SET
 {{responseColumn}} = '{{responseValue}}',
-{{scoreColumn}} = IF('{{score}}' = '', NULL, '{{score}}'),
+{{scoreColumn}} = CASE WHEN '{{score}}' = '' THEN NULL ELSE '{{score}}' END,
 {{timeTakenColumn}} = {{timeTaken}},
 {{thetaColumn}} = {{theta}},
 {{semColumn}} = {{sem}},
-{{traitColumn}} = IF('{{trait}}' = '', NULL, '{{trait}}')"
+{{traitColumn}} = CASE WHEN '{{trait}}' = '' THEN NULL ELSE '{{trait}}' END"
 
     if(hasSkippedColumn) {
       sql = paste0(sql, ",{{skippedColumn}} = {{skipped}} ")
@@ -79,7 +86,7 @@ UPDATE {{table}} SET
     }
 
     sql = paste0(sql, "
-WHERE id={{id}}")
+WHERE id='{{id}}'")
   } else {
     sql = "
 INSERT INTO {{table}} 
@@ -106,17 +113,17 @@ INSERT INTO {{table}}
     sql = paste0(sql, "
 ) 
 VALUES (
-{{itemId}}
+'{{itemId}}'
 ,'{{responseValue}}'
-,IF('{{score}}' = '', NULL, '{{score}}')
-,{{timeTaken}}
+,CASE WHEN '{{score}}' = '' THEN NULL ELSE '{{score}}' END
+,'{{timeTaken}}'
 ,'{{sessionId}}'
-,{{theta}}
-,{{sem}}
-,IF('{{trait}}' = '', NULL, '{{trait}}')")
+,'{{theta}}'
+,'{{sem}}'
+,CASE WHEN '{{trait}}' = '' THEN NULL ELSE '{{trait}}' END")
 
     if(hasSkippedColumn) {
-      sql = paste0(sql, ",{{skipped}}")
+      sql = paste0(sql, ",'{{skipped}}'")
     }
     if(hasCreatedTimeColumn) {
       sql = paste0(sql, ",CURRENT_TIMESTAMP")
@@ -131,7 +138,7 @@ VALUES (
 
   concerto.table.query(sql, params)
   if(!responseExist) {
-    responseId = concerto.table.lastInsertId()
+    responseId = concerto.table.lastInsertId(concerto$connection, responseBank$table)
   }
 
   if(!is.na(settings$responseSavedModule) && settings$responseSavedModule != "") {

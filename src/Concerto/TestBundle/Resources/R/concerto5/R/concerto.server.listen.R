@@ -30,7 +30,9 @@ concerto.server.listen = function(skipOnResume=F){
                     concerto$dbConnectionParams$dbname,
                     concerto$dbConnectionParams$host,
                     concerto$dbConnectionParams$unix_socket,
-                    concerto$dbConnectionParams$port
+                    concerto$dbConnectionParams$port,
+                    concerto$dbConnectionParams$servicename,
+                    concerto$dbConnectionParams$charset
                 )
                 if(concerto$sessionStorage == "redis") {
                     concerto$redisConnection <<- concerto.redis.connect(
@@ -51,7 +53,9 @@ concerto.server.listen = function(skipOnResume=F){
                     concerto$dbConnectionParams$dbname,
                     concerto$dbConnectionParams$host,
                     concerto$dbConnectionParams$unix_socket,
-                    concerto$dbConnectionParams$port
+                    concerto$dbConnectionParams$port,
+                    concerto$dbConnectionParams$servicename,
+                    concerto$dbConnectionParams$charset
                 )
                 if(concerto$sessionStorage == "redis") {
                     concerto$redisConnection <<- concerto.redis.connect(
@@ -85,7 +89,9 @@ concerto.server.listen = function(skipOnResume=F){
             concerto$dbConnectionParams$dbname,
             concerto$dbConnectionParams$host,
             concerto$dbConnectionParams$unix_socket,
-            concerto$dbConnectionParams$port
+            concerto$dbConnectionParams$port,
+            concerto$dbConnectionParams$servicename,
+            concerto$dbConnectionParams$charset
         )
         if(concerto$sessionStorage == "redis") {
             concerto$redisConnection <<- concerto.redis.connect(

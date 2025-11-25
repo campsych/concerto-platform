@@ -20,13 +20,14 @@ concerto.template.show = function(
     }
 
     if (! is.list(params)) stop("'params' must be a list!")
-    if (templateId == -1 && html == "") stop("templateId or html must be declared")
+    hasExplicitHtml = !is.null(html) && !is.na(html) && html != ""
+    if (templateId == -1 && !hasExplicitHtml) stop("templateId or html must be declared")
 
     params = concerto.template.makeParams(params)
 
     concerto$response$protectedFilesAccess <<- protectedFilesAccess
     concerto$response$sessionFilesAccess <<- sessionFilesAccess
-    if (html != "") {
+    if (hasExplicitHtml) {
         concerto$response$templateHead <<- concerto.template.insertParams(head, params, removeMissing = removeMissingParams)
         concerto$response$templateHtml <<- concerto.template.insertParams(html, params, removeMissing = removeMissingParams)
         concerto$response$templateCss <<- ""

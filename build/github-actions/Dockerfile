@@ -1,8 +1,9 @@
 FROM campsych/concerto-platform:test
 MAINTAINER Przemyslaw Lis <przemek@concertoplatform.com>
 
-RUN apt-get update -y \
- && apt-get install composer -y
+RUN curl -sS https://getcomposer.org/installer -o composer-setup.php \
+ && php composer-setup.php --install-dir=/usr/local/bin --filename=composer --2 \
+ && php -r "unlink('composer-setup.php');"
 
 CMD if [ "$CONCERTO_COOKIES_SECURE" = "true" ]; \
     then export CONCERTO_COOKIES_SECURE_PHP=1; \

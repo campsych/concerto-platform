@@ -80,12 +80,12 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             let colDef = {
                 field: col.name,
                 displayName: col.name,
-                enableCellEdit: col.name !== "id",
+                enableCellEdit: col.name.toLowerCase() !== "id",
                 type: "string",
                 minWidth: 150
             };
 
-            if (col.name === "id") {
+            if (col.name.toLowerCase() === "id") {
                 colDef.minWidth = 75;
             }
 
@@ -133,7 +133,7 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         }
         $scope.dataOptions.columnDefs.push({
             cellTemplate: "<div class='ui-grid-cell-contents' align='center'>" +
-                "<button class='btn btn-danger btn-xs' ng-click='grid.appScope.deleteRow(row.entity.id);'>" +
+                "<button class='btn btn-danger btn-xs' ng-click='grid.appScope.deleteRow(row.entity.id || row.entity.ID);'>" +
                 Trans.DATA_TABLE_DATA_LIST_DELETE +
                 "</button>",
             width: 60,
@@ -217,8 +217,8 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
                 exporterSuppressExport: true,
                 cellTemplate:
                     "<div class='ui-grid-cell-contents' align='center'>" +
-                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-default btn-xs" ng-click="grid.appScope.editStructure(row.entity.name);" ng-show="row.entity.name!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_EDIT + '</button>' +
-                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteStructure(row.entity.name);" ng-show="row.entity.name!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_DELETE + '</button>' +
+                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-default btn-xs" ng-click="grid.appScope.editStructure(row.entity.name);" ng-show="row.entity.name.toLowerCase()!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_EDIT + '</button>' +
+                    '<button ng-disabled="!grid.appScope.isEditable()" class="btn btn-danger btn-xs" ng-click="grid.appScope.deleteStructure(row.entity.name);" ng-show="row.entity.name.toLowerCase()!=\'id\'">' + Trans.DATA_TABLE_STRUCTURE_LIST_DELETE + '</button>' +
                     "</div>",
                 width: 100
             }
@@ -226,14 +226,14 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
         onRegisterApi: function (gridApi) {
             $scope.structureGridApi = gridApi;
             gridApi.selection.on.rowSelectionChanged($scope, function (row) {
-                if (row.entity.name === "id") {
+                if (row.entity.name.toLowerCase() === "id") {
                     gridApi.selection.unSelectRow(row.entity);
                 }
             });
             gridApi.selection.on.rowSelectionChangedBatch($scope, function (rows) {
                 for (var i = 0; i < rows.length; i++) {
                     var row = rows[i];
-                    if (row.entity.name === "id") {
+                    if (row.entity.name.toLowerCase() === "id") {
                         gridApi.selection.unSelectRow(row.entity);
                     }
                 }
@@ -374,7 +374,8 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
             }
         }
 
-        $http.post(Paths.DATA_TABLE_DATA_UPDATE.pf($scope.object.id, newRow.id), {
+        const newRowId = newRow.id ?? newRow.ID;
+        $http.post(Paths.DATA_TABLE_DATA_UPDATE.pf($scope.object.id, newRowId), {
             values: newRow,
             objectTimestamp: $scope.object.updatedOn
         }).then(function (httpResponse) {
@@ -434,7 +435,8 @@ function DataTableController($scope, $uibModal, $http, $filter, $timeout, $state
     $scope.deleteSelectedRows = function () {
         var ids = [];
         for (var i = 0; i < $scope.dataGridApi.selection.getSelectedRows().length; i++) {
-            ids.push($scope.dataGridApi.selection.getSelectedRows()[i].id);
+            const selectedRow = $scope.dataGridApi.selection.getSelectedRows()[i];
+            ids.push(selectedRow.id ?? selectedRow.ID);
         }
         $scope.deleteRow(ids);
     };

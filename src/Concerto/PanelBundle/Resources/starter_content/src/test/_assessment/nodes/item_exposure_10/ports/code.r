@@ -20,10 +20,10 @@ if(!is.character(responseTable$table) || nchar(responseTable$table) == 0) {
 }
 
 responsesRecords = concerto.table.query("
-SELECT id, 
-{{itemIdCol}} AS item_id
+SELECT id AS \"id\",
+{{itemIdCol}} AS \"item_id\"
 FROM {{table}} 
-WHERE {{sessionIdCol}}={{sessionId}}", params=list(
+WHERE {{sessionIdCol}}='{{sessionId}}'", params=list(
   itemIdCol = responseTable$columns$item_id,
   table = responseTable$table,
   sessionIdCol = responseTable$columns$session_id,
@@ -43,7 +43,7 @@ if(itemsLeftNum == 0) {
 }
 
 sessionNum = concerto.table.query("
-SELECT COUNT(DISTINCT session_id) AS sessionNum
+SELECT COUNT(DISTINCT session_id) AS \"sessionNum\"
 FROM {{table}}", params=list(
   table = responseTable$table
 ))[1,1]
@@ -54,8 +54,8 @@ if(sessionNum == 0 || exposureMinSessions > sessionNum) {
 }
 
 exposureCount = concerto.table.query("
-SELECT COUNT(*) AS sessionNum,
-{{itemIdCol}} AS item_id
+SELECT COUNT(*) AS \"sessionNum\",
+{{itemIdCol}} AS \"item_id\"
 FROM {{table}}
 WHERE {{itemIdCol}} IN ({{itemsLeftIds}})
 GROUP BY {{itemIdCol}}", params=list(

@@ -59,7 +59,8 @@ abstract class ASessionRunnerService
             "port" => $con->getPort(),
             "dbname" => $con->getDatabase(),
             "username" => $con->getUsername(),
-            "password" => $con->getPassword());
+            "password" => $con->getPassword()
+        );
 
         //@TODO there should be no default port
         if (!$con_array["port"]) {
@@ -71,6 +72,12 @@ abstract class ASessionRunnerService
         }
         if (isset($params["unix_socket"])) {
             $con_array["unix_socket"] = $params["unix_socket"];
+        }
+        if (array_key_exists("servicename", $params)) {
+            $con_array["servicename"] = $params["servicename"];
+        }
+        if (array_key_exists("charset", $params)) {
+            $con_array["charset"] = $params["charset"];
         }
         return $con_array;
     }

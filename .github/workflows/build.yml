@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 5.0-dev
+      - 5.0-dev-oracle
       - 5.1-dev
 
 permissions:
@@ -31,6 +32,10 @@ jobs:
         with:
           php_version: 7.4
           version: 2.2.21
+        env:
+          DB_DRIVER: pdo_mysql
+          DB_CHARSET: UTF8
+          DB_SERVICENAME: FREEPDB1
 
       - name: Setup node
         uses: actions/setup-node@v3

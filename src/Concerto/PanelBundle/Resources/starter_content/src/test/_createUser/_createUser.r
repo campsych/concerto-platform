@@ -19,16 +19,16 @@ formatFields = function(login, password, userBankEncryption, enabled, extraField
 
 checkLoginExist = function(login, tableMap) {
   sql = "
-SELECT * FROM {{table}} 
+SELECT COUNT(*) FROM {{table}}
 WHERE {{loginColumn}}='{{login}}'
 "
-  user = concerto.table.query(sql, params=list(
+  result = concerto.table.query(sql, params=list(
     table=tableMap$table,
     loginColumn=tableMap$columns$login,
     login=login
-  ))
+  ))[1,1]
 
-  return(dim(user)[1]>0)
+  return(result>0)
 }
 
 getMappedColumns = function(fieldNames, tableMap) {
@@ -55,14 +55,42 @@ insertUser = function(fields, tableMap) {
   concerto.table.query(sql, params=append(fields, list(
     table=tableMap$table
   )))
-  userId = concerto.table.lastInsertId()
+  userId = concerto.table.lastInsertId(concerto$connection, tableMap$table)
   concerto.log(userId, title="new user id")
 
-  sql="SELECT * FROM {{table}} WHERE {{idColumn}}={{id}}"
+  sql = NULL
+  otherColumnsSql = ""
+  if(concerto$dbConnectionParams$driver == "oci8") {
+    allColumns = concerto.table.query("SELECT column_name \"col\" FROM user_tab_columns WHERE table_name = UPPER('{{table}}')", list(table=tableMap$table))[,"col"]
+    explicitColumns = toupper(c(
+      tableMap$columns$id,
+      tableMap$columns$login,
+      tableMap$columns$password,
+      tableMap$columns$enabled
+    ))
+    otherColumnsSql = paste(setdiff(allColumns, explicitColumns), collapse=",")
+    if(otherColumnsSql != "") { otherColumnsSql = paste0(",", otherColumnsSql) }
+    sql = "
+      SELECT
+      {{idColumn}} AS \"id\",
+      {{loginColumn}} AS \"login\",
+      {{passwordColumn}} AS \"password\",
+      {{enabledColumn}} AS \"enabled\"
+      {{otherColumnsSql}}
+      FROM {{table}}
+      WHERE {{idColumn}}='{{id}}'
+    "
+  } else {
+    sql = "SELECT * FROM {{table}} WHERE {{idColumn}}='{{id}}'"
+  }
   user=concerto.table.query(sql,params=list(
     table=tableMap$table,
     idColumn=tableMap$columns$id,
-    id=userId
+    loginColumn=tableMap$columns$login,
+    passwordColumn=tableMap$columns$password,
+    enabledColumn=tableMap$columns$enabled,
+    id=userId,
+    otherColumnsSql=otherColumnsSql
   ))
   concerto.log(user, title="inserted user")
   return(user)

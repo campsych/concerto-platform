@@ -31,15 +31,15 @@ entries = NULL
 if(type == "multiTable") {
   entries = concerto.table.query("
 SELECT 
-t1.{{keyColumn}} AS entryKey, 
-IF(t1.{{languageColumn}} IS NULL, t2.{{defaultLanguageColumn}}, t1.{{languageColumn}}) AS trans 
+t1.{{keyColumn}} AS \"entryKey\",
+CASE WHEN t1.{{languageColumn}} IS NULL THEN t2.{{defaultLanguageColumn}} ELSE t1.{{languageColumn}} END AS \"trans\"
 FROM {{table}} AS t1
 LEFT JOIN {{defaultTable}} AS t2 ON t2.{{keyColumn}}=t1.{{keyColumn}}", params=params)
 } else {
   entries = concerto.table.query("
 SELECT 
-{{keyColumn}} AS entryKey, 
-IF({{languageColumn}} IS NULL, {{defaultLanguageColumn}}, {{languageColumn}}) AS trans 
+{{keyColumn}} AS \"entryKey\",
+CASE WHEN {{languageColumn}} IS NULL THEN {{defaultLanguageColumn}} ELSE {{languageColumn}} END AS \"trans\"
 FROM {{table}}", params=params)
 }
 

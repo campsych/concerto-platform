@@ -21,13 +21,13 @@ doctrine:
         default_connection: local
         connections:
             local:
-                driver:   "%database_driver%"
+                driver:   "%env(DB_DRIVER)%"
                 host:     "%env(DB_TEST_HOST)%"
                 port:     "%env(DB_TEST_PORT)%"
                 dbname:   "%env(DB_TEST_NAME)%"
                 user:     "%env(DB_TEST_USER)%"
                 password: "%env(DB_TEST_PASSWORD)%"
-                charset:  UTF8
+                charset:  "%env(DB_CHARSET)%"
                 # if using pdo_sqlite as your database driver, add the path in parameters.yml
                 # e.g. database_path: %kernel.root_dir%/data/data.db3
                 # path:     %database_path%

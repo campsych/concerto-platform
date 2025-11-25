@@ -109,9 +109,9 @@ getSafePastResponses = function(nextItems, nextItemsIndices) {
 
   sql = "
 SELECT 
-{{itemIdColumn}} AS item_id,
-{{responseColumn}} AS response,
-{{skippedColumn}} AS skipped
+{{itemIdColumn}} AS \"item_id\",
+{{responseColumn}} AS \"response\",
+{{skippedColumn}} AS \"skipped\"
 FROM {{table}}
 WHERE 
 {{sessionIdColumn}}='{{sessionId}}' AND

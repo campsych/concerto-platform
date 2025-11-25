@@ -16,7 +16,7 @@ function WizardParamSetter12Controller($scope, DataTableCollectionService, Admin
                 let colDef = $scope.param.definition.cols[i];
                 for (let j = 0; j < tabCols.length; j++) {
                     let colTab = tabCols[j];
-                    if (colDef.name == colTab.name) {
+                    if (colDef.name.toLowerCase() == colTab.name.toLowerCase()) {
                         if ($scope.output.columns === undefined)
                             $scope.output.columns = {};
                         $scope.output.columns[colDef.name] = colTab.name;

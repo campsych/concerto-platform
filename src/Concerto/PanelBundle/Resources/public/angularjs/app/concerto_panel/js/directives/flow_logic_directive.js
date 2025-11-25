@@ -396,26 +396,29 @@ angular.module('concertoPanel').directive('flowLogic', ['$http', '$compile', '$t
                 var title = "";
                 var nodeClass = "";
                 var description = scope.collectionService.getNode(node.id).sourceTestDescription;
+
+                const nodeTitle = node.title ?? "";
+
                 if (node.type == 1) {
                     fullName = Trans.TEST_FLOW_NODE_NAME_START;
-                    if (node.title != "")
-                        title = scope.truncateNodeTitle(node.title);
+                    if (nodeTitle != "")
+                        title = scope.truncateNodeTitle(nodeTitle);
                     else
                         title = scope.truncateNodeTitle(fullName);
                     description = Trans.TEST_FLOW_NODE_DESCRIPTION_START;
                     nodeClass = "nodeStart";
                 } else if (node.type == 2) {
                     fullName = Trans.TEST_FLOW_NODE_NAME_END;
-                    if (node.title != "")
-                        title = scope.truncateNodeTitle(node.title);
+                    if (nodeTitle != "")
+                        title = scope.truncateNodeTitle(nodeTitle);
                     else
                         title = scope.truncateNodeTitle(fullName);
                     description = Trans.TEST_FLOW_NODE_DESCRIPTION_END;
                     nodeClass = "nodeEnd";
                 } else if (node.type == 0) {
                     fullName = node.sourceTestName;
-                    if (node.title != "")
-                        title = scope.truncateNodeTitle(node.title);
+                    if (nodeTitle != "")
+                        title = scope.truncateNodeTitle(nodeTitle);
                     else
                         title = scope.truncateNodeTitle(fullName);
                     var test = scope.collectionService.get(node.sourceTest);

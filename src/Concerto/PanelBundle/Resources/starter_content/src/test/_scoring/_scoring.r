@@ -39,11 +39,13 @@ getPercentileRange = function() {
   }
   if(scoreType == "percentileRangesTable") {
     rangesTable = fromJSON(percentileRangesTable)
-    sql = "SELECT 
-{{lowerBoundColumn}} AS lowerBound,
-{{upperBoundColumn}} AS upperBound,
-{{scoreColumn}} AS score
-FROM {{table}}"
+    sql = "
+        SELECT
+        {{lowerBoundColumn}} AS \"lowerBound\",
+        {{upperBoundColumn}} AS \"upperBound\",
+        {{scoreColumn}} AS \"score\"
+        FROM {{table}}
+    "
     ranges = concerto.table.query(sql, params=list(
       lowerBoundColumn=rangesTable$columns$lowerBound,
       upperBoundColumn=rangesTable$columns$upperBound,
@@ -93,11 +95,13 @@ if(feedbackType != "none") {
   }
   if(feedbackType == "rangesTable") {
     rangesTable = fromJSON(feedbackRangesTable)
-    sql = "SELECT 
-{{lowerBoundColumn}} AS lowerBound,
-{{upperBoundColumn}} AS upperBound,
-{{feedbackColumn}} AS feedback
-FROM {{table}}"
+    sql = "
+        SELECT
+        {{lowerBoundColumn}} AS \"lowerBound\",
+        {{upperBoundColumn}} AS \"upperBound\",
+        {{feedbackColumn}} AS \"feedback\"
+        FROM {{table}}
+    "
     ranges = concerto.table.query(sql, params=list(
       lowerBoundColumn=rangesTable$columns$lowerBound,
       upperBoundColumn=rangesTable$columns$upperBound,

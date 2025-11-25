@@ -1,5 +1,5 @@
 concerto.table.query <-
-function(sql, params=list(), n=-1, connection = NULL){
+function(sql, params=list(), n=-1, connection = NULL, commit = TRUE){
   if(is.null(connection)) { connection = concerto$connection }
   sql <- gsub("^\\s+|\\s+$", "", sql)
   sql <- concerto.table.insertParams(sql, params, connection)
@@ -13,9 +13,9 @@ function(sql, params=list(), n=-1, connection = NULL){
     output <- fetch(result, n=n)
   } else if(startsWith(toupper(sql), "INSERT")) {
     if(concerto$dbConnectionParams$driver == "pdo_sqlsrv") {
-         result <- dbSendQuery(connection, paste0(sql,"; SELECT SCOPE_IDENTITY();"))
-         output <- fetch(result, n=1)[1,1]
-         concerto$sqlsrv_last_insert_id <<- output
+        result <- dbSendQuery(connection, paste0(sql,"; SELECT SCOPE_IDENTITY();"))
+        output <- fetch(result, n=1)[1,1]
+        concerto$sqlsrv_last_insert_id <<- output
     } else {
         result <- dbSendStatement(connection, sql)
         output <- dbGetRowsAffected(result)
@@ -23,6 +23,10 @@ function(sql, params=list(), n=-1, connection = NULL){
   } else {
     result <- dbSendStatement(connection, sql)
     output <- dbGetRowsAffected(result)
+  }
+
+  if(concerto$dbConnectionParams$driver == "oci8" && commit) {
+    dbCommit(connection)
   }
 
   dbClearResult(result)
