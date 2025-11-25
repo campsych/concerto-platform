@@ -162,7 +162,7 @@ RUN mkdir -p /opt/oracle \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.pearrc \
  && export LD_LIBRARY_PATH=$ORACLE_HOME:$LD_LIBRARY_PATH \
  && export PATH=$ORACLE_HOME:$PATH \
- && Rscript -e "install.packages('https://cran.r-project.org/src/contrib/Archive/ROracle/ROracle_1.3-1.1.tar.gz', repos = NULL, type = 'source', configure.args = c('ROracle' = '--with-oci-lib=$ORACLE_HOME --with-oci-inc=$ORACLE_HOME/sdk/include'))"
+ && Rscript -e "install.packages('ROracle', configure.args = c('ROracle' = '--with-oci-lib=$ORACLE_HOME --with-oci-inc=$ORACLE_HOME/sdk/include'))"
 
 EXPOSE 80 9000
 WORKDIR /app/concerto
