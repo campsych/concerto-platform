@@ -449,8 +449,8 @@ abstract class ASessionRunnerService
         $process->setEnhanceWindowsCompatibility(false);
         $process->inheritEnvironmentVariables(true);
 
-        $r_environ_path = $this->testRunnerSettings["r_environ_session_path"];
-        $r_profile_path = $this->testRunnerSettings['r_profile_session_path'];
+        $r_environ_path = $this->testRunnerSettings["r_environ_session_path"] ?? "$this->projectDir/app/config/R/.Renviron_session";
+        $r_profile_path = $this->testRunnerSettings['r_profile_session_path'] ?? "$this->projectDir/app/config/R/.Rprofile_session";
         $env = array(
             "CONCERTO_R_APP_URL" => $appUrl,
             "CONCERTO_R_CLIENT" => $client,
@@ -470,8 +470,8 @@ abstract class ASessionRunnerService
             "CONCERTO_R_SESSION_FILES_EXPIRATION" => $sessionFilesExpiration,
             "CONCERTO_R_SERVICE_FIFO_PATH" => $serviceFifoPath,
             "R_GC_MEM_GROW" => 0,
-            "R_ENVIRON_USER" => $r_environ_path !== "null" ? $r_environ_path : "{$this->projectDir}/app/config/R/.Renviron_session",
-            "R_PROFILE_USER" => $r_profile_path !== "null" ? $r_profile_path : "{$this->projectDir}/app/config/R/.Rprofile_session"
+            "R_ENVIRON_USER" => $r_environ_path,
+            "R_PROFILE_USER" => $r_profile_path
         );
         $process->setEnv($env);
 

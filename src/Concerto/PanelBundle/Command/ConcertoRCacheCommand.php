@@ -39,11 +39,11 @@ class ConcertoRCacheCommand extends Command
         $p = "\"" . $this->testRunnerSettings['rscript_exec'] . "\" --no-save --no-restore --quiet \"" . $script_path . "\"";
         $process = new Process($p);
 
-        $r_environ_path = $this->testRunnerSettings['r_environ_session_path'];
-        $r_profile_path = $this->testRunnerSettings['r_profile_session_path'];
+        $r_environ_path = $this->testRunnerSettings['r_environ_session_path'] ?? "$this->projectDir/app/config/R/.Renviron_session";
+        $r_profile_path = $this->testRunnerSettings['r_profile_session_path'] ?? "$this->projectDir/app/config/R/.Rprofile_session";
         $env = [
-            "R_ENVIRON_USER" => $r_environ_path !== "null" ? $r_environ_path : "{$this->projectDir}/app/config/R/.Renviron_session",
-            "R_PROFILE_USER" => $r_profile_path !== "null" ? $r_profile_path : "{$this->projectDir}/app/config/R/.Rprofile_session"
+            "R_ENVIRON_USER" => $r_environ_path,
+            "R_PROFILE_USER" => $r_profile_path
         ];
         $process->setEnv($env);
 

@@ -66,8 +66,9 @@ class StartForkerCommand extends Command
         $process = new Process($cmd);
         $process->inheritEnvironmentVariables(true);
 
-        $r_environ_path = $this->testRunnerSettings["r_environ_session_path"];
-        $r_profile_path = $this->testRunnerSettings['r_profile_session_path'];
+        $r_environ_path = $this->testRunnerSettings["r_environ_session_path"] ?? "$this->projectDir/app/config/R/.Renviron_session";
+        $r_profile_path = $this->testRunnerSettings['r_profile_session_path'] ?? "$this->projectDir/app/config/R/.Rprofile_session";
+
         $env = [
             "CONCERTO_R_APP_URL" => $appUrl,
             "CONCERTO_R_DB_CONNECTION" => $dbConnection,
@@ -82,8 +83,8 @@ class StartForkerCommand extends Command
             "CONCERTO_R_SESSION_STORAGE" => $sessionStorage,
             "CONCERTO_R_SESSION_FILES_EXPIRATION" => $sessionFilesExpiration,
             "CONCERTO_R_SESSION_LOG_LEVEL" => $sessionLogLevel,
-            "R_ENVIRON_USER" => $r_environ_path !== "null" ? $r_environ_path : "{$this->projectDir}/app/config/R/.Renviron_session",
-            "R_PROFILE_USER" => $r_profile_path !== "null" ? $r_profile_path : "{$this->projectDir}/app/config/R/.Rprofile_session",
+            "R_ENVIRON_USER" => $r_environ_path,
+            "R_PROFILE_USER" => $r_profile_path,
             "CONCERTO_R_FORCED_GC_INTERVAL" => $forcedGcInterval,
             "R_GC_MEM_GROW" => 0
         ];
