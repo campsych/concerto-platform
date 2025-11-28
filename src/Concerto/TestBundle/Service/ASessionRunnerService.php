@@ -449,8 +449,10 @@ abstract class ASessionRunnerService
         $process->setEnhanceWindowsCompatibility(false);
         $process->inheritEnvironmentVariables(true);
 
-        $r_environ_path = $this->testRunnerSettings["r_environ_session_path"] ?? "$this->projectDir/app/config/R/.Renviron_session";
-        $r_profile_path = $this->testRunnerSettings['r_profile_session_path'] ?? "$this->projectDir/app/config/R/.Rprofile_session";
+        $r_environ_path = $this->testRunnerSettings["r_environ_session_path"] ?? null;
+        if (!$r_environ_path || $r_environ_path === "null") $r_environ_path = "$this->projectDir/app/config/R/.Renviron_session";
+        $r_profile_path = $this->testRunnerSettings['r_profile_session_path'] ?? null;
+        if (!$r_profile_path || $r_profile_path === "null") $r_profile_path = "$this->projectDir/app/config/R/.Rprofile_session";
         $env = array(
             "CONCERTO_R_APP_URL" => $appUrl,
             "CONCERTO_R_CLIENT" => $client,

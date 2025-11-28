@@ -5,7 +5,7 @@ if(is.na(test_id) || test_id == "") {
 
 formatFields = function(user, extraFields) {
   userId = 0
-  if(!is.null(user) && !is.na(user)) { userId=user$id }
+  if(is.list(user)) { userId=user$id }
   fields = list(
     user_id=userId,
     internal_id=concerto$session$id, 
