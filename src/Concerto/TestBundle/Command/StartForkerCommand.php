@@ -71,8 +71,6 @@ class StartForkerCommand extends Command
         $r_profile_path = $this->testRunnerSettings['r_profile_session_path'] ?? null;
         if (!$r_profile_path || $r_profile_path === "null") $r_profile_path = "$this->projectDir/app/config/R/.Rprofile_session";
 
-        var_dump($r_environ_path);
-
         $env = [
             "CONCERTO_R_APP_URL" => $appUrl,
             "CONCERTO_R_DB_CONNECTION" => $dbConnection,
