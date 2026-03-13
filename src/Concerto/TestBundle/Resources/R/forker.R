@@ -14,6 +14,7 @@ ENV_CONCERTO_R_SESSION_STORAGE = Sys.getenv("CONCERTO_R_SESSION_STORAGE")
 ENV_CONCERTO_R_SESSION_FILES_EXPIRATION = Sys.getenv("CONCERTO_R_SESSION_FILES_EXPIRATION")
 ENV_CONCERTO_R_SESSION_LOG_LEVEL = as.numeric(Sys.getenv("CONCERTO_R_SESSION_LOG_LEVEL"))
 ENV_CONCERTO_R_FORCED_GC_INTERVAL = as.numeric(Sys.getenv("CONCERTO_R_FORCED_GC_INTERVAL"))
+ENV_CONCERTO_R_CONTENT_CACHE = as.numeric(Sys.getenv("CONCERTO_R_CONTENT_CACHE"))
 
 concerto5:::concerto.init(
     dbConnectionParams = fromJSON(ENV_CONCERTO_R_DB_CONNECTION),
@@ -25,7 +26,8 @@ concerto5:::concerto.init(
     keepAliveToleranceTime = as.numeric(ENV_CONCERTO_R_KEEP_ALIVE_TOLERANCE_TIME),
     sessionStorage = ENV_CONCERTO_R_SESSION_STORAGE,
     redisConnectionParams = fromJSON(ENV_CONCERTO_R_REDIS_CONNECTION),
-    sessionFilesExpiration = ENV_CONCERTO_R_SESSION_FILES_EXPIRATION
+    sessionFilesExpiration = ENV_CONCERTO_R_SESSION_FILES_EXPIRATION,
+    contentCache = ENV_CONCERTO_R_CONTENT_CACHE
 )
 
 switch(concerto$dbConnectionParams$driver,

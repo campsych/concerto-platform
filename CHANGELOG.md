@@ -5,6 +5,7 @@
 * POST payload (including JSON) can now be read as test input with URL flag for both start test and start session enpoint
 * MySQL 8 support
 * protected and session file endpoint can be now called with POST method
+* added CONCERTO_CONTENT_CACHE env variable
 
 #### Fixes
 

@@ -1,4 +1,16 @@
-concerto.init = function(dbConnectionParams, publicDir, platformUrl, appUrl, maxExecTime, maxIdleTime, keepAliveToleranceTime, sessionStorage, redisConnectionParams, sessionFilesExpiration){
+concerto.init = function(
+    dbConnectionParams,
+    publicDir,
+    platformUrl,
+    appUrl,
+    maxExecTime,
+    maxIdleTime,
+    keepAliveToleranceTime,
+    sessionStorage,
+    redisConnectionParams,
+    sessionFilesExpiration,
+    contentCache
+){
     options(digits.secs = 6)
     if(Sys.info()['sysname'] != "Windows") {
         options(encoding='UTF-8')
@@ -53,7 +65,7 @@ concerto.init = function(dbConnectionParams, publicDir, platformUrl, appUrl, max
 
     concerto <<- list()
     concerto$cache <<- list(tests=list(), templates=list(), tables=list())
-    concerto$cacheEnabled <<- T
+    concerto$cacheEnabled <<- contentCache
     concerto$globals <<- list()
     concerto$templateParams <<- list()
     concerto$globalTemplateParams <<- list()

@@ -3,19 +3,21 @@ concerto.test.get = function(testId, cache=NULL, includeSubObjects=F){
     cache = concerto$cacheEnabled
   }
 
-  test = concerto$cache$tests[[as.character(testId)]]
-  if(!is.null(test)) {
-    if(includeSubObjects && is.null(test$variables)) {
-      test$variables = concerto5:::concerto.test.getVariables(test$id)
-      if(test$type == 2) {
-        test$nodes <- concerto5:::concerto.test.getNodes(test$id)
-        test$connections <- concerto5:::concerto.test.getConnections(test$id)
-        test$ports <- concerto5:::concerto.test.getPorts(test$id)
+  if (cache) {
+      test = concerto$cache$tests[[as.character(testId)]]
+      if(!is.null(test)) {
+        if(includeSubObjects && is.null(test$variables)) {
+          test$variables = concerto5:::concerto.test.getVariables(test$id)
+          if(test$type == 2) {
+            test$nodes <- concerto5:::concerto.test.getNodes(test$id)
+            test$connections <- concerto5:::concerto.test.getConnections(test$id)
+            test$ports <- concerto5:::concerto.test.getPorts(test$id)
+          }
+          concerto$cache$tests[[as.character(test$id)]] <<- test
+          concerto$cache$tests[[test$name]] <<- test
+        }
+        return(test)
       }
-      concerto$cache$tests[[as.character(test$id)]] <<- test
-      concerto$cache$tests[[test$name]] <<- test
-    }
-    return(test)
   }
 
   idField <- "id"
