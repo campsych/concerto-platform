@@ -1,69 +1,101 @@
 validate:
-    user:
-      username.unique: Cet identifiant existe déjà dans le système
-      username.min: Le champ de l'identifiant doit avoir une longueur minimum de 3 caractères
-      username.max: Le champ de l'identifiant doit avoir une longueur maximum de 25 caractères
-      username.blank: Le champ de l'identifiant ne peut pas être vide
-      password.min: Le champ du mot de passe doit avoir une longueur minimum de 4 caractères
-      password.max: Le champ du mot de passe doit avoir une longueur maximum de 40 caractères
-      password.match: Le mot de passe de confimation ne correspond pas au mot de passe
-      password.blank: Le champ du mot de passe ne peut pas être vide
-      email: Ce n'est pas une adresse email correcte
-      email.unique: Cet email existe déjà dans le système
-      email.max: Le champ de l'email doit avoir une longueur maximum de 60 caractères
-      email.blank: Le champ de l'email ne peut pas être vide
-      
-    table:
-      name.unique: Ce nom existe déjà dans le système
+  user:
+    username.unique: Cet identifiant existe déjà dans le système
+    username.min: Le champ de l'identifiant doit avoir une longueur minimum de 3 caractères
+    username.max: Le champ de l'identifiant doit avoir une longueur maximum de 25 caractères
+    username.blank: Le champ de l'identifiant ne peut pas être vide
+    password.min: Le champ du mot de passe doit avoir une longueur minimum de 4 caractères
+    password.max: Le champ du mot de passe doit avoir une longueur maximum de 40 caractères
+    password.match: Le mot de passe de confimation ne correspond pas au mot de passe
+    password.blank: Le champ du mot de passe ne peut pas être vide
+    email: Ce n'est pas une adresse email correcte
+    email.unique: Cet email existe déjà dans le système
+    email.max: Le champ de l'email doit avoir une longueur maximum de 60 caractères
+    email.blank: Le champ de l'email ne peut pas être vide
+
+  table:
+    name.unique: Ce nom existe déjà dans le système
+    name.min: Le champ du nom doit avoir une longueur minimum de 1 caractère
+    name.max: Le champ du nom doit avoir une longueur maximum de 64 caractères
+    name.blank: Le champ du nom ne peut pas être vide
+    name.incorrect: Nom invalide
+    column.name.unique: Cette colonne existe déjà dans la table
+    column.name.blank: Le nom ne peut pas être vide
+    column.name.incorrect: Nom invalide
+
+  template:
+    name.unique: Ce nom existe déjà dans le système
+    name.min: Le champ du nom doit avoir une longueur minimum de 1 caractère
+    name.max: Le champ du nom doit avoir une longueur maximum de 64 caractères
+    name.blank: Le champ du nom ne peut pas être vide
+  
+  test:
+    name.unique: Ce nom existe déjà dans le système
+    name.min: Le champ du nom doit avoir une longueur minimum de 1 caractère
+    name.max: Le champ du nom doit avoir une longueur maximum de 64 caractères
+    name.blank: Le champ Nom ne peut pas être vide
+    wizard.source: L'assitant source doit être sélectionné pour le type d'assistant de création de tests
+    delete.referenced: Le test ne peut pas être supprimé puisqu'il est référencé au moins dans un assistant
+
+    ports:
+      unique: Une entrée avec ce nom existe déjà
+      name.min: Le nom du champ doit comporter au moins 1 caractère
+      name.max: Le nom du champ doit comporter au maximum 64 caractères
+      name.blank: Le nom du champ ne doit pas être vide
+      name.incorrect: Nom invalide
+
+    variables:
+      unique: Une variable avec ce nom et ce type est déjà assignée au test
       name.min: Le champ du nom doit avoir une longueur minimum de 1 caractère
       name.max: Le champ du nom doit avoir une longueur maximum de 64 caractères
       name.blank: Le champ du nom ne peut pas être vide
       name.incorrect: Nom invalide
-      column.name.unique: Cette colonne existe déjà dans la table
-      column.name.blank: Le nom ne peut pas être vide
-      column.name.incorrect: Nom invalide
-      
-    template:
+
+    wizards:
       name.unique: Ce nom existe déjà dans le système
       name.min: Le champ du nom doit avoir une longueur minimum de 1 caractère
       name.max: Le champ du nom doit avoir une longueur maximum de 64 caractères
       name.blank: Le champ du nom ne peut pas être vide
+      test.null: Le test doit être sélectionné
+      delete.referenced: L'assisitant de création de tests ne peut pas être supprimé puisqu'il est référencé par au moins un test
       
-    test:
-      name.unique: Ce nom existe déjà dans le système
-      name.min: Le champ du nom doit avoir une longueur minimum de 1 caractère
-      name.max: Le champ du nom doit avoir une longueur maximum de 64 caractères
-      name.blank: Le champ Nom ne peut pas être vide
-      wizard.source: L'assitant source doit être sélectionné pour le type d'assistant de création de tests
+      params:
+        label.min: Le champ du libellé doit avoir une longueur minimum de 1 caractère
+        label.max: Le champ du libellé doit avoir une longueur maximum de 64 caractères
+        label.blank: Le champ du libellé ne peut pas être vide
+        variable.null: La variable de test doit être sélectionnée
+        variable.unique: Seulement un paramètre de l'assistant peut être assigné à un paramètre spécifique du test
+        step.null: L'étape de l'assitant de création de tests doit être sélectionnée
       
-      variables:
-        unique: Une variable avec ce nom et ce type est déjà assignée au test
-        name.min: Le champ du nom doit avoir une longueur minimum de 1 caractère
-        name.max: Le champ du nom doit avoir une longueur maximum de 64 caractères
-        name.blank: Le champ du nom ne peut pas être vide
-        name.incorrect: Nom invalide
-          
-      wizards:
-        name.unique: Ce nom existe déjà dans le système
-        name.min: Le champ du nom doit avoir une longueur minimum de 1 caractère
-        name.max: Le champ du nom doit avoir une longueur maximum de 64 caractères
-        name.blank: Le champ du nom ne peut pas être vide
-        test.null: Le test doit être sélectionné
-        
-        params:
-            label.min: Le champ du libellé doit avoir une longueur minimum de 1 caractère
-            label.max: Le champ du libellé doit avoir une longueur maximum de 64 caractères
-            label.blank: Le champ du libellé ne peut pas être vide
-            variable.null: La variable de test doit être sélectionnée
-            variable.unique: Seulement un paramètre de l'assistant peut être assigné à un paramètre spécifique du test
-            step.null: L'étape de l'assitant de création de tests doit être sélectionnée
-        
-        steps:
-            title.min: Le champ du titre doit avoir une longueur minimum de 1 caractère
-            title.max: Le champ du titre doit avoir une longueur maximum de 64 caractères
-            title.blank: Le champ du titre ne peut pas être vide
-            
+      steps:
+        unique: Chaque titre d'étape doit être unique
+        title.min: Le champ du titre doit avoir une longueur minimum de 1 caractère
+        title.max: Le champ du titre doit avoir une longueur maximum de 64 caractères
+        title.blank: Le champ du titre ne peut pas être vide
+  locked: Est verrouillé par un autre utilisateur.
+  outdated: Un utilisateur a mis à jour l'objet. Votre version chargée n\'est pas la version courante. Merci d'actualiser.
+  blocked: La modification de contenu est temporairement bloquée. Merci d\'essayer plus tard.
+
 errors:
-    title: Erreurs du sytème
-    table:
-        column.conversion: Le type de conversion sélectionné n'est pas supporté avec le moteur de base de données configuré.
+  title: Erreurs du sytème
+  table:
+    column.conversion: Le type de conversion sélectionné n'est pas supporté avec le moteur de base de données configuré.
+
+import:
+  incompatible_version: Le fichier d'export est périmé et ne peut pas être utilisé dans cette version de Concerto Platform !
+
+tasks:
+  already_scheduled: Il y déjà des tâches planifiées en attente ou en cours.
+  locked: Des objets sont verrouillés. Déverrouillez-les pour continuer cette opération.
+
+git:
+  fetch_failed: Récupération (fetch) échouée
+  behind_num_failed: Git num en retard échoué
+  ahead_num_failed: Git num en avance échoué
+  history_failed: Historique Git échoué
+  refresh_failed: Actualisation de la copie de travail échouée
+  add_failed: Ajout Git échoué
+  diff_failed: Git diff échoué
+  reset_failed: Réinitialisation Git échouée
+  import_failed: Import de la copie de travail échoué
+  pull_failed: Récupération (pull) échouée

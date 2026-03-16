@@ -1,9 +1,16 @@
 ignition.noscript: Votre navigateur ne supporte pas javascript. Merci d\'activer javascript puis d\'actualiser votre navigateur.
-ignition.ip: "IP:"
-ignition.browser: "Navigateur:"
-ignition.time: "Temps:"
+ignition.ip: "IP :"
+ignition.browser: "Navigateur :"
+ignition.time: "Temps :"
 ignition.browser.notsupported: La version de votre navigateur n\'est pas supportée. Merci de bien vouloir mettre à jour votre navigateur vers Internet Explorer 9 ou plus, ou de changer pour un navigateur alternatif comme Chrome ou Firefox.
 ignition.browser.potentiallynotsupported: Si ce message ne disparaît pas dans un moment, vous devriez utiliser un autre navigateur.
 default.template:
-    finished: Test fini.
+    test_error: Le test a rencontré un problème. Son exécution a été arrêtée.
+    server_error: Le serveur a rencontré un problème. L'exécution du test est arrêtée.
+    client_error: Le client a rencontré un problème. L'exécution du test est arrêtée.
+    finished: Test terminé.
     loading: Merci de patienter...
+    session_limit_reached: Désolé, ce test a présentement trop d\'utilisateurs. Merci de réessayer plus tard.
+    test_not_found: Test introuvable.
+    session_lost: Session perdue. Actualisez le test s\'il vous plait.
+    connection_retry: Un problème de connexion a été détecté. Essai dans [[retryTimeLeft]] seconde(s). Merci de patienter...
