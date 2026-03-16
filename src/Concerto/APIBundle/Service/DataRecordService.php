@@ -75,8 +75,9 @@ class DataRecordService
 
         $columns = $this->dbStructureDAO->getColumns($table->getName());
         foreach ($newData as $k => $v) {
-            if (!array_key_exists($k, $columns))
+            if (!array_filter($columns, function($col) use($k) { return $col->getName() == $k; })) {
                 return array("response" => Response::HTTP_BAD_REQUEST, "result" => null);
+            }
         }
 
         $this->dbDataDAO->updateRow($table->getName(), $id, $newData);
@@ -97,8 +98,9 @@ class DataRecordService
 
         $columns = $this->dbStructureDAO->getColumns($table->getName());
         foreach ($newData as $k => $v) {
-            if (!array_key_exists($k, $columns))
+            if (!array_filter($columns, function($col) use($k) { return $col->getName() == $k; })) {
                 return array("response" => Response::HTTP_BAD_REQUEST, "result" => null);
+            }
         }
 
         $lid = $this->dbDataDAO->insertRow($table->getName(), $newData);
