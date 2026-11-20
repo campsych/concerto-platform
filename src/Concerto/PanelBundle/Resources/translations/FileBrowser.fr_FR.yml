@@ -1,0 +1,24 @@
+breadcrumb:
+    files: Fichiers
+
+uploader:
+  alerts:
+    upload_failed:
+      title: Téléversement de fichier
+      message: Le téléversement de fichier a échoué !
+
+errors:
+  upload_failed: Téléversement échoué
+  file_not_found: Fichier introuvable
+  renaming_failed: Renommage échoué
+  copying_failed: Copie échouée
+  moving_failed: Déplacement échoué
+  removing_failed_directory_not_empty: Suppression échouée, le répertoire que vous essayez de supprimer n'est pas vide
+  removing_failed: Suppression échouée
+  saving_failed: Enregistrement échoué
+  folder_already_exists: Le dossier existe déjà
+  folder_creation_failed: Création de dossier échouée
+  compression_failed: Compression échouée
+  archive_opening_failed: Impossible d'ouvrir l'archive, elle est soit corrompue soit son type n'est pas supporté
+  extraction_failed: Extraction échouée
+  permissions_change_failed: Modification des permissions échouée

@@ -8,5 +8,19 @@ form:
     password.tooltip: Merci de saisir votre mot de passe
   button.login: Se connecter
 
-'Bad credentials.': Identifiant ou mot de passe incorrect!
-'User account is disabled.': Le compte utilisateur est archivé!
+'Bad credentials.': Identifiant ou mot de passe incorrect.
+'User account is disabled.': Le compte utilisateur est archivé.
+'User account is locked.': Trop de tentatives de connexion échouées. Le compte utilisateur est temporairement verrouillé.
+
+mfa:
+  form:
+    legend: Continuer avec la vérification à 2 facteurs
+    legend.tooltip: Saisissez votre code de vérification pour continuer
+    field:
+      code: Code de vérification
+      code.tooltip: Ouvrez votre application Google Authenticator sur votre smartphone pour récupérer votre code de vérification
+      code.placeholder: Code de vérification à 6 chiffres
+    button.login: Se connecter
+    button.cancel: Annuler
+
+code_invalid: Le code de vérification n'est pas valide.
